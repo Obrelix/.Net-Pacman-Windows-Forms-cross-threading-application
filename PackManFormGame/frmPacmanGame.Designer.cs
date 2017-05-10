@@ -32,7 +32,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pnlBoard = new System.Windows.Forms.Panel();
             this.lblPosition = new System.Windows.Forms.Label();
-            this.pnlBoard.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -42,10 +41,12 @@
             // 
             // pnlBoard
             // 
+            this.pnlBoard.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBoard.BackgroundImage = global::PackManFormGame.Properties.Resources.maze2;
             this.pnlBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnlBoard.Controls.Add(this.lblPosition);
-            this.pnlBoard.Location = new System.Drawing.Point(0, 0);
+            this.pnlBoard.Location = new System.Drawing.Point(0, 36);
             this.pnlBoard.Name = "pnlBoard";
             this.pnlBoard.Size = new System.Drawing.Size(696, 768);
             this.pnlBoard.TabIndex = 0;
@@ -53,10 +54,11 @@
             // lblPosition
             // 
             this.lblPosition.AutoSize = true;
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(12, 750);
+            this.lblPosition.Location = new System.Drawing.Point(29, 17);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(0, 13);
+            this.lblPosition.Size = new System.Drawing.Size(0, 16);
             this.lblPosition.TabIndex = 1;
             // 
             // frmPacmanGame
@@ -65,8 +67,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(698, 772);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(698, 831);
+            this.Controls.Add(this.lblPosition);
             this.Controls.Add(this.pnlBoard);
             this.DoubleBuffered = true;
             this.KeyPreview = true;
@@ -82,9 +84,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmPacmanGame_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPacmanGame_KeyDown);
             this.Resize += new System.EventHandler(this.frmPacmanGame_Resize);
-            this.pnlBoard.ResumeLayout(false);
-            this.pnlBoard.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

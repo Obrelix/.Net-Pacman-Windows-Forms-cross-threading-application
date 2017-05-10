@@ -58,7 +58,18 @@ namespace PackManFormGame
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillEllipse(b, p.X * cellWidth, p.Y * cellHeight , cellWidth, cellHeight);
+                g.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight , cellWidth, cellHeight);
+            }
+        }
+
+        public void DrawDot(Point p, Color col)
+        {
+            float dotWidth = 2 * cellWidth / 5;
+            float dotHeight = 2 * cellHeight / 5;
+            Brush b = new SolidBrush(col);
+            lock (this)
+            {
+                g.FillRectangle(b, p.X * cellWidth , p.Y * cellHeight , dotWidth, dotHeight);
             }
         }
 

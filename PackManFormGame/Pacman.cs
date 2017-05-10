@@ -38,7 +38,7 @@ namespace PackManFormGame
 
     public class PacmanGame
     {
-        public Direction Direction = Direction.RIGHT;
+        public Direction Direction = Direction.STOP;
 
         public int Delay
         {
@@ -47,19 +47,24 @@ namespace PackManFormGame
         }
         public GameState State = GameState.GAMEOVER;
         public Color ColorBody = Color.Black;
-        public Color ColorHead = Color.Green;
+        public Color ColorHead = Color.Yellow;
         public Task Runner;
 
-        private int _delay = 200;
-        private int scor = 0;
+        private Point[] posArray = new Point[8];
+        private Direction PreviusDir = Direction.STOP;
 
-        private Point pos = new Point();
+        private int _delay = 100;
+        private int scor = 0;
+        private Point bonus;
+        
+        private Point nextPoint = new Point();
         private frmPacmanGame parentForm;
         private PacmanBoard board;
-        private Point bonus;
         private PacmanSegnement Pacman;
 
         List<Point> banList = new List<Point>();
+
+        List<Point> dotList = new List<Point>();
 
 
         public PacmanGame(frmPacmanGame frm, Panel p)
@@ -72,15 +77,28 @@ namespace PackManFormGame
         private void Init()
         {
             banListInit();
+            dotListInit();
             State = GameState.GAMEOVER;
-            
-            Direction = Direction.STOP;
-            Pacman = new PacmanSegnement(new Point(0, board.Cols / 2), Direction);
-           
-            pos = new Point(2, 2);
 
+            Direction = Direction.STOP;
+            Pacman = new PacmanSegnement(new Point(27, 40), Direction);
+
+            nextPoint = Pacman.Point;
+            //
             scor = 0;
-            Delay = 150;
+            Delay = 100;
+        }
+
+        private void posArrayInit(Point p)
+        {
+            posArray[0] = p;
+            posArray[1] = new Point(p.X + 1, p.Y);
+            posArray[2] = new Point(p.X + 3, p.Y);
+            posArray[3] = new Point(p.X + 3, p.Y + 1);
+            posArray[4] = new Point(p.X + 3, p.Y + 3);
+            posArray[5] = new Point(p.X + 2, p.Y + 3);
+            posArray[6] = new Point(p.X, p.Y + 3);
+            posArray[7] = new Point(p.X, p.Y + 2);
         }
 
         public void Stop()
@@ -100,7 +118,6 @@ namespace PackManFormGame
 
         public void Run()
         {
-
             Runner = new Task(runGame);
             State = GameState.GAMERUN;
             RePaint();
@@ -113,10 +130,8 @@ namespace PackManFormGame
             {
                 try
                 {
-
-                    
                     move();
-                    parentForm.WritePosition(pos.ToString());
+                    parentForm.WritePosition(Pacman.Point.ToString());
                     Runner.Wait(_delay);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -125,73 +140,84 @@ namespace PackManFormGame
 
         private void move()
         {
-            
             if (State != GameState.GAMERUN)
             {
                 return;
             }
-
             switch (Direction)
             {
-                case Direction.UP: pos.Y--; break;
-                case Direction.DOWN: pos.Y++; break;
-                case Direction.RIGHT: pos.X++; break;
-                case Direction.LEFT: pos.X--; break;
-                case Direction.STOP: ; break;
+                case Direction.UP:
+                    nextPoint = new Point(Pacman.Point.X, Pacman.Point.Y - 1);
+                    checkNextPos(nextPoint);
+                    break;
+                case Direction.DOWN:
+                    nextPoint = new Point(Pacman.Point.X, Pacman.Point.Y + 1);
+                    checkNextPos(nextPoint);
+                    break;
+                case Direction.RIGHT:
+                    nextPoint = new Point(Pacman.Point.X + 1, Pacman.Point.Y);
+                    checkNextPos(nextPoint);
+                    break;
+                case Direction.LEFT:
+                    nextPoint = new Point(Pacman.Point.X -1, Pacman.Point.Y);
+                    checkNextPos(nextPoint);
+                    break;
+                case Direction.STOP:
+                    board.DrawXY(Pacman.Point, Color.Yellow);
+                    foreach (Point p in posArray)
+                    {
+                        board.DrawDot(p, Color.Aqua);
+                    }
+                    break;
+            }
+            foreach(Point p in dotList)
+            {
+                board.DrawDot(p, Color.White);
+            }
+            foreach (Point p in banList)
+            {
+                board.DrawRect(p, Color.SlateBlue);
             }
 
-            if (!checkPosition())
+            foreach (Point p in posArray)
             {
-                //State = GameState.GAMEOVER;
-                Direction = Direction.STOP;
+                board.DrawDot(p, Color.Aqua);
             }
-            else
+
+
+        }
+
+        private void checkNextPos(Point P)
+        {
+
+            posArrayInit(P);
+            if (checkPosition())
             {
                 Point tempPoint = Pacman.Point;
                 board.ClearXY(tempPoint);
-
-                Pacman = new PacmanSegnement(pos, Direction);
-            }
-
-            board.DrawXY(Pacman.Point, Color.Yellow);
-           
-        }
-
-
-       
-        private bool checkPosition()
-        {
-            bool retv = false;
-            if (pos.X < 2 || pos.X > board.Cols -6 || pos.Y < 2 || pos.Y > board.Rows -6)
-            {
-                retv = false;
-                if (pos.X < 2) pos.X = 2;
-                else if (pos.X > board.Cols - 6) pos.X = board.Cols - 6;
-                else if (pos.Y < 2) pos.Y = 2;
-                else if (pos.Y > board.Rows - 6) pos.Y = board.Rows - 6;
+                Pacman = new PacmanSegnement(P, Direction);
+                board.DrawXY(Pacman.Point, Color.Yellow);
+                PreviusDir = Direction;
             }
             else
             {
-                retv = true;
+                Direction = PreviusDir;
             }
-            //if (pos.X > 28 - +4) retv = false;
-            foreach (Point p in banList)
+        }
+       
+        private bool checkPosition()
+        {
+            foreach (Point banPoint in banList)
             {
-                if (p.X == pos.X && p.Y == pos.Y)
+                foreach(Point pacmanPoint in posArray)
                 {
-                    retv = false;
-                    switch (Direction)
+                    if(pacmanPoint == banPoint)
                     {
-                        case Direction.UP: ; break;
-                        case Direction.DOWN: pos.Y -= 4; break;
-                        case Direction.RIGHT: pos.X -= 4; break;
-                        case Direction.LEFT: ; break;
-                        case Direction.STOP:; break;
+                        return false;
                     }
-                    break;
                 }
             }
-            return retv;
+            return true;
         }
 
         
@@ -206,6 +232,280 @@ namespace PackManFormGame
             parentForm.ResumeLayout(false);
         }
 
+        private void dotListInit()
+        {
+            dotList.Clear();
+            dotList.Add(new Point(26, 42));
+            dotList.Add(new Point(24, 42));
+            dotList.Add(new Point(22, 42));
+            dotList.Add(new Point(20, 42));
+            dotList.Add(new Point(18, 42));
+            dotList.Add(new Point(16, 42));
+            dotList.Add(new Point(14, 42));
+            dotList.Add(new Point(12, 42));
+            dotList.Add(new Point(10, 42));
+            dotList.Add(new Point(8, 42));
+            dotList.Add(new Point(6, 42));
+            dotList.Add(new Point(4, 42));
+            dotList.Add(new Point(4, 44));
+            dotList.Add(new Point(4, 46));
+            dotList.Add(new Point(4, 48));
+            dotList.Add(new Point(6, 48));
+            //dotList.Add(new Point(8, 48));
+            dotList.Add(new Point(8, 50));
+            dotList.Add(new Point(8, 52));
+            dotList.Add(new Point(8, 54));
+            dotList.Add(new Point(10, 54));
+            dotList.Add(new Point(12, 54));
+            dotList.Add(new Point(6, 54));
+            dotList.Add(new Point(4, 54));
+            dotList.Add(new Point(4, 56));
+            dotList.Add(new Point(4, 58));
+            dotList.Add(new Point(4, 60));
+            dotList.Add(new Point(6, 60));
+            dotList.Add(new Point(8, 60));
+            dotList.Add(new Point(10, 60));
+            dotList.Add(new Point(12, 60));
+            //1st node
+            dotList.Add(new Point(14, 60));
+            for(int i = 58; i >= 6; i--)
+            {
+                dotList.Add(new Point(14, i));
+                i--;
+            }
+            //
+            dotList.Add(new Point(16, 60));
+            dotList.Add(new Point(18, 60));
+            dotList.Add(new Point(20, 60));
+            dotList.Add(new Point(22, 60));
+            dotList.Add(new Point(24, 60));
+            dotList.Add(new Point(26, 60));
+            dotList.Add(new Point(26, 58));
+            dotList.Add(new Point(26, 56));
+            dotList.Add(new Point(26, 54));
+            dotList.Add(new Point(24, 54));
+            dotList.Add(new Point(22, 54));
+            dotList.Add(new Point(20, 54));
+            dotList.Add(new Point(20, 52));
+            dotList.Add(new Point(20, 50));
+            dotList.Add(new Point(20, 48));
+            dotList.Add(new Point(18, 48));
+            dotList.Add(new Point(16, 48));
+            dotList.Add(new Point(22, 48));
+            dotList.Add(new Point(24, 48));
+            dotList.Add(new Point(26, 48));
+            dotList.Add(new Point(26, 46));
+            dotList.Add(new Point(26, 44));
+            dotList.Add(new Point(28, 60));
+            dotList.Add(new Point(30, 60));
+            dotList.Add(new Point(32, 60));
+            dotList.Add(new Point(32, 58));
+            dotList.Add(new Point(32, 56));
+            dotList.Add(new Point(32, 54));
+            dotList.Add(new Point(34, 54));
+            dotList.Add(new Point(36, 54));
+            dotList.Add(new Point(38, 54));
+            dotList.Add(new Point(38, 52));
+            dotList.Add(new Point(38, 50));
+            dotList.Add(new Point(38, 48));
+            dotList.Add(new Point(40, 48));
+            dotList.Add(new Point(42, 48));
+            dotList.Add(new Point(36, 48));
+            dotList.Add(new Point(34, 48));
+            dotList.Add(new Point(32, 48));
+            dotList.Add(new Point(32, 46));
+            dotList.Add(new Point(32, 44));
+            dotList.Add(new Point(34, 60));
+            dotList.Add(new Point(36, 60));
+            dotList.Add(new Point(38, 60));
+            dotList.Add(new Point(40, 60));
+            dotList.Add(new Point(42, 60));
+            dotList.Add(new Point(44, 60));
+            for (int i = 58; i >= 6; i--)
+            {
+                dotList.Add(new Point(44, i));
+                i--;
+            }
+            dotList.Add(new Point(46, 60));
+            dotList.Add(new Point(48, 60));
+            dotList.Add(new Point(50, 60));
+            dotList.Add(new Point(52, 60));
+            dotList.Add(new Point(54, 60));
+            dotList.Add(new Point(54, 58));
+            dotList.Add(new Point(54, 56));
+            dotList.Add(new Point(54, 54));
+            dotList.Add(new Point(52, 54));
+            dotList.Add(new Point(50, 54));
+            dotList.Add(new Point(48, 54));
+            dotList.Add(new Point(46, 54));
+            dotList.Add(new Point(50, 52));
+            dotList.Add(new Point(50, 50));
+            //dotList.Add(new Point(50, 48));
+            dotList.Add(new Point(52, 48));
+            dotList.Add(new Point(54, 48));
+            dotList.Add(new Point(54, 46));
+            dotList.Add(new Point(54, 44));
+            dotList.Add(new Point(54, 42));
+            dotList.Add(new Point(52, 42));
+            dotList.Add(new Point(50, 42));
+            dotList.Add(new Point(48, 42));
+            dotList.Add(new Point(46, 42));
+            dotList.Add(new Point(42, 42));
+            dotList.Add(new Point(40, 42));
+            dotList.Add(new Point(38, 42));
+            dotList.Add(new Point(36, 42));
+            dotList.Add(new Point(34, 42));
+            dotList.Add(new Point(32, 42));
+
+            for (int i = 40; i >= 24; i--)
+            {
+                dotList.Add(new Point(20, i));
+                i--;
+            }
+            for (int i = 40; i >= 24; i--)
+            {
+                dotList.Add(new Point(38, i));
+                i--;
+            }
+            for (int i = 36; i >= 22; i--)
+            {
+                dotList.Add(new Point(i, 36));
+                i--;
+            }
+            for (int i = 36; i >= 22; i--)
+            {
+                dotList.Add(new Point(i, 24));
+                i--;
+            }
+
+            dotList.Add(new Point(40, 24));
+            dotList.Add(new Point(42, 24));
+            dotList.Add(new Point(18, 24));
+            dotList.Add(new Point(16, 24));
+
+            for(int i = 4; i <= 26; i++)
+            {
+                dotList.Add(new Point(i, 4));
+                i++;
+            }
+            for (int i = 32; i <= 54; i++)
+            {
+                dotList.Add(new Point(i, 4));
+                i++;
+            }
+            for (int i = 6; i <= 18; i++)
+            {
+                dotList.Add(new Point(54, i));
+                i++;
+            }
+            for (int i = 6; i <= 18; i++)
+            {
+                dotList.Add(new Point(4, i));
+                i++;
+            }
+            for (int i = 24; i <= 36; i++)
+            {
+                dotList.Add(new Point(4, i));
+                i++;
+            }
+            for (int i = 24; i <= 36; i++)
+            {
+                dotList.Add(new Point(54, i));
+                i++;
+            }
+            for (int i = 46; i <= 54; i++)
+            {
+                dotList.Add(new Point(i, 30));
+                i++;
+            }
+            for (int i = 46; i <= 54; i++)
+            {
+                dotList.Add(new Point(i, 18));
+                i++;
+            }
+            for (int i = 46; i <= 54; i++)
+            {
+                dotList.Add(new Point(i, 12));
+                i++;
+            }
+            for (int i = 6; i <= 14; i++)
+            {
+                dotList.Add(new Point(i, 12));
+                i++;
+            }
+            for (int i = 6; i <= 14; i++)
+            {
+                dotList.Add(new Point(i, 18));
+                i++;
+            }
+            for (int i = 6; i <= 14; i++)
+            {
+                dotList.Add(new Point(i, 30));
+                i++;
+            }
+            for (int i = 20; i <= 26; i++)
+            {
+                dotList.Add(new Point(i, 18));
+                i++;
+            }
+            for (int i = 32; i <= 38; i++)
+            {
+                dotList.Add(new Point(i, 18));
+                i++;
+            }
+            for (int i = 16; i <= 26; i++)
+            {
+                dotList.Add(new Point(i, 12));
+                i++;
+            }
+            for (int i = 32; i <= 42; i++)
+            {
+                dotList.Add(new Point(i, 12));
+                i++;
+            }
+            for (int i = 26; i <= 32; i++)
+            {
+                dotList.Add(new Point(i, 8));
+                i++;
+            }
+            for (int i = 20; i <= 24; i++)
+            {
+                dotList.Add(new Point(50, i));
+                i++;
+            }
+            for (int i = 20; i <= 24; i++)
+            {
+                dotList.Add(new Point(8, i));
+                i++;
+            }
+            for (int i = 36; i <= 40; i++)
+            {
+                dotList.Add(new Point(8, i));
+                i++;
+            }
+            for (int i = 36; i <= 40; i++)
+            {
+                dotList.Add(new Point(50, i));
+                i++;
+            }
+            dotList.Add(new Point(52, 36));
+            dotList.Add(new Point(52, 24));
+            dotList.Add(new Point(6, 36));
+            dotList.Add(new Point(6, 24));
+            dotList.Add(new Point(26, 20));
+            dotList.Add(new Point(26, 22));
+            dotList.Add(new Point(32, 20));
+            dotList.Add(new Point(32, 22));
+            dotList.Add(new Point(20, 16));
+            dotList.Add(new Point(20, 14));
+            dotList.Add(new Point(38, 16));
+            dotList.Add(new Point(38, 14));
+            dotList.Add(new Point(32, 10));
+            dotList.Add(new Point(26, 10));
+            dotList.Add(new Point(32, 6));
+            dotList.Add(new Point(26, 6));
+
+        }
         private void banListInit()
         {
             banList.Clear();

@@ -10,3 +10,9 @@ C:\Users\tataki\documents\visual studio 2015\Projects\PackManFormGame\PackManFor
 C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PackManFormGame.exe.config
 C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.exe
 C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.pdb
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PackManFormGame.exe
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PackManFormGame.pdb
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.csprojResolveAssemblyReference.cache
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.frmPacmanGame.resources
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.Properties.Resources.resources
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PackManFormGame.csproj.GenerateResource.Cache
