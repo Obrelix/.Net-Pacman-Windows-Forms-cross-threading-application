@@ -45,17 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmPacmanGame.cs">
+    <Compile Include="Forms\frmPacmanGame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPacmanGame.Designer.cs">
+    <Compile Include="Forms\frmPacmanGame.Designer.cs">
       <DependentUpon>frmPacmanGame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pacman.cs" />
-    <Compile Include="PacmanBoard.cs" />
+    <Compile Include="Classes\Pacman.cs" />
+    <Compile Include="Classes\PacmanBoard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmPacmanGame.resx">
+    <EmbeddedResource Include="Forms\frmPacmanGame.resx">
       <DependentUpon>frmPacmanGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

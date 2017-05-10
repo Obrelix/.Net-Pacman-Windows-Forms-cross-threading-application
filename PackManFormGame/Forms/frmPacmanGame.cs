@@ -41,6 +41,8 @@ namespace PackManFormGame
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
             game = new PacmanGame(this, pnlBoard);
+            lblLScore.Location = new Point((panel1.Width - lblLScore.Width) / 2, 9);
+            lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
@@ -83,7 +85,9 @@ namespace PackManFormGame
 
         private void frmPacmanGame_Activated(object sender, EventArgs e)
         {
-
+            if (game == null) return;
+            game.RePaint();
+            game.Continue();
         }
 
         private void frmPacmanGame_Deactivate(object sender, EventArgs e)
@@ -112,11 +116,14 @@ namespace PackManFormGame
             }
             this.lblPosition.Text = data.Split('@').First() ;
             this.lblScore.Text = data.Split('@').Last();
+            lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
+
         }
-        
+
 
         private void frmPacmanGame_Shown(object sender, EventArgs e)
         {
+            if (game == null) return;
             game.Run();
         }
     }
