@@ -63,6 +63,16 @@ namespace PackManFormGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlueGhost {
+            get {
+                object obj = ResourceManager.GetObject("BlueGhost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lvl1 {
             get {
                 object obj = ResourceManager.GetObject("lvl1", resourceCulture);
@@ -76,6 +86,36 @@ namespace PackManFormGame.Properties {
         internal static System.Drawing.Bitmap maze2 {
             get {
                 object obj = ResourceManager.GetObject("maze2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PinkGost {
+            get {
+                object obj = ResourceManager.GetObject("PinkGost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RedGost {
+            get {
+                object obj = ResourceManager.GetObject("RedGost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap YellowGost {
+            get {
+                object obj = ResourceManager.GetObject("YellowGost", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

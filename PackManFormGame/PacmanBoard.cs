@@ -49,7 +49,7 @@ namespace PackManFormGame
             Brush b = new SolidBrush(color);
             lock (this)
             {
-                g.FillEllipse(b, x * cellWidth + 3, y * cellHeight + 3, cellWidth * 4 - 6, cellHeight * 4 - 6);
+                g.FillEllipse(b, x * cellWidth + 8, y * cellHeight + 8, cellWidth * 4 - 16, cellHeight * 4 - 16);
             }
         }
 

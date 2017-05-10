@@ -102,16 +102,18 @@ namespace PackManFormGame
             game.RePaint();
         }
 
-        public void WritePosition(string value)
+        public void Write(string data)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<string>(WritePosition), new object[] { value });
+                Invoke(new Action<string>(Write), new object[] { data });
                 //Invoke(new Action<string>(WritePosition), value);
                 return;
             }
-            this.lblPosition.Text = value;
+            this.lblPosition.Text = data.Split('@').First() ;
+            this.lblScore.Text = data.Split('@').Last();
         }
+        
 
         private void frmPacmanGame_Shown(object sender, EventArgs e)
         {

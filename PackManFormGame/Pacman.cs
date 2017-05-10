@@ -53,7 +53,7 @@ namespace PackManFormGame
         private Direction PreviusDir = Direction.STOP;
 
         private int _delay = 50;
-        private int scor = 0;
+        private int score = 0;
         private Point bonus;
         
         private Point nextPoint = new Point();
@@ -85,7 +85,7 @@ namespace PackManFormGame
 
             nextPoint = Pacman.Point;
             //
-            scor = 0;
+            score = 0;
             Delay = 50;
         }
 
@@ -138,7 +138,8 @@ namespace PackManFormGame
                 try
                 {
                     move();
-                    parentForm.WritePosition(Pacman.Point.ToString());
+                    string data = Pacman.Point.ToString() + "@" + score;
+                    parentForm.Write(data);
                     Runner.Wait(_delay);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -180,10 +181,15 @@ namespace PackManFormGame
             {
                 board.DrawDot(p, Color.White);
             }
-            //foreach (Point p in banList)
-            //{
-            //    board.DrawRect(p, Color.DarkBlue);
-            //}
+            foreach (Point p in banList)
+            {
+                board.DrawRect(p, Color.DarkBlue);
+            }
+
+            if(dotList.Count == 0)
+            {
+                State = GameState.GAMEOVER; 
+            }
 
             //foreach (Point p in posArray)
             //{
@@ -202,8 +208,8 @@ namespace PackManFormGame
                 {
                     if (corePoint.X == dotList[i].X && corePoint.Y == dotList[i].Y)
                     {
-                        
                         dotList.RemoveAt(i);
+                        score += 10;
                         break;
                     }
                 }
@@ -1183,112 +1189,112 @@ namespace PackManFormGame
             banList.Add(new Point(22, 26));
             banList.Add(new Point(22, 27));
             banList.Add(new Point(23, 26));
-            banList.Add(new Point(23, 27));
+            //banList.Add(new Point(23, 27));
             banList.Add(new Point(24, 26));
-            banList.Add(new Point(24, 27));
+            //banList.Add(new Point(24, 27));
             banList.Add(new Point(25, 26));
-            banList.Add(new Point(25, 27));
+            //banList.Add(new Point(25, 27));
             banList.Add(new Point(26, 26));
-            banList.Add(new Point(26, 27));
+            //banList.Add(new Point(26, 27));
             banList.Add(new Point(27, 26));
-            banList.Add(new Point(27, 27));
+            //banList.Add(new Point(27, 27));
             banList.Add(new Point(28, 26));
-            banList.Add(new Point(28, 27));
+            //banList.Add(new Point(28, 27));
             banList.Add(new Point(29, 26));
-            banList.Add(new Point(29, 27));
+            //banList.Add(new Point(29, 27));
             banList.Add(new Point(30, 26));
-            banList.Add(new Point(30, 27));
+            //banList.Add(new Point(30, 27));
             banList.Add(new Point(31, 26));
-            banList.Add(new Point(31, 27));
+            //banList.Add(new Point(31, 27));
             banList.Add(new Point(32, 26));
-            banList.Add(new Point(32, 27));
+            //banList.Add(new Point(32, 27));
             banList.Add(new Point(33, 26));
-            banList.Add(new Point(33, 27));
+            //banList.Add(new Point(33, 27));
             banList.Add(new Point(34, 26));
-            banList.Add(new Point(34, 27));
+            //banList.Add(new Point(34, 27));
             banList.Add(new Point(35, 26));
             banList.Add(new Point(35, 27));
             banList.Add(new Point(22, 28));
             banList.Add(new Point(22, 29));
-            banList.Add(new Point(23, 28));
-            banList.Add(new Point(23, 29));
-            banList.Add(new Point(24, 28));
-            banList.Add(new Point(24, 29));
-            banList.Add(new Point(25, 28));
-            banList.Add(new Point(25, 29));
-            banList.Add(new Point(26, 28));
-            banList.Add(new Point(26, 29));
-            banList.Add(new Point(27, 28));
-            banList.Add(new Point(27, 29));
-            banList.Add(new Point(28, 28));
-            banList.Add(new Point(28, 29));
-            banList.Add(new Point(29, 28));
-            banList.Add(new Point(29, 29));
-            banList.Add(new Point(30, 28));
-            banList.Add(new Point(30, 29));
-            banList.Add(new Point(31, 28));
-            banList.Add(new Point(31, 29));
-            banList.Add(new Point(32, 28));
-            banList.Add(new Point(32, 29));
-            banList.Add(new Point(33, 28));
-            banList.Add(new Point(33, 29));
-            banList.Add(new Point(34, 28));
-            banList.Add(new Point(34, 29));
+            //banList.Add(new Point(23, 28));
+            //banList.Add(new Point(23, 29));
+            //banList.Add(new Point(24, 28));
+            //banList.Add(new Point(24, 29));
+            //banList.Add(new Point(25, 28));
+            //banList.Add(new Point(25, 29));
+            //banList.Add(new Point(26, 28));
+            //banList.Add(new Point(26, 29));
+            //banList.Add(new Point(27, 28));
+            //banList.Add(new Point(27, 29));
+            //banList.Add(new Point(28, 28));
+            //banList.Add(new Point(28, 29));
+            //banList.Add(new Point(29, 28));
+            //banList.Add(new Point(29, 29));
+            //banList.Add(new Point(30, 28));
+            //banList.Add(new Point(30, 29));
+            //banList.Add(new Point(31, 28));
+            //banList.Add(new Point(31, 29));
+            //banList.Add(new Point(32, 28));
+            //banList.Add(new Point(32, 29));
+            //banList.Add(new Point(33, 28));
+            //banList.Add(new Point(33, 29));
+            //banList.Add(new Point(34, 28));
+            //banList.Add(new Point(34, 29));
             banList.Add(new Point(35, 28));
             banList.Add(new Point(35, 29));
             banList.Add(new Point(22, 30));
             banList.Add(new Point(22, 31));
-            banList.Add(new Point(23, 30));
-            banList.Add(new Point(23, 31));
-            banList.Add(new Point(24, 30));
-            banList.Add(new Point(24, 31));
-            banList.Add(new Point(25, 30));
-            banList.Add(new Point(25, 31));
-            banList.Add(new Point(26, 30));
-            banList.Add(new Point(26, 31));
-            banList.Add(new Point(27, 30));
-            banList.Add(new Point(27, 31));
-            banList.Add(new Point(28, 30));
-            banList.Add(new Point(28, 31));
-            banList.Add(new Point(29, 30));
-            banList.Add(new Point(29, 31));
-            banList.Add(new Point(30, 30));
-            banList.Add(new Point(30, 31));
-            banList.Add(new Point(31, 30));
-            banList.Add(new Point(31, 31));
-            banList.Add(new Point(32, 30));
-            banList.Add(new Point(32, 31));
-            banList.Add(new Point(33, 30));
-            banList.Add(new Point(33, 31));
-            banList.Add(new Point(34, 30));
-            banList.Add(new Point(34, 31));
+            //banList.Add(new Point(23, 30));
+            //banList.Add(new Point(23, 31));
+            //banList.Add(new Point(24, 30));
+            //banList.Add(new Point(24, 31));
+            //banList.Add(new Point(25, 30));
+            //banList.Add(new Point(25, 31));
+            //banList.Add(new Point(26, 30));
+            //banList.Add(new Point(26, 31));
+            //banList.Add(new Point(27, 30));
+            //banList.Add(new Point(27, 31));
+            //banList.Add(new Point(28, 30));
+            //banList.Add(new Point(28, 31));
+            //banList.Add(new Point(29, 30));
+            //banList.Add(new Point(29, 31));
+            //banList.Add(new Point(30, 30));
+            //banList.Add(new Point(30, 31));
+            //banList.Add(new Point(31, 30));
+            //banList.Add(new Point(31, 31));
+            //banList.Add(new Point(32, 30));
+            //banList.Add(new Point(32, 31));
+            //banList.Add(new Point(33, 30));
+            //banList.Add(new Point(33, 31));
+            //banList.Add(new Point(34, 30));
+            //banList.Add(new Point(34, 31));
             banList.Add(new Point(35, 30));
             banList.Add(new Point(35, 31));
             banList.Add(new Point(22, 32));
             banList.Add(new Point(22, 33));
-            banList.Add(new Point(23, 32));
+            //banList.Add(new Point(23, 32));
             banList.Add(new Point(23, 33));
-            banList.Add(new Point(24, 32));
+            //banList.Add(new Point(24, 32));
             banList.Add(new Point(24, 33));
-            banList.Add(new Point(25, 32));
+            //banList.Add(new Point(25, 32));
             banList.Add(new Point(25, 33));
-            banList.Add(new Point(26, 32));
+            //banList.Add(new Point(26, 32));
             banList.Add(new Point(26, 33));
-            banList.Add(new Point(27, 32));
+            //banList.Add(new Point(27, 32));
             banList.Add(new Point(27, 33));
-            banList.Add(new Point(28, 32));
+            //banList.Add(new Point(28, 32));
             banList.Add(new Point(28, 33));
-            banList.Add(new Point(29, 32));
+            //banList.Add(new Point(29, 32));
             banList.Add(new Point(29, 33));
-            banList.Add(new Point(30, 32));
+            //banList.Add(new Point(30, 32));
             banList.Add(new Point(30, 33));
-            banList.Add(new Point(31, 32));
+            //banList.Add(new Point(31, 32));
             banList.Add(new Point(31, 33));
-            banList.Add(new Point(32, 32));
+            //banList.Add(new Point(32, 32));
             banList.Add(new Point(32, 33));
-            banList.Add(new Point(33, 32));
+            //banList.Add(new Point(33, 32));
             banList.Add(new Point(33, 33));
-            banList.Add(new Point(34, 32));
+            //banList.Add(new Point(34, 32));
             banList.Add(new Point(34, 33));
             banList.Add(new Point(35, 32));
             banList.Add(new Point(35, 33));

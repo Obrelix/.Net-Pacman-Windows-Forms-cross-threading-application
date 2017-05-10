@@ -30,14 +30,113 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.pnlBoard = new System.Windows.Forms.Panel();
             this.lblPosition = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pnlBoard = new System.Windows.Forms.Panel();
+            this.pcrRedGost = new System.Windows.Forms.PictureBox();
+            this.pcrYellowGhost = new System.Windows.Forms.PictureBox();
+            this.pcrBlueGhost = new System.Windows.Forms.PictureBox();
+            this.pcrRedBox = new System.Windows.Forms.PictureBox();
+            this.pnlBoard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrRedGost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrYellowGhost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrBlueGhost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrRedBox)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // lblPosition
+            // 
+            this.lblPosition.AutoSize = true;
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblPosition.ForeColor = System.Drawing.Color.White;
+            this.lblPosition.Location = new System.Drawing.Point(12, 46);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(14, 13);
+            this.lblPosition.TabIndex = 1;
+            this.lblPosition.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(101, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 25);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Score";
+            // 
+            // lblScore
+            // 
+            this.lblScore.AutoSize = true;
+            this.lblScore.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblScore.ForeColor = System.Drawing.Color.White;
+            this.lblScore.Location = new System.Drawing.Point(101, 34);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(25, 25);
+            this.lblScore.TabIndex = 3;
+            this.lblScore.Text = "0";
+            this.lblScore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(308, 8);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 25);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Level";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(333, 34);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(25, 25);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "1";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(483, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(142, 25);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "High Score";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(516, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 25);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "99999";
             // 
             // pnlBoard
             // 
@@ -46,20 +145,54 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBoard.BackgroundImage = global::PackManFormGame.Properties.Resources.maze2;
             this.pnlBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnlBoard.Location = new System.Drawing.Point(0, 36);
+            this.pnlBoard.Controls.Add(this.pcrRedBox);
+            this.pnlBoard.Controls.Add(this.pcrBlueGhost);
+            this.pnlBoard.Controls.Add(this.pcrYellowGhost);
+            this.pnlBoard.Controls.Add(this.pcrRedGost);
+            this.pnlBoard.Location = new System.Drawing.Point(0, 61);
             this.pnlBoard.Name = "pnlBoard";
-            this.pnlBoard.Size = new System.Drawing.Size(696, 768);
+            this.pnlBoard.Size = new System.Drawing.Size(697, 771);
             this.pnlBoard.TabIndex = 0;
             // 
-            // lblPosition
+            // pcrRedGost
             // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(29, 17);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(0, 16);
-            this.lblPosition.TabIndex = 1;
+            this.pcrRedGost.BackgroundImage = global::PackManFormGame.Properties.Resources.PinkGost;
+            this.pcrRedGost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcrRedGost.Location = new System.Drawing.Point(295, 124);
+            this.pcrRedGost.Name = "pcrRedGost";
+            this.pcrRedGost.Size = new System.Drawing.Size(30, 30);
+            this.pcrRedGost.TabIndex = 8;
+            this.pcrRedGost.TabStop = false;
+            // 
+            // pcrYellowGhost
+            // 
+            this.pcrYellowGhost.BackgroundImage = global::PackManFormGame.Properties.Resources.YellowGost;
+            this.pcrYellowGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcrYellowGhost.Location = new System.Drawing.Point(439, 200);
+            this.pcrYellowGhost.Name = "pcrYellowGhost";
+            this.pcrYellowGhost.Size = new System.Drawing.Size(30, 30);
+            this.pcrYellowGhost.TabIndex = 9;
+            this.pcrYellowGhost.TabStop = false;
+            // 
+            // pcrBlueGhost
+            // 
+            this.pcrBlueGhost.BackgroundImage = global::PackManFormGame.Properties.Resources.BlueGhost;
+            this.pcrBlueGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcrBlueGhost.Location = new System.Drawing.Point(225, 200);
+            this.pcrBlueGhost.Name = "pcrBlueGhost";
+            this.pcrBlueGhost.Size = new System.Drawing.Size(30, 30);
+            this.pcrBlueGhost.TabIndex = 10;
+            this.pcrBlueGhost.TabStop = false;
+            // 
+            // pcrRedBox
+            // 
+            this.pcrRedBox.BackgroundImage = global::PackManFormGame.Properties.Resources.RedGost;
+            this.pcrRedBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcrRedBox.Location = new System.Drawing.Point(333, 275);
+            this.pcrRedBox.Name = "pcrRedBox";
+            this.pcrRedBox.Size = new System.Drawing.Size(30, 30);
+            this.pcrRedBox.TabIndex = 11;
+            this.pcrRedBox.TabStop = false;
             // 
             // frmPacmanGame
             // 
@@ -68,6 +201,12 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(698, 831);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblScore);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPosition);
             this.Controls.Add(this.pnlBoard);
             this.DoubleBuffered = true;
@@ -84,6 +223,11 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmPacmanGame_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPacmanGame_KeyDown);
             this.Resize += new System.EventHandler(this.frmPacmanGame_Resize);
+            this.pnlBoard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pcrRedGost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrYellowGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrBlueGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcrRedBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +237,16 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel pnlBoard;
         private System.Windows.Forms.Label lblPosition;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pcrRedGost;
+        private System.Windows.Forms.PictureBox pcrRedBox;
+        private System.Windows.Forms.PictureBox pcrBlueGhost;
+        private System.Windows.Forms.PictureBox pcrYellowGhost;
     }
 }
 
