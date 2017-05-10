@@ -50,10 +50,9 @@ namespace PackManFormGame
         public Color ColorHead = Color.Yellow;
         public Task Runner;
 
-        private Point[] posArray = new Point[8];
         private Direction PreviusDir = Direction.STOP;
 
-        private int _delay = 100;
+        private int _delay = 50;
         private int scor = 0;
         private Point bonus;
         
@@ -62,8 +61,9 @@ namespace PackManFormGame
         private PacmanBoard board;
         private PacmanSegnement Pacman;
 
+        private Point[] posArray = new Point[8];
+        private Point[] pacmanCoreArray = new Point[4];
         List<Point> banList = new List<Point>();
-
         List<Point> dotList = new List<Point>();
 
 
@@ -86,7 +86,7 @@ namespace PackManFormGame
             nextPoint = Pacman.Point;
             //
             scor = 0;
-            Delay = 100;
+            Delay = 50;
         }
 
         private void posArrayInit(Point p)
@@ -99,6 +99,13 @@ namespace PackManFormGame
             posArray[5] = new Point(p.X + 2, p.Y + 3);
             posArray[6] = new Point(p.X, p.Y + 3);
             posArray[7] = new Point(p.X, p.Y + 2);
+        }
+        private void coreArrayInit(Point p)
+        {
+            pacmanCoreArray[0] = new Point(p.X + 2, p.Y + 2);
+            pacmanCoreArray[1] = new Point(p.X + 2, p.Y + 3);
+            pacmanCoreArray[2] = new Point(p.X + 3, p.Y + 3);
+            pacmanCoreArray[3] = new Point(p.X + 3, p.Y + 2);
         }
 
         public void Stop()
@@ -144,6 +151,8 @@ namespace PackManFormGame
             {
                 return;
             }
+
+            
             switch (Direction)
             {
                 case Direction.UP:
@@ -164,29 +173,43 @@ namespace PackManFormGame
                     break;
                 case Direction.STOP:
                     board.DrawXY(Pacman.Point, Color.Yellow);
-                    foreach (Point p in posArray)
-                    {
-                        board.DrawDot(p, Color.Aqua);
-                    }
                     break;
             }
-            foreach(Point p in dotList)
+            checkDots(Pacman.Point);
+            foreach (Point p in dotList)
             {
                 board.DrawDot(p, Color.White);
             }
-            foreach (Point p in banList)
-            {
-                board.DrawRect(p, Color.SlateBlue);
-            }
+            //foreach (Point p in banList)
+            //{
+            //    board.DrawRect(p, Color.DarkBlue);
+            //}
 
-            foreach (Point p in posArray)
-            {
-                board.DrawDot(p, Color.Aqua);
-            }
+            //foreach (Point p in posArray)
+            //{
+            //    board.DrawDot(p, Color.Aqua);
+            //}
 
 
         }
 
+        private void checkDots(Point P)
+        {
+            coreArrayInit(P);
+            for(int i = 0; i <= dotList.Count - 1; i++)
+            {
+                foreach (Point corePoint in pacmanCoreArray)
+                {
+                    if (corePoint.X == dotList[i].X && corePoint.Y == dotList[i].Y)
+                    {
+                        
+                        dotList.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+        }
         private void checkNextPos(Point P)
         {
 

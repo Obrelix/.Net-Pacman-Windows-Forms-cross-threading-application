@@ -69,7 +69,7 @@ namespace PackManFormGame
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillRectangle(b, p.X * cellWidth , p.Y * cellHeight , dotWidth, dotHeight);
+                g.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
             }
         }
 
