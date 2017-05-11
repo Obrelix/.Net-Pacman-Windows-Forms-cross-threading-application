@@ -16,6 +16,7 @@ namespace PackManFormGame
         private float cellHeight;
         private float cellWidth;
         private static int state = 1;
+        PictureBox[] picsGhosts = new PictureBox[4];
 
         public PacmanBoard(Panel pnl, int rows = 64, int cols = 58, Color? bgColor = null)
         {
@@ -32,10 +33,16 @@ namespace PackManFormGame
             cellHeight = pnl.Height / (float)Rows;
             cellWidth = pnl.Width / (float)Cols;
             g = pnl.CreateGraphics();
+            picGostsInit();
             lock (this)
             {
-               // g.Clear(BgColor);
+                pnl.Controls.Remove(picsGhosts[0]);
+                //g.Clear(BgColor);
+                //picsGhosts[0].Location = new Point((int)(28 * cellWidth + 6), (int)(34 * cellHeight + 6));
+                //picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+                pnl.Controls.Add(picsGhosts[0]);
             }
+
         }
 
         public void Clear()
@@ -68,10 +75,62 @@ namespace PackManFormGame
             }
         }
 
+        private void picGostsInit()
+        {
+            pnl.SuspendLayout();
+            picsGhosts[0] = new PictureBox();
+            picsGhosts[1] = new PictureBox();
+            picsGhosts[2] = new PictureBox();
+            picsGhosts[3] = new PictureBox();
+            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[0])).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[1])).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[2])).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[3])).BeginInit();
+
+            picsGhosts[0].BackgroundImage = Properties.Resources.RedGhost;
+            picsGhosts[0].BackgroundImageLayout = ImageLayout.Stretch;
+            //picsGhosts[0].Location = new Point((int)(28 * cellWidth + 6), (int)(34 * cellHeight + 6));
+            picsGhosts[0].Name = "picRedG";
+            picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+
+            picsGhosts[1].BackgroundImage = Properties.Resources.BlueGhost;
+            picsGhosts[1].BackgroundImageLayout = ImageLayout.Stretch;
+            picsGhosts[1].Location = new Point(0, 0);
+            picsGhosts[1].Name = "picBlueG";
+            picsGhosts[1].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+
+            picsGhosts[2].BackgroundImage = Properties.Resources.YellowGhost;
+            picsGhosts[2].BackgroundImageLayout = ImageLayout.Stretch;
+            picsGhosts[2].Location = new Point(0, 0);
+            picsGhosts[2].Name = "picYellowG";
+            picsGhosts[2].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+
+            picsGhosts[3].BackgroundImage = Properties.Resources.PinkGhost;
+            picsGhosts[3].BackgroundImageLayout = ImageLayout.Stretch;
+            picsGhosts[3].Location = new Point(0, 0);
+            picsGhosts[3].Name = "picPinkG";
+            picsGhosts[3].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+
+            
+            lock (this)
+            {
+                pnl.Controls.Add(picsGhosts[0]);
+                //pnl.Controls.Add(picsGhosts[1]);
+                //pnl.Controls.Add(picsGhosts[2]);
+                //pnl.Controls.Add(picsGhosts[3]);
+            }
+            pnl.ResumeLayout(false);
+        }
+
+        public void DrawGhost(int x, int y, string color, Direction dir)
+        {
+
+        }
+
         public void DrawPacMan(int x, int y, Color color, Direction dir)
         {
             Brush b = new SolidBrush(color);
-            Rectangle rect = new Rectangle((int)(x * cellWidth + 6), (int)(y * cellHeight + 6), (int)cellWidth * 4 - 12, (int)cellHeight * 4 - 12);
+            Rectangle rect = new Rectangle((int)(x * cellWidth + 6), (int)(y * cellHeight + 6), (int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
             int startAngle, sweepAngle;
             calculateAngles(dir, out startAngle, out sweepAngle);
             lock (this)

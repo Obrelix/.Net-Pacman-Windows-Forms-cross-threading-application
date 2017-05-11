@@ -83,9 +83,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lvl1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\maze2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -98,10 +95,106 @@
     <None Include="Resources\BlueGhost.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PinkGost.png" />
+    <None Include="Resources\PinkGhost.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\YellowGost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostDown1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostLeft1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostLeft2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostRight1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostUp1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueGhostUp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostDown1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostLeft1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostLeft2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostRight1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostUp1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PinkGostUp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosDown1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosLeft1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosLeft2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosRight1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosUp1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedGosUp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostDown1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostLeft1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostLeft2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostRight1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostUp1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YellowGostUp2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

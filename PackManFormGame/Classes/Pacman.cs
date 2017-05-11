@@ -25,11 +25,11 @@ namespace PackManFormGame
         STOP = 4
     }
 
-    internal class PacmanSegnement
+    internal class Pacman
     {
         public Point Point;
         public Direction Direction;
-        public PacmanSegnement(Point point, Direction direction)
+        public Pacman(Point point, Direction direction)
         {
             this.Point = point;
             this.Direction = direction;
@@ -38,7 +38,11 @@ namespace PackManFormGame
 
     public class PacmanGame
     {
-        public Direction Direction = Direction.STOP;
+        public Direction pacmanDir = Direction.STOP;
+        private Direction pacmanPrevDir = Direction.STOP;
+
+        public Direction ghostDir = Direction.STOP;
+        private Direction ghostPrevDir = Direction.STOP;
 
         public int Delay
         {
@@ -48,18 +52,20 @@ namespace PackManFormGame
         public GameState State = GameState.GAMEOVER;
         public Color ColorBody = Color.Black;
         public Color ColorHead = Color.Yellow;
-        public Task Runner;
+        public Task PacmanRunner;
+        public Task GhostRunner;
 
-        private Direction PreviusDir = Direction.STOP;
 
         private int _delay = 70;
         private int score = 0;
         private Point bonus;
         
-        private Point nextPoint = new Point();
+        private Point pacmanNextPoint = new Point();
+        private Point ghostNextPoint = new Point();
         private frmPacmanGame parentForm;
         private PacmanBoard board;
-        private PacmanSegnement Pacman;
+        private Pacman Pacman;
+        private Pacman RedGhost;
 
         private Point[] posArray = new Point[8];
         private Point[] pacmanCoreArray = new Point[4];
@@ -78,15 +84,18 @@ namespace PackManFormGame
         {
             wallList = PointLists.banPointList();
             dotList = PointLists.dotPointList();
+
             State = GameState.GAMEOVER;
+            pacmanDir = Direction.STOP;
+            Pacman = new Pacman(new Point(27, 40), pacmanDir);
+            pacmanNextPoint = Pacman.Point;
 
-            Direction = Direction.STOP;
-            Pacman = new PacmanSegnement(new Point(27, 40), Direction);
+            ghostDir = Direction.RIGHT;
+            RedGhost = new Pacman(new Point(27, 30), ghostDir);
 
-            nextPoint = Pacman.Point;
-            //
             score = 0;
             Delay = 70;
+
         }
 
         private void posArrayInit(Point p)
@@ -100,6 +109,7 @@ namespace PackManFormGame
             posArray[6] = new Point(p.X, p.Y + 3);
             posArray[7] = new Point(p.X, p.Y + 2);
         }
+
         private void coreArrayInit(Point p)
         {
             pacmanCoreArray[0] = new Point(p.X + 2, p.Y + 2);
@@ -125,10 +135,26 @@ namespace PackManFormGame
 
         public void Run()
         {
-            Runner = new Task(runGame);
+            PacmanRunner = new Task(runGame);
             State = GameState.GAMERUN;
+            PacmanRunner.Start();
+            GhostRunner = new Task(runGhosts);
+            GhostRunner.Start();
             RePaint();
-            Runner.Start();
+        }
+
+        private void runGhosts()
+        {
+            while (State != GameState.GAMEOVER)
+            {
+                try
+                {
+                   // ghostMove();
+
+                    PacmanRunner.Wait(_delay);
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
         }
 
         private void runGame()
@@ -137,43 +163,81 @@ namespace PackManFormGame
             {
                 try
                 {
-                    move();
+                    pacmanMove();
+                    boardPaint();
+
+                    checkDots(Pacman.Point);
+
                     string data = Pacman.Point.ToString() + "@" + score + "%"+ Delay;
                     parentForm.Write(data);
-                    Runner.Wait(_delay);
+                    PacmanRunner.Wait(_delay);
+                    checkForWin();
+
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
         }
 
-        private void move()
+        private void ghostMove()
         {
             if (State != GameState.GAMERUN)
             {
                 return;
             }
 
-            nextPoint = Pacman.Point;
-            switch (Direction)
+            ghostNextPoint = Pacman.Point;
+            switch (ghostDir)
             {
                 case Direction.UP:
-                    nextPoint.Y--;
+                    ghostNextPoint.Y--;
                     break;
                 case Direction.DOWN:
-                    nextPoint.Y++;
+                    ghostNextPoint.Y++;
                     break;
                 case Direction.RIGHT:
-                    nextPoint.X++;
+                    ghostNextPoint.X++;
                     break;
                 case Direction.LEFT:
-                    nextPoint.X--;
+                    ghostNextPoint.X--;
+                    break;
+                case Direction.STOP:
+                    // board.DrawPacMan(Pacman.Point, Color.Yellow, Direction);
+                    break;
+            }
+            checkNextPos(ghostNextPoint);
+        }
+
+        private void pacmanMove()
+        {
+            if (State != GameState.GAMERUN)
+            {
+                return;
+            }
+
+            pacmanNextPoint = Pacman.Point;
+            switch (pacmanDir)
+            {
+                case Direction.UP:
+                    pacmanNextPoint.Y--;
+                    break;
+                case Direction.DOWN:
+                    pacmanNextPoint.Y++;
+                    break;
+                case Direction.RIGHT:
+                    pacmanNextPoint.X++;
+                    break;
+                case Direction.LEFT:
+                    pacmanNextPoint.X--;
                     break;
                 case Direction.STOP:
                    // board.DrawPacMan(Pacman.Point, Color.Yellow, Direction);
                     break;
             }
-            checkNextPos(nextPoint);
-            checkDots(Pacman.Point);
+            checkNextPos(pacmanNextPoint);
+        }
+
+        private void boardPaint()
+        {
             foreach (Point p in dotList)
             {
                 board.DrawDot(p, Color.White);
@@ -182,18 +246,14 @@ namespace PackManFormGame
             {
                 board.DrawRect(p, Color.DarkBlue);
             }
+        }
 
-            if(dotList.Count == 0)
+        private void checkForWin()
+        {
+            if (dotList.Count == 0)
             {
-                State = GameState.GAMEOVER; 
+                State = GameState.GAMEOVER;
             }
-
-            //foreach (Point p in posArray)
-            //{
-            //    board.DrawDot(p, Color.Aqua);
-            //}
-
-
         }
 
         private void checkDots(Point P)
@@ -221,13 +281,15 @@ namespace PackManFormGame
             {
                 Point tempPoint = Pacman.Point;
                 board.ClearPacMan(tempPoint);
-                Pacman = new PacmanSegnement(P, Direction);
-                board.DrawPacMan(Pacman.Point, Color.Yellow, Direction);
-                PreviusDir = Direction;
+                Pacman = new Pacman(P, pacmanDir);
+                board.DrawPacMan(Pacman.Point, Color.Yellow, pacmanDir);
+                pacmanPrevDir = pacmanDir;
             }
             else
             {
-                Direction = PreviusDir;
+                board.ClearPacMan(Pacman.Point);
+                pacmanDir = pacmanPrevDir;
+                board.DrawPacMan(Pacman.Point, Color.Yellow, pacmanDir);
             }
         }
        
@@ -252,7 +314,7 @@ namespace PackManFormGame
         {
             parentForm.SuspendLayout();
             board.Resize();
-            board.DrawPacMan(Pacman.Point, ColorHead, Direction);
+            board.DrawPacMan(Pacman.Point, ColorHead, pacmanDir);
             parentForm.ResumeLayout(false);
         }
 

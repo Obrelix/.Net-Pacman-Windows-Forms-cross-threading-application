@@ -13,48 +13,27 @@ namespace PackManFormGame
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-        //Graphics g;
-        //Pen pen = new Pen(Color.Yellow, 2);
-        //Brush brushYellow = new SolidBrush(Color.Yellow);
-        //Brush brushBlack = new SolidBrush(Color.Black);
-        //Rectangle rect;
 
         public frmPacmanGame()
         {
             InitializeComponent();
-            //g = pnlBoard.CreateGraphics();
-            //pnlBoard.BackgroundImage = Properties.Resources.maze2;
         }
-
-        //int startAngle = 40, sweepAngle = 270, posX = 24;
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
         
-            //rect = new Rectangle(posX, 24, 40, 40);
-            //g.FillPie(brushBlack, rect, startAngle, sweepAngle);
-            //posX += 24;
-            //rect = new Rectangle(posX, 24, 40, 40);
-            //g.FillPie(brushYellow, rect, startAngle, sweepAngle);
-        }
 
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
             game = new PacmanGame(this, pnlBoard);
-            lblLScore.Location = new Point((panel1.Width - lblLScore.Width) / 2, 9);
-            lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
-            lblLVL.Location = new Point((this.ClientRectangle.Width - lblLVL.Width) / 2, 9);
-            lblLVLValue.Location = new Point((this.ClientRectangle.Width - lblLVLValue.Width) / 2, lblLVL.Height + 9);
+            lblPosInit();
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
         {
             //game.KeyDown(e);
             if (game == null) return;
-            if (e.KeyCode == Keys.Left) { game.Direction = Direction.LEFT; }
-            else if (e.KeyCode == Keys.Right) { game.Direction = Direction.RIGHT; }
-            else if (e.KeyCode == Keys.Up) { game.Direction = Direction.UP; }
-            else if (e.KeyCode == Keys.Down) { game.Direction = Direction.DOWN; }
+            if (e.KeyCode == Keys.Left) { game.pacmanDir = Direction.LEFT; }
+            else if (e.KeyCode == Keys.Right) { game.pacmanDir = Direction.RIGHT; }
+            else if (e.KeyCode == Keys.Up) { game.pacmanDir = Direction.UP; }
+            else if (e.KeyCode == Keys.Down) { game.pacmanDir = Direction.DOWN; }
             else if (e.KeyCode == Keys.Subtract) { game.Delay += 10; }
             else if (e.KeyCode == Keys.Add) { game.Delay -= 10; }
             else if (e.KeyCode == Keys.P)
@@ -70,17 +49,28 @@ namespace PackManFormGame
             }
         }
 
+        private void lblPosInit()
+        {
+            
+            lblLVL.Location = new Point((pnlScores.Width - lblLVL.Width) / 2, 10);
+            lblLVLValue.Location = new Point((pnlScores.ClientRectangle.Width - lblLVLValue.Width) / 2, lblLVL.Height + 10);
+            lblLScore.Location = new Point(lblLVL.Location.X - lblScore.Width - 100, 10);
+            lblScore.Location = new Point(((lblLScore.Width - lblScore.Width) / 2) + 62, lblLVL.Height + 10);
+            lblHightScore.Location = new Point(184 + lblScore.Width  + 100, 10);
+            pnlScores.Location = new Point((this.ClientRectangle.Width - pnlScores.Width) / 2, 0);
+        }
+
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (game == null) return;
             game.Stop();
-            if (!game.Runner.IsCompleted)
+            if (!game.PacmanRunner.IsCompleted)
             {
 #if RELESE
                 this.Hide();
 #endif
                 e.Cancel = true;
-                await game.Runner;
+                await game.PacmanRunner;
                 this.Close();
             }
         }
@@ -105,7 +95,9 @@ namespace PackManFormGame
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
+            if (game == null) return;
             game.RePaint();
+            lblPosInit();
         }
 
         public void Write(string data)
@@ -119,8 +111,7 @@ namespace PackManFormGame
             this.lblPosition.Text ="Coors : " + data.Split('@').First() ;
             this.lblScore.Text = data.Split('@').Last().Split('%').First();
             lblDelay.Text = "Delay : " + data.Split('%').Last() + " ms";
-            lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
-
+            //lblPosInit();
         }
 
 
