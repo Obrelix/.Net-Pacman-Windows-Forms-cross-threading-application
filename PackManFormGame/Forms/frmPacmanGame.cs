@@ -116,8 +116,9 @@ namespace PackManFormGame
                 //Invoke(new Action<string>(WritePosition), value);
                 return;
             }
-            this.lblPosition.Text = data.Split('@').First() ;
-            this.lblScore.Text = data.Split('@').Last();
+            this.lblPosition.Text ="Coors : " + data.Split('@').First() ;
+            this.lblScore.Text = data.Split('@').Last().Split('%').First();
+            lblDelay.Text = "Delay : " + data.Split('%').Last() + " ms";
             lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
 
         }

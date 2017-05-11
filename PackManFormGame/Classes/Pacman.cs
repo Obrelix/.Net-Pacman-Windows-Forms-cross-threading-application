@@ -52,7 +52,7 @@ namespace PackManFormGame
 
         private Direction PreviusDir = Direction.STOP;
 
-        private int _delay = 60;
+        private int _delay = 70;
         private int score = 0;
         private Point bonus;
         
@@ -63,7 +63,7 @@ namespace PackManFormGame
 
         private Point[] posArray = new Point[8];
         private Point[] pacmanCoreArray = new Point[4];
-        List<Point> banList = new List<Point>();
+        List<Point> wallList = new List<Point>();
         List<Point> dotList = new List<Point>();
 
 
@@ -76,7 +76,7 @@ namespace PackManFormGame
 
         private void Init()
         {
-            banList = PointLists.banPointList();
+            wallList = PointLists.banPointList();
             dotList = PointLists.dotPointList();
             State = GameState.GAMEOVER;
 
@@ -86,7 +86,7 @@ namespace PackManFormGame
             nextPoint = Pacman.Point;
             //
             score = 0;
-            Delay = 80;
+            Delay = 70;
         }
 
         private void posArrayInit(Point p)
@@ -178,7 +178,7 @@ namespace PackManFormGame
             {
                 board.DrawDot(p, Color.White);
             }
-            foreach (Point p in banList)
+            foreach (Point p in wallList)
             {
                 board.DrawRect(p, Color.DarkBlue);
             }
@@ -233,7 +233,7 @@ namespace PackManFormGame
        
         private bool checkPosition()
         {
-            foreach (Point banPoint in banList)
+            foreach (Point banPoint in wallList)
             {
                 foreach(Point pacmanPoint in posArray)
                 {

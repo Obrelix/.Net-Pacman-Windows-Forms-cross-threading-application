@@ -43,12 +43,15 @@
             this.pcrYellowGhost = new System.Windows.Forms.PictureBox();
             this.pcrRedGost = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblDelay = new System.Windows.Forms.Label();
             this.pnlBoard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcrRedBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcrBlueGhost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcrYellowGhost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcrRedGost)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -59,11 +62,11 @@
             // lblPosition
             // 
             this.lblPosition.AutoSize = true;
-            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(12, 46);
+            this.lblPosition.Location = new System.Drawing.Point(12, 41);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(10, 9);
+            this.lblPosition.Size = new System.Drawing.Size(14, 13);
             this.lblPosition.TabIndex = 1;
             this.lblPosition.Text = "0";
             // 
@@ -122,7 +125,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(483, 9);
+            this.label4.Location = new System.Drawing.Point(9, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(130, 23);
             this.label4.TabIndex = 6;
@@ -134,7 +137,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(516, 34);
+            this.label5.Location = new System.Drawing.Point(39, 34);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 23);
             this.label5.TabIndex = 7;
@@ -211,10 +214,31 @@
             // 
             this.panel1.Controls.Add(this.lblLScore);
             this.panel1.Controls.Add(this.lblScore);
-            this.panel1.Location = new System.Drawing.Point(79, 0);
+            this.panel1.Location = new System.Drawing.Point(132, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(128, 59);
+            this.panel1.Size = new System.Drawing.Size(114, 59);
             this.panel1.TabIndex = 12;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Location = new System.Drawing.Point(436, -1);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(148, 59);
+            this.panel2.TabIndex = 13;
+            // 
+            // lblDelay
+            // 
+            this.lblDelay.AutoSize = true;
+            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDelay.ForeColor = System.Drawing.Color.White;
+            this.lblDelay.Location = new System.Drawing.Point(12, 16);
+            this.lblDelay.Name = "lblDelay";
+            this.lblDelay.Size = new System.Drawing.Size(14, 13);
+            this.lblDelay.TabIndex = 14;
+            this.lblDelay.Text = "0";
             // 
             // frmPacmanGame
             // 
@@ -223,9 +247,9 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(698, 831);
+            this.Controls.Add(this.lblDelay);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.lblLVLValue);
             this.Controls.Add(this.lblLVL);
             this.Controls.Add(this.lblPosition);
@@ -251,6 +275,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pcrRedGost)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -271,6 +297,8 @@
         private System.Windows.Forms.PictureBox pcrBlueGhost;
         private System.Windows.Forms.PictureBox pcrYellowGhost;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblDelay;
     }
 }
 

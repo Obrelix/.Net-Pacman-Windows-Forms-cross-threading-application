@@ -71,7 +71,7 @@ namespace PackManFormGame
         public void DrawPacMan(int x, int y, Color color, Direction dir)
         {
             Brush b = new SolidBrush(color);
-            Rectangle rect = new Rectangle((int)(x * cellWidth + 8), (int)(y * cellHeight + 8), (int)cellWidth * 4 - 16, (int)cellHeight * 4 - 16);
+            Rectangle rect = new Rectangle((int)(x * cellWidth + 6), (int)(y * cellHeight + 6), (int)cellWidth * 4 - 12, (int)cellHeight * 4 - 12);
             int startAngle, sweepAngle;
             calculateAngles(dir, out startAngle, out sweepAngle);
             lock (this)
@@ -133,19 +133,7 @@ namespace PackManFormGame
         {
             DrawPacMan(p.X, p.Y, color, dir);
         }
-
-        //public void ClearPacMan(int x, int y, Direction dir)
-        //{
-        //    DrawPacMan(x, y, BgColor, dir);
-        //    /*
-        //    Brush b = new SolidBrush(BgColor);
-        //    lock (this)
-        //    {
-        //        g.FillRectangle(b, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-        //    }
-        //     * */
-
-        //}
+        
         public void ClearPacMan(Point p)
         {
             
