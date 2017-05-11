@@ -299,37 +299,28 @@ namespace PackManFormGame
         {
             banList.Clear();
 
-            for (int j = 0; j <= 1; j++)
-            {
-                for (int i = 0; i <= 58; i++)
+            
+                for (int i = 1; i <= 56; i++)
                 {
-                    banList.Add(new Point(i, j));
+                    banList.Add(new Point(i, 1));
                 }
-            }
 
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 2; j <= 64; j++)
+            
+                for (int j = 2; j <= 62; j++)
                 {
-                    banList.Add(new Point(i, j));
+                    banList.Add(new Point(1, j));
                 }
-            }
 
-            for (int j = 64 - 2; j < 64; j++)
-            {
-                for (int i = 2; i <= 58; i++)
+            
+                for (int i = 2; i <= 56; i++)
                 {
-                    banList.Add(new Point(i, j));
+                    banList.Add(new Point(i, 62));
                 }
-            }
 
-            for (int i = 58 - 2; i < 58; i++)
-            {
                 for (int j = 2; j <= 64 - 2; j++)
                 {
-                    banList.Add(new Point(i, j));
+                    banList.Add(new Point(56, j));
                 }
-            }
             banList.Add(new Point(28, 2));
             banList.Add(new Point(29, 2));
             banList.Add(new Point(28, 3));

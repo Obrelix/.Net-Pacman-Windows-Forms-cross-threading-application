@@ -52,7 +52,7 @@ namespace PackManFormGame
 
         private Direction PreviusDir = Direction.STOP;
 
-        private int _delay = 50;
+        private int _delay = 60;
         private int score = 0;
         private Point bonus;
         
@@ -86,7 +86,7 @@ namespace PackManFormGame
             nextPoint = Pacman.Point;
             //
             score = 0;
-            Delay = 50;
+            Delay = 80;
         }
 
         private void posArrayInit(Point p)
@@ -138,7 +138,7 @@ namespace PackManFormGame
                 try
                 {
                     move();
-                    string data = Pacman.Point.ToString() + "@" + score;
+                    string data = Pacman.Point.ToString() + "@" + score + "%"+ Delay;
                     parentForm.Write(data);
                     Runner.Wait(_delay);
                 }
@@ -153,29 +153,26 @@ namespace PackManFormGame
                 return;
             }
 
-            
+            nextPoint = Pacman.Point;
             switch (Direction)
             {
                 case Direction.UP:
-                    nextPoint = new Point(Pacman.Point.X, Pacman.Point.Y - 1);
-                    checkNextPos(nextPoint);
+                    nextPoint.Y--;
                     break;
                 case Direction.DOWN:
-                    nextPoint = new Point(Pacman.Point.X, Pacman.Point.Y + 1);
-                    checkNextPos(nextPoint);
+                    nextPoint.Y++;
                     break;
                 case Direction.RIGHT:
-                    nextPoint = new Point(Pacman.Point.X + 1, Pacman.Point.Y);
-                    checkNextPos(nextPoint);
+                    nextPoint.X++;
                     break;
                 case Direction.LEFT:
-                    nextPoint = new Point(Pacman.Point.X -1, Pacman.Point.Y);
-                    checkNextPos(nextPoint);
+                    nextPoint.X--;
                     break;
                 case Direction.STOP:
-                    board.DrawXY(Pacman.Point, Color.Yellow);
+                   // board.DrawPacMan(Pacman.Point, Color.Yellow, Direction);
                     break;
             }
+            checkNextPos(nextPoint);
             checkDots(Pacman.Point);
             foreach (Point p in dotList)
             {
@@ -223,9 +220,9 @@ namespace PackManFormGame
             if (checkPosition())
             {
                 Point tempPoint = Pacman.Point;
-                board.ClearXY(tempPoint);
+                board.ClearPacMan(tempPoint);
                 Pacman = new PacmanSegnement(P, Direction);
-                board.DrawXY(Pacman.Point, Color.Yellow);
+                board.DrawPacMan(Pacman.Point, Color.Yellow, Direction);
                 PreviusDir = Direction;
             }
             else
@@ -253,11 +250,9 @@ namespace PackManFormGame
 
         public void RePaint()
         {
-            
             parentForm.SuspendLayout();
             board.Resize();
-            board.DrawXY(Pacman.Point, ColorHead);
-
+            board.DrawPacMan(Pacman.Point, ColorHead, Direction);
             parentForm.ResumeLayout(false);
         }
 

@@ -43,6 +43,8 @@ namespace PackManFormGame
             game = new PacmanGame(this, pnlBoard);
             lblLScore.Location = new Point((panel1.Width - lblLScore.Width) / 2, 9);
             lblScore.Location = new Point((panel1.Width - lblScore.Width) / 2, lblLScore.Height+9);
+            lblLVL.Location = new Point((this.ClientRectangle.Width - lblLVL.Width) / 2, 9);
+            lblLVLValue.Location = new Point((this.ClientRectangle.Width - lblLVLValue.Width) / 2, lblLVL.Height + 9);
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)

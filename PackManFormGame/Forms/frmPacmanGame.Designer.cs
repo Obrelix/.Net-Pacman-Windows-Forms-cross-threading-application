@@ -33,8 +33,8 @@
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblLScore = new System.Windows.Forms.Label();
             this.lblScore = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblLVL = new System.Windows.Forms.Label();
+            this.lblLVLValue = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pnlBoard = new System.Windows.Forms.Panel();
@@ -90,31 +90,31 @@
             this.lblScore.Text = "0";
             this.lblScore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // lblLVL
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblLVL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(308, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 23);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Level";
+            this.lblLVL.AutoSize = true;
+            this.lblLVL.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblLVL.ForeColor = System.Drawing.Color.White;
+            this.lblLVL.Location = new System.Drawing.Point(308, 9);
+            this.lblLVL.Name = "lblLVL";
+            this.lblLVL.Size = new System.Drawing.Size(70, 23);
+            this.lblLVL.TabIndex = 4;
+            this.lblLVL.Text = "Level";
             // 
-            // label3
+            // lblLVLValue
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblLVLValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(333, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(22, 23);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "1";
+            this.lblLVLValue.AutoSize = true;
+            this.lblLVLValue.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblLVLValue.ForeColor = System.Drawing.Color.White;
+            this.lblLVLValue.Location = new System.Drawing.Point(333, 34);
+            this.lblLVLValue.Name = "lblLVLValue";
+            this.lblLVLValue.Size = new System.Drawing.Size(22, 23);
+            this.lblLVLValue.TabIndex = 5;
+            this.lblLVLValue.Text = "1";
             // 
             // label4
             // 
@@ -226,8 +226,8 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblLVLValue);
+            this.Controls.Add(this.lblLVL);
             this.Controls.Add(this.lblPosition);
             this.Controls.Add(this.pnlBoard);
             this.DoubleBuffered = true;
@@ -262,8 +262,8 @@
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Label lblLScore;
         private System.Windows.Forms.Label lblScore;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblLVL;
+        private System.Windows.Forms.Label lblLVLValue;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pcrRedGost;
