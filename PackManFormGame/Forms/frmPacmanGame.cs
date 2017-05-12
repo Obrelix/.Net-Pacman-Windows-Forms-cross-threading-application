@@ -52,12 +52,11 @@ namespace PackManFormGame
         private void lblPosInit()
         {
             
-            lblLVL.Location = new Point((pnlScores.Width - lblLVL.Width) / 2, 10);
-            lblLVLValue.Location = new Point((pnlScores.ClientRectangle.Width - lblLVLValue.Width) / 2, lblLVL.Height + 10);
-            lblLScore.Location = new Point(lblLVL.Location.X - lblScore.Width - 100, 10);
-            lblScore.Location = new Point(((lblLScore.Width - lblScore.Width) / 2) + 62, lblLVL.Height + 10);
-            lblHightScore.Location = new Point(184 + lblScore.Width  + 100, 10);
-            pnlScores.Location = new Point((this.ClientRectangle.Width - pnlScores.Width) / 2, 0);
+            pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
+            pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
+            pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
+            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 10);
+            pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
         }
 
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
@@ -95,6 +94,7 @@ namespace PackManFormGame
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
+            this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
             lblPosInit();
