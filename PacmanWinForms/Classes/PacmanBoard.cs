@@ -89,9 +89,9 @@ namespace PacmanWinForms
 
             picsGhosts[0].BackgroundImage = Properties.Resources.RedGhost;
             picsGhosts[0].BackgroundImageLayout = ImageLayout.Stretch;
-            //picsGhosts[0].Location = new Point((int)(28 * cellWidth + 6), (int)(34 * cellHeight + 6));
+            picsGhosts[0].Location = new Point((int)(28 * cellWidth + 2), (int)(34 * cellHeight + 2));
             picsGhosts[0].Name = "picRedG";
-            picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
+            picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 4), (int)(cellHeight * 4 - 4));
 
             picsGhosts[1].BackgroundImage = Properties.Resources.BlueGhost;
             picsGhosts[1].BackgroundImageLayout = ImageLayout.Stretch;
@@ -122,9 +122,12 @@ namespace PacmanWinForms
             pnl.ResumeLayout(false);
         }
 
-        public void DrawGhost(int x, int y, string color, Direction dir)
+        public void DrawGhost(int x, int y, Direction dir, string color = "red")
         {
-
+            lock (this)
+            {
+                picsGhosts[0].Location = new Point(x, y);
+            }
         }
 
         public void DrawPacMan(int x, int y, Color color, Direction dir)
@@ -138,6 +141,11 @@ namespace PacmanWinForms
                 g.FillPie(b, rect, startAngle, sweepAngle);
 
             }
+        }
+
+        public void DrawGhost(Point P, Direction dir, string color = "red")
+        {
+            DrawGhost(P.X, P.Y, dir, color);
         }
 
         private void calculateAngles(Direction dir, out int startAngle, out int sweepAngle)

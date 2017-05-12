@@ -169,14 +169,63 @@ namespace PacmanWinForms
             {
                 return;
             }
-            Point P = nextPoint(Pacman.Point, pacmanDir);
+
             board.ClearPacMan(Pacman.Point);
-            if (checkPosition(P))
+
+            Point P = nextPoint(Pacman.Point, pacmanDir);
+
+            Pacman.posInit(P);
+            Pacman.edgesInit(P);
+            List<Point> commonPoints = Pacman.perimeter.Intersect(wallList.Select(u => u)).ToList();
+
+            if (commonPoints.Count == 0)
             {
                 Pacman = new Pacman(P, pacmanDir);
             }
+            else if(commonPoints.Count == 1)
+            {
+                Pacman = new Pacman(normalizeTurning(commonPoints[0], Pacman.Point, pacmanDir), pacmanDir);
+            }
 
             board.DrawPacMan(Pacman.Point, Color.Yellow, pacmanDir);
+        }
+        
+        private Point normalizeTurning(Point CommonPoint, Point PacmanPoint, Direction D)
+        {
+            Point norP = new Point();
+            norP = PacmanPoint;
+            int i;
+            for(i = 0; i < 4; i++)
+            {
+                if(CommonPoint == Pacman.edges[i])
+                {
+                    break;
+                }
+                //else if(i == 3 && CommonPoint != Pacman.edges[i])
+                //{
+                //    return PacmanPoint;
+                //}
+            }
+            switch (D)
+            {
+                case Direction.UP:
+                    if (i == 1) norP.X--;
+                    else norP.X++;
+                    break;
+                case Direction.DOWN:
+                    if (i == 3) norP.X++;
+                    else norP.X--;
+                    break;
+                case Direction.RIGHT:
+                    if (i == 2) norP.Y--;
+                    else norP.Y++;
+                    break;
+                case Direction.LEFT:
+                    if (i == 3) norP.Y--;
+                    else norP.Y++;
+                    break;
+            }
+            return norP;
         }
 
         private Point nextPoint(Point P, Direction D)
@@ -227,17 +276,10 @@ namespace PacmanWinForms
         private bool checkPosition(Point P)
         {
             Pacman.posInit(P);
-            foreach (Point banPoint in wallList)
-            {
-                foreach(Point pacmanPoint in Pacman.perimeter)
-                {
-                    if(pacmanPoint == banPoint)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
+
+            List<Point> commonPoints = Pacman.perimeter.Intersect(wallList.Select(u => u)).ToList();
+
+            return (commonPoints.Count == 0 || commonPoints.Count == 1);
         }
 
 
@@ -266,10 +308,6 @@ namespace PacmanWinForms
                 board.DrawDot(p, Color.White);
             }
         }
-
-
-        
-
 
     }
 }
