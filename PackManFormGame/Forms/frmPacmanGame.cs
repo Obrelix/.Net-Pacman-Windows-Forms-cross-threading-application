@@ -30,10 +30,10 @@ namespace PackManFormGame
         {
             //game.KeyDown(e);
             if (game == null) return;
-            if (e.KeyCode == Keys.Left) { game.pacmanDir = Direction.LEFT; }
-            else if (e.KeyCode == Keys.Right) { game.pacmanDir = Direction.RIGHT; }
-            else if (e.KeyCode == Keys.Up) { game.pacmanDir = Direction.UP; }
-            else if (e.KeyCode == Keys.Down) { game.pacmanDir = Direction.DOWN; }
+            if (e.KeyCode == Keys.Left) { game.setDirection(Direction.LEFT); }
+            else if (e.KeyCode == Keys.Right) { game.setDirection(Direction.RIGHT); }
+            else if (e.KeyCode == Keys.Up) { game.setDirection(Direction.UP); }
+            else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
             else if (e.KeyCode == Keys.Subtract) { game.Delay += 10; }
             else if (e.KeyCode == Keys.Add) { game.Delay -= 10; }
             else if (e.KeyCode == Keys.P)
@@ -51,7 +51,6 @@ namespace PackManFormGame
 
         private void lblPosInit()
         {
-            
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
             pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
             pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
@@ -111,7 +110,7 @@ namespace PackManFormGame
             this.lblPosition.Text ="Coors : " + data.Split('@').First() ;
             this.lblScore.Text = data.Split('@').Last().Split('%').First();
             lblDelay.Text = "Delay : " + data.Split('%').Last() + " ms";
-            //lblPosInit();
+            lblPosInit();
         }
 
 
