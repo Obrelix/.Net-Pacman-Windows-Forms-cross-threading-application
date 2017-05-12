@@ -1,0 +1,12 @@
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.csprojResolveAssemblyReference.cache
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.frmPacmanGame.resources
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.csproj.GenerateResource.Cache
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PacmanWinForms.exe.config
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.Properties.Resources.resources
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PacmanWinForms.exe
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\bin\Debug\PacmanWinForms.pdb
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.exe
+C:\Users\tataki\Source\Repos\Pacman\PackManFormGame\obj\Debug\PacmanWinForms.pdb
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\bin\Debug\PacmanWinForms.exe.config
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.exe
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.pdb
