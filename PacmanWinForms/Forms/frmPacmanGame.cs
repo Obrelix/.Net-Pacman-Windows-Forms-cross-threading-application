@@ -54,6 +54,7 @@ namespace PacmanWinForms
             cellHeight = pnlBoard.Height / 64;
             cellWidth = pnlBoard.Width / 58;
             picRedGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            picBlueGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
             pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
             pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
@@ -61,12 +62,12 @@ namespace PacmanWinForms
             pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
         }
 
-        public void moveGhost(Point P, Direction D)
+        public void redGhostMove(Point P, Direction D)
         {
             bool flag = true;
             if (InvokeRequired)
             {
-                Invoke(new Action<Point, Direction>(moveGhost), new object[] { P , D });
+                Invoke(new Action<Point, Direction>(redGhostMove), new object[] { P , D });
                 //Invoke(new Action<string>(WritePosition), value);
                 return;
             }
@@ -124,6 +125,68 @@ namespace PacmanWinForms
             }
         }
 
+        public void blueGhostMove(Point P, Direction D)
+        {
+            bool flag = true;
+            if (InvokeRequired)
+            {
+                Invoke(new Action<Point, Direction>(blueGhostMove), new object[] { P, D });
+                //Invoke(new Action<string>(WritePosition), value);
+                return;
+            }
+            picBlueGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+            switch (D)
+            {
+                case Direction.DOWN:
+                    if (flag)
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown2;
+                        flag = true;
+                    }
+                    break;
+                case Direction.UP:
+                    if (flag)
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp2;
+                        flag = true;
+                    }
+                    break;
+                case Direction.RIGHT:
+                    if (flag)
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight2;
+                        flag = true;
+                    }
+                    break;
+                case Direction.LEFT:
+                    if (flag)
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft2;
+                        flag = true;
+                    }
+                    break;
+            }
+        }
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (game == null) return;
