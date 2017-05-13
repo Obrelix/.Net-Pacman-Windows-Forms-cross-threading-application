@@ -230,7 +230,7 @@
             // 
             this.picYellowGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.YellowGhost;
             this.picYellowGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picYellowGhost.Location = new System.Drawing.Point(227, 261);
+            this.picYellowGhost.Location = new System.Drawing.Point(266, 269);
             this.picYellowGhost.Name = "picYellowGhost";
             this.picYellowGhost.Size = new System.Drawing.Size(30, 30);
             this.picYellowGhost.TabIndex = 2;

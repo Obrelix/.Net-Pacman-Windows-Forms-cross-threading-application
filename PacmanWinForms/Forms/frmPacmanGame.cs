@@ -319,6 +319,7 @@ namespace PacmanWinForms
                     break;
             }
         }
+
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (game == null) return;

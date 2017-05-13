@@ -15,12 +15,168 @@ namespace PacmanWinForms
             dotListInit();
             return dotList;
         }
+
+        private static List<Point> bonusList = new List<Point>();
+        public static List<Point> bonusPointList()
+        {
+            bonusListInit();
+            return bonusList;
+        }
+
         private static List<Point> banList = new List<Point>();
         public static List<Point> banPointList()
         {
             banListInit();
             return banList;
         }
+        private static List<Point> boxList = new List<Point>();
+        public static List<Point> boxPointList()
+        {
+            boxListInit();
+            return boxList;
+        }
+
+        private static List<Point> BoxDoorList = new List<Point>();
+        public static List<Point> boxDoorPointList()
+        {
+            boxDoorInit();
+            return BoxDoorList;
+        }
+        private static List<Point> bonusListInit()
+        {
+            bonusList.Add(new Point(50, 48));
+            bonusList.Add(new Point(8, 48));
+            bonusList.Add(new Point(50, 12));
+            bonusList.Add(new Point(8, 12));
+            return bonusList;
+        }
+
+        private static void boxListInit()
+        {
+            boxList.Add(new Point(22, 26));
+            boxList.Add(new Point(22, 27));
+            boxList.Add(new Point(23, 26));
+            boxList.Add(new Point(23, 27));
+            boxList.Add(new Point(24, 26));
+            boxList.Add(new Point(24, 27));
+            boxList.Add(new Point(25, 26));
+            boxList.Add(new Point(25, 27));
+            boxList.Add(new Point(26, 26));
+            boxList.Add(new Point(26, 27));
+            boxList.Add(new Point(27, 26));
+            boxList.Add(new Point(27, 27));
+            boxList.Add(new Point(28, 26));
+            boxList.Add(new Point(28, 27));
+            boxList.Add(new Point(29, 26));
+            boxList.Add(new Point(29, 27));
+            boxList.Add(new Point(30, 26));
+            boxList.Add(new Point(30, 27));
+            boxList.Add(new Point(31, 26));
+            boxList.Add(new Point(31, 27));
+            boxList.Add(new Point(32, 26));
+            boxList.Add(new Point(32, 27));
+            boxList.Add(new Point(33, 26));
+            boxList.Add(new Point(33, 27));
+            boxList.Add(new Point(34, 26));
+            boxList.Add(new Point(34, 27));
+            boxList.Add(new Point(35, 26));
+            boxList.Add(new Point(35, 27));
+            boxList.Add(new Point(22, 28));
+            boxList.Add(new Point(22, 29));
+            boxList.Add(new Point(23, 28));
+            boxList.Add(new Point(23, 29));
+            boxList.Add(new Point(24, 28));
+            boxList.Add(new Point(24, 29));
+            boxList.Add(new Point(25, 28));
+            boxList.Add(new Point(25, 29));
+            boxList.Add(new Point(26, 28));
+            boxList.Add(new Point(26, 29));
+            boxList.Add(new Point(27, 28));
+            boxList.Add(new Point(27, 29));
+            boxList.Add(new Point(28, 28));
+            boxList.Add(new Point(28, 29));
+            boxList.Add(new Point(29, 28));
+            boxList.Add(new Point(29, 29));
+            boxList.Add(new Point(30, 28));
+            boxList.Add(new Point(30, 29));
+            boxList.Add(new Point(31, 28));
+            boxList.Add(new Point(31, 29));
+            boxList.Add(new Point(32, 28));
+            boxList.Add(new Point(32, 29));
+            boxList.Add(new Point(33, 28));
+            boxList.Add(new Point(33, 29));
+            boxList.Add(new Point(34, 28));
+            boxList.Add(new Point(34, 29));
+            boxList.Add(new Point(35, 28));
+            boxList.Add(new Point(35, 29));
+            boxList.Add(new Point(22, 30));
+            boxList.Add(new Point(22, 31));
+            boxList.Add(new Point(23, 30));
+            boxList.Add(new Point(23, 31));
+            boxList.Add(new Point(24, 30));
+            boxList.Add(new Point(24, 31));
+            boxList.Add(new Point(25, 30));
+            boxList.Add(new Point(25, 31));
+            boxList.Add(new Point(26, 30));
+            boxList.Add(new Point(26, 31));
+            boxList.Add(new Point(27, 30));
+            boxList.Add(new Point(27, 31));
+            boxList.Add(new Point(28, 30));
+            boxList.Add(new Point(28, 31));
+            boxList.Add(new Point(29, 30));
+            boxList.Add(new Point(29, 31));
+            boxList.Add(new Point(30, 30));
+            boxList.Add(new Point(30, 31));
+            boxList.Add(new Point(31, 30));
+            boxList.Add(new Point(31, 31));
+            boxList.Add(new Point(32, 30));
+            boxList.Add(new Point(32, 31));
+            boxList.Add(new Point(33, 30));
+            boxList.Add(new Point(33, 31));
+            boxList.Add(new Point(34, 30));
+            boxList.Add(new Point(34, 31));
+            boxList.Add(new Point(35, 30));
+            boxList.Add(new Point(35, 31));
+            boxList.Add(new Point(22, 32));
+            boxList.Add(new Point(22, 33));
+            boxList.Add(new Point(23, 32));
+            boxList.Add(new Point(23, 33));
+            boxList.Add(new Point(24, 32));
+            boxList.Add(new Point(24, 33));
+            boxList.Add(new Point(25, 32));
+            boxList.Add(new Point(25, 33));
+            boxList.Add(new Point(26, 32));
+            boxList.Add(new Point(26, 33));
+            boxList.Add(new Point(27, 32));
+            boxList.Add(new Point(27, 33));
+            boxList.Add(new Point(28, 32));
+            boxList.Add(new Point(28, 33));
+            boxList.Add(new Point(29, 32));
+            boxList.Add(new Point(29, 33));
+            boxList.Add(new Point(30, 32));
+            boxList.Add(new Point(30, 33));
+            boxList.Add(new Point(31, 32));
+            boxList.Add(new Point(31, 33));
+            boxList.Add(new Point(32, 32));
+            boxList.Add(new Point(32, 33));
+            boxList.Add(new Point(33, 32));
+            boxList.Add(new Point(33, 33));
+            boxList.Add(new Point(34, 32));
+            boxList.Add(new Point(34, 33));
+            boxList.Add(new Point(35, 32));
+            boxList.Add(new Point(35, 33));
+        }
+
+        private static void boxDoorInit()
+        {
+            BoxDoorList.Add(new Point(26, 26));
+            BoxDoorList.Add(new Point(27, 26));
+            BoxDoorList.Add(new Point(28, 26));
+            BoxDoorList.Add(new Point(29, 26));
+            BoxDoorList.Add(new Point(30, 26));
+            BoxDoorList.Add(new Point(31, 26));
+        }
+
         private static void dotListInit()
         {
             dotList.Clear();
@@ -129,7 +285,6 @@ namespace PacmanWinForms
             dotList.Add(new Point(46, 54));
             dotList.Add(new Point(50, 52));
             dotList.Add(new Point(50, 50));
-            //dotList.Add(new Point(50, 48));
             dotList.Add(new Point(52, 48));
             dotList.Add(new Point(54, 48));
             dotList.Add(new Point(54, 46));
@@ -295,6 +450,7 @@ namespace PacmanWinForms
             dotList.Add(new Point(26, 6));
 
         }
+
         private static void banListInit()
         {
             banList.Clear();
@@ -957,6 +1113,7 @@ namespace PacmanWinForms
             //banList.Add(new Point(30, 27));
            // banList.Add(new Point(31, 26));
             //banList.Add(new Point(31, 27));
+
             banList.Add(new Point(32, 26));
             //banList.Add(new Point(32, 27));
             banList.Add(new Point(33, 26));

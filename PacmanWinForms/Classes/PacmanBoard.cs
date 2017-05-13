@@ -64,6 +64,15 @@ namespace PacmanWinForms
             }
         }
 
+        public void DrawDoor(Point p, Color col)
+        {
+            Brush b = new SolidBrush(col);
+            lock (this)
+            {
+                g.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight + cellHeight/4, cellWidth, cellHeight/2);
+            }
+        }
+
         public void DrawDot(Point p, Color col)
         {
             float dotWidth = 2 * cellWidth / 5;
@@ -74,8 +83,18 @@ namespace PacmanWinForms
                 g.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
             }
         }
+        public void DrawBonus(Point p, Color col)
+        {
+            float dotWidth =  cellWidth + cellWidth/2;
+            float dotHeight =  cellHeight + cellHeight/2;
+            Brush b = new SolidBrush(col);
+            lock (this)
+            {
+                g.FillRectangle(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
+            }
+        }
 
-       
+
 
         public void DrawGhost(int x, int y, Direction dir, string color = "red")
         {

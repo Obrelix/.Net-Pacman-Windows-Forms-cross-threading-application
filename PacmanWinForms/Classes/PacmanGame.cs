@@ -73,6 +73,9 @@ namespace PacmanWinForms
 
         List<Point> wallList = new List<Point>();
         List<Point> dotList = new List<Point>();
+        List<Point> boxList = new List<Point>();
+        List<Point> boxDoorList = new List<Point>();
+        List<Point> bonusList = new List<Point>();
 
 
         public PacmanGame(frmPacmanGame frm, Panel p)
@@ -86,6 +89,10 @@ namespace PacmanWinForms
         {
             wallList = PointLists.banPointList();
             dotList = PointLists.dotPointList();
+            boxList = PointLists.boxPointList();
+            boxDoorList = PointLists.boxDoorPointList();
+            bonusList = PointLists.bonusPointList();
+
             directionsInit();
             State = GameState.GAMEOVER;
             pacmanDirection = Direction.STOP;
@@ -95,7 +102,7 @@ namespace PacmanWinForms
             RedGhost = new Pacman(new Point(27, 22), Direction.RIGHT);
             BlueGhost = new Pacman(new Point(27, 29), Direction.LEFT);
             PinkGhost = new Pacman(new Point(32, 29), Direction.LEFT);
-            YellowGhost = new Pacman(new Point(23, 29), Direction.LEFT);
+            YellowGhost = new Pacman(new Point(27, 29), Direction.LEFT);
 
             score = 0;
             Delay = 75;
@@ -126,6 +133,8 @@ namespace PacmanWinForms
             board.DrawPacMan(Pacman.Point, ColorHead, pacmanDirection);
             parentForm.redGhostMove(RedGhost.Point, RedGhost.Direction);
             parentForm.blueGhostMove(BlueGhost.Point, BlueGhost.Direction);
+            parentForm.YellowGhostMove(YellowGhost.Point, YellowGhost.Direction);
+            parentForm.PinkGhostMove(PinkGhost.Point, PinkGhost.Direction);
 
             //board.DrawGhost(RedGhost.Point, ghostDir);
             parentForm.ResumeLayout(false);
@@ -196,6 +205,8 @@ namespace PacmanWinForms
                     checkForWin();
                     pacmanMove();
                     dotPaint();
+                    bonusPaint();
+                    doorPaint();
                     eatDots(Pacman.Point);
                     string data = Pacman.Point.ToString() + "@" + score + "%"+ Delay;
                     parentForm.Write(data);
@@ -214,7 +225,7 @@ namespace PacmanWinForms
             { 
                 return Ghost;
             }
-
+            
             int randomInitValue ,i;
             using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
             {
@@ -242,19 +253,35 @@ namespace PacmanWinForms
             List<Direction> dList = new List<Direction>();
             foreach (Direction d in directions)
             {
-                if (checkForConflict(nextPoint(P, d)) && d != curDir &&  Math.Abs(d - curDir) != 2) dList.Add(d);
+                if (checkForConflict(nextPoint(P, d), P) && d != curDir &&  Math.Abs(d - curDir) != 2) dList.Add(d);
             }
             return dList;
         }
-        
-        
 
-        private bool checkForConflict(Point P)
+        private bool outOfBox(Point P)
         {
             Pacman Ghost = new Pacman(P, Direction.STOP);
             Ghost.posInit(P);
 
-            List<Point> commonPoints = Ghost.perimeter.Intersect(wallList.Select(u => u)).ToList();
+            List<Point> commonPoints = Ghost.perimeter.Intersect(boxList.Select(u => u)).ToList();
+
+            return (commonPoints.Count == 0);
+        }
+
+        private bool checkForConflict(Point P, Point PrevP)
+        {
+            Pacman Ghost = new Pacman(P, Direction.STOP);
+            Ghost.posInit(P);
+            List<Point> mergedList = new List<Point>();
+            if (outOfBox(PrevP))
+            {
+                mergedList = boxDoorList.Union(wallList).ToList();
+            }
+            else
+            {
+                mergedList = wallList;
+            }
+            List<Point> commonPoints = Ghost.perimeter.Intersect(mergedList.Select(u => u)).ToList();
 
             return (commonPoints.Count == 0);
         }
@@ -272,7 +299,9 @@ namespace PacmanWinForms
 
             Pacman.posInit(P);
             Pacman.edgesInit(P);
-            List<Point> commonPoints = Pacman.perimeter.Intersect(wallList.Select(u => u)).ToList();
+            List<Point> mergedList = new List<Point>();
+            mergedList = boxDoorList.Union(wallList).ToList();
+            List<Point> commonPoints = Pacman.perimeter.Intersect(mergedList.Select(u => u)).ToList();
 
             if (commonPoints.Count == 0)
             {
@@ -396,7 +425,13 @@ namespace PacmanWinForms
                 pacmanDirection = d;
             }
         }
-
+        private void doorPaint()
+        {
+            foreach (Point p in boxDoorList)
+            {
+                board.DrawDoor(p, Color.SlateBlue);
+            }
+        }
 
         private void wallPaint()
         {
@@ -412,6 +447,14 @@ namespace PacmanWinForms
             foreach (Point p in dotList)
             {
                 board.DrawDot(p, Color.White);
+            }
+        }
+
+        private void bonusPaint()
+        {
+            foreach (Point p in bonusList)
+            {
+                board.DrawBonus(p, Color.White);
             }
         }
 
