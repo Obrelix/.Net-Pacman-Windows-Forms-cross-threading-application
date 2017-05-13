@@ -197,6 +197,48 @@
   <ItemGroup>
     <None Include="Resources\RedGosLeft1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BonusBGhost1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BonusBGhost2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BonusWGhost1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BonusWGhost2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyesDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyesLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyesRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyesUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Eating_Ghost.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Opening_Song.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Siren.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Waka_Waka.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Waka_Waka_Cut.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Intermission.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

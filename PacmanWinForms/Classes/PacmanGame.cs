@@ -102,7 +102,7 @@ namespace PacmanWinForms
             RedGhost = new Pacman(new Point(27, 22), Direction.RIGHT);
             BlueGhost = new Pacman(new Point(27, 29), Direction.LEFT);
             PinkGhost = new Pacman(new Point(32, 29), Direction.LEFT);
-            YellowGhost = new Pacman(new Point(27, 29), Direction.LEFT);
+            YellowGhost = new Pacman(new Point(23, 29), Direction.LEFT);
 
             score = 0;
             Delay = 75;
@@ -208,6 +208,7 @@ namespace PacmanWinForms
                     bonusPaint();
                     doorPaint();
                     eatDots(Pacman.Point);
+                    eatBonus(Pacman.Point);
                     string data = Pacman.Point.ToString() + "@" + score + "%"+ Delay;
                     parentForm.Write(data);
                     PacmanRunner.Wait(_delay);
@@ -391,13 +392,33 @@ namespace PacmanWinForms
                     {
                         dotList.RemoveAt(i);
                         score += 10;
+                        parentForm.playSound(Properties.Resources.Pacman_Waka_Waka_Cut);
                         break;
                     }
                 }
             }
 
         }
-       
+
+        private void eatBonus(Point P)
+        {
+            Pacman.coreInit(P);
+            for (int i = 0; i <= bonusList.Count - 1; i++)
+            {
+                foreach (Point corePoint in Pacman.core)
+                {
+                    if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
+                    {
+                        bonusList.RemoveAt(i);
+                        score += 5;
+                        parentForm.playSound(Properties.Resources.Pacman_Waka_Waka_Cut);
+                        break;
+                    }
+                }
+            }
+
+        }
+
         private bool checkPosition(Point P)
         {
             Pacman.posInit(P);
@@ -412,6 +433,7 @@ namespace PacmanWinForms
         {
             if (dotList.Count == 0)
             {
+                parentForm.playSound(Properties.Resources.Pacman_Intermission);
                 State = GameState.GAMEOVER;
             }
         }

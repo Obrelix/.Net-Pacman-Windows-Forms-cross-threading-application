@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,11 +27,18 @@ namespace PacmanWinForms
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
             game = new PacmanGame(this, pnlBoard);
+            playSound(Properties.Resources.Pacman_Opening_Song);
             posSizeInit();
+            game.State = GameState.GAMEPAUSE;
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
         {
+            if (game.State == GameState.GAMEPAUSE)
+            {
+                game.Continue();
+            }
+            game.RePaint();
             //game.KeyDown(e);
             if (game == null) return;
             if (e.KeyCode == Keys.Left) { game.setDirection(Direction.LEFT); }
@@ -361,6 +370,17 @@ namespace PacmanWinForms
             posSizeInit();
         }
 
+        public void playSound(Stream s)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<Stream>(playSound), new object[] { s });
+                return;
+            }
+            SoundPlayer player = new SoundPlayer(s);
+            player.Play();
+        }
+
         public void Write(string data)
         {
             if (InvokeRequired)
@@ -380,6 +400,7 @@ namespace PacmanWinForms
         {
             if (game == null) return;
             game.Run();
+            game.State = GameState.GAMEPAUSE;
         }
     }
 }

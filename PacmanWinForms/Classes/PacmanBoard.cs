@@ -85,12 +85,12 @@ namespace PacmanWinForms
         }
         public void DrawBonus(Point p, Color col)
         {
-            float dotWidth =  cellWidth + cellWidth/2;
-            float dotHeight =  cellHeight + cellHeight/2;
+            float dotWidth =  cellWidth + cellWidth;
+            float dotHeight =  cellHeight + cellHeight;
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillRectangle(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
+                g.FillEllipse(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
             }
         }
 
