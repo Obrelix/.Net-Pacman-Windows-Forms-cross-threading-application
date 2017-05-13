@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace PacmanWinForms
 {
@@ -28,7 +29,7 @@ namespace PacmanWinForms
     public class PacmanGame
     {
         public Direction pacmanDir = Direction.STOP;
-        public Direction ghostDir = Direction.STOP;
+        public Direction ghostDir = Direction.RIGHT;
 
         public int Delay
         {
@@ -72,7 +73,7 @@ namespace PacmanWinForms
             Pacman = new Pacman(new Point(27, 40), pacmanDir);
 
             ghostDir = Direction.RIGHT;
-            RedGhost = new Pacman(new Point(27, 30), ghostDir);
+            RedGhost = new Pacman(new Point(28, 34), ghostDir);
 
             score = 0;
             Delay = 70;
@@ -101,7 +102,7 @@ namespace PacmanWinForms
             PacmanRunner.Start();
             GhostRunner = new Task(runGhosts);
             GhostRunner.Start();
-           // RePaint();
+            RePaint();
         }
 
         public void setDirection(Direction d)
@@ -119,6 +120,9 @@ namespace PacmanWinForms
             board.Resize();
             wallPaint();
             board.DrawPacMan(Pacman.Point, ColorHead, pacmanDir);
+            parentForm.moveGhost(RedGhost.Point, RedGhost.Direction);
+            
+            //board.DrawGhost(RedGhost.Point, ghostDir);
             parentForm.ResumeLayout(false);
         }
 
@@ -128,7 +132,8 @@ namespace PacmanWinForms
             {
                 try
                 {
-                    GhostRunner.Wait(_delay);
+                    ghostMove();
+                    GhostRunner.Wait(110);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
@@ -140,14 +145,13 @@ namespace PacmanWinForms
             {
                 try
                 {
+                    checkForWin();
                     pacmanMove();
                     dotPaint();
                     eatDots(Pacman.Point);
-
                     string data = Pacman.Point.ToString() + "@" + score + "%"+ Delay;
                     parentForm.Write(data);
                     PacmanRunner.Wait(_delay);
-                    checkForWin();
 
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -160,7 +164,62 @@ namespace PacmanWinForms
             {
                 return;
             }
+            Point P = nextPoint(RedGhost.Point, RedGhost.Direction);
+            if (checkGhostPos(P))
+            {
+                RedGhost = new Pacman(P, RedGhost.Direction);
+               // if (DateTime.Now.Millisecond >= 500) RedGhost.Direction = changeDirection();
+            }
+            else
+            {
+                RedGhost = new Pacman(RedGhost.Point, changeDirection());
+            }
+            //board.DrawGhost(RedGhost.Point, RedGhost.Direction);
+            parentForm.moveGhost(RedGhost.Point, RedGhost.Direction);
             
+        }
+
+        
+        private Direction changeDirection()
+        {
+            int randomvalue;
+            using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
+            {
+                byte[] rno = new byte[5];
+                rg.GetBytes(rno);
+                randomvalue = BitConverter.ToInt32(rno, 0);
+            }
+            Random rnd = new Random(randomvalue);
+            int i = rnd.Next(0, 6);
+            switch (i)
+            {
+                case 0:
+                    return Direction.LEFT;
+                case 1:
+                    return Direction.UP;
+                case 2:
+                    return Direction.RIGHT;
+                case 3:
+                    return Direction.LEFT;
+                case 4:
+                    return Direction.DOWN;
+                case 5:
+                    return Direction.UP;
+
+                default:
+                    return Direction.RIGHT;
+            }
+
+             
+        }
+
+        private bool checkGhostPos(Point P)
+        {
+            RedGhost.posInit(P);
+
+            List<Point> commonPoints = RedGhost.perimeter.Intersect(wallList.Select(u => u)).ToList();
+
+            return (commonPoints.Count == 0);
         }
 
         private void pacmanMove()

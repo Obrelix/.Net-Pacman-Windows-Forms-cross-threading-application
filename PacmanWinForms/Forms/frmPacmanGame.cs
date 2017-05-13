@@ -13,7 +13,7 @@ namespace PacmanWinForms
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-
+        int cellHeight, cellWidth;
         public frmPacmanGame()
         {
             InitializeComponent();
@@ -51,11 +51,77 @@ namespace PacmanWinForms
 
         private void lblPosInit()
         {
+            cellHeight = pnlBoard.Height / 64;
+            cellWidth = pnlBoard.Width / 58;
+            picRedGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
             pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
             pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
             lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 10);
             pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
+        }
+
+        public void moveGhost(Point P, Direction D)
+        {
+            bool flag = true;
+            if (InvokeRequired)
+            {
+                Invoke(new Action<Point, Direction>(moveGhost), new object[] { P , D });
+                //Invoke(new Action<string>(WritePosition), value);
+                return;
+            }
+            picRedGhost.Location = new Point(P.X * cellWidth + 2, P.Y *cellHeight +2);
+            switch (D)
+            {
+                case Direction.DOWN:
+                    if (flag)
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown2;
+                        flag = true;
+                    }
+                        break;
+                case Direction.UP:
+                    if (flag)
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp2;
+                        flag = true;
+                    }
+                    break;
+                case Direction.RIGHT:
+                    if (flag)
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight2;
+                        flag = true;
+                    }
+                    break;
+                case Direction.LEFT:
+                    if (flag)
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft1;
+                        flag = false;
+                    }
+                    else
+                    {
+                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft2;
+                        flag = true;
+                    }
+                    break;
+            }
         }
 
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)

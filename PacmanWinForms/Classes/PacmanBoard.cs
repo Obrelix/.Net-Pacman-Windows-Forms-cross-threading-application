@@ -13,10 +13,12 @@ namespace PacmanWinForms
 
         private Panel pnl;
         private Graphics g;
+        private Control.ControlCollection c;
         private float cellHeight;
         private float cellWidth;
         private static int state = 1;
-        PictureBox[] picsGhosts = new PictureBox[4];
+        //PictureBox[] picsGhosts = new PictureBox[4];
+        PictureBox redGhost;
 
         public PacmanBoard(Panel pnl, int rows = 64, int cols = 58, Color? bgColor = null)
         {
@@ -32,15 +34,13 @@ namespace PacmanWinForms
         {
             cellHeight = pnl.Height / (float)Rows;
             cellWidth = pnl.Width / (float)Cols;
+
             g = pnl.CreateGraphics();
-            picGostsInit();
+            c = pnl.Controls;
+
             lock (this)
             {
-                pnl.Controls.Remove(picsGhosts[0]);
                 //g.Clear(BgColor);
-                //picsGhosts[0].Location = new Point((int)(28 * cellWidth + 6), (int)(34 * cellHeight + 6));
-                //picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
-                pnl.Controls.Add(picsGhosts[0]);
             }
 
         }
@@ -75,59 +75,26 @@ namespace PacmanWinForms
             }
         }
 
-        private void picGostsInit()
-        {
-            pnl.SuspendLayout();
-            picsGhosts[0] = new PictureBox();
-            picsGhosts[1] = new PictureBox();
-            picsGhosts[2] = new PictureBox();
-            picsGhosts[3] = new PictureBox();
-            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[0])).BeginInit();
-            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[1])).BeginInit();
-            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[2])).BeginInit();
-            //((System.ComponentModel.ISupportInitialize)(this.picsGhosts[3])).BeginInit();
-
-            picsGhosts[0].BackgroundImage = Properties.Resources.RedGhost;
-            picsGhosts[0].BackgroundImageLayout = ImageLayout.Stretch;
-            picsGhosts[0].Location = new Point((int)(28 * cellWidth + 2), (int)(34 * cellHeight + 2));
-            picsGhosts[0].Name = "picRedG";
-            picsGhosts[0].Size = new Size((int)(cellWidth * 4 - 4), (int)(cellHeight * 4 - 4));
-
-            picsGhosts[1].BackgroundImage = Properties.Resources.BlueGhost;
-            picsGhosts[1].BackgroundImageLayout = ImageLayout.Stretch;
-            picsGhosts[1].Location = new Point(0, 0);
-            picsGhosts[1].Name = "picBlueG";
-            picsGhosts[1].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
-
-            picsGhosts[2].BackgroundImage = Properties.Resources.YellowGhost;
-            picsGhosts[2].BackgroundImageLayout = ImageLayout.Stretch;
-            picsGhosts[2].Location = new Point(0, 0);
-            picsGhosts[2].Name = "picYellowG";
-            picsGhosts[2].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
-
-            picsGhosts[3].BackgroundImage = Properties.Resources.PinkGhost;
-            picsGhosts[3].BackgroundImageLayout = ImageLayout.Stretch;
-            picsGhosts[3].Location = new Point(0, 0);
-            picsGhosts[3].Name = "picPinkG";
-            picsGhosts[3].Size = new Size((int)(cellWidth * 4 - 12), (int)(cellHeight * 4 - 12));
-
-            
-            lock (this)
-            {
-                pnl.Controls.Add(picsGhosts[0]);
-                //pnl.Controls.Add(picsGhosts[1]);
-                //pnl.Controls.Add(picsGhosts[2]);
-                //pnl.Controls.Add(picsGhosts[3]);
-            }
-            pnl.ResumeLayout(false);
-        }
+       
 
         public void DrawGhost(int x, int y, Direction dir, string color = "red")
         {
-            lock (this)
+
+            redGhost = new PictureBox();
+            redGhost.BackgroundImage = Properties.Resources.RedGhost;
+            redGhost.BackgroundImageLayout = ImageLayout.Stretch;
+            redGhost.Name = "picRedG";
+            redGhost.Size = new Size((int)(cellWidth * 4 - 4), (int)(cellHeight * 4 - 4));
+            redGhost.Location = new Point((int)(x * cellWidth + 2) , (int)(y * cellHeight + 2));
+            try
             {
-                picsGhosts[0].Location = new Point(x, y);
+                lock (this)
+                {
+                    c.Add(redGhost);
+                }
             }
+            catch { }
+            
         }
 
         public void DrawPacMan(int x, int y, Color color, Direction dir)
@@ -208,6 +175,14 @@ namespace PacmanWinForms
             lock (this)
             {
                 g.FillEllipse(b, p.X * cellWidth, p.Y * cellHeight, cellWidth * 4, cellHeight * 4);
+            }
+        }
+
+        public void ClearRedGhost()
+        {
+            lock (this)
+            {
+                c.Remove(redGhost);
             }
         }
     }
