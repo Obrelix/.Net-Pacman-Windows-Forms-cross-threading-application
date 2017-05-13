@@ -17,13 +17,13 @@ namespace PacmanWinForms
         GAMERUN = 2
     }
 
-    public enum Direction : byte
+    public enum Direction : Int16
     {
         UP = 0,
         LEFT = 1,
         DOWN = 2,
         RIGHT = 3,
-        STOP = 4
+        STOP = 14
     }
 
     public enum GhostColor : byte
@@ -31,15 +31,16 @@ namespace PacmanWinForms
         RED = 0,
         BLUE = 1,
         YELLOW = 2,
-        PINK = 3,
-
+        PINK = 3
     }
 
     public class PacmanGame
     {
         public Direction pacmanDirection = Direction.STOP;
-        public Direction redGhostDirection = Direction.UP;
-        public Direction blueGhostDirection = Direction.UP;
+        public Direction redGhostDirection = Direction.RIGHT;
+        public Direction blueGhostDirection = Direction.RIGHT;
+        public Direction pinkGhostDirection = Direction.RIGHT;
+        public Direction yellowGhostDirection = Direction.RIGHT;
 
         public int Delay
         {
@@ -52,6 +53,8 @@ namespace PacmanWinForms
         public Task PacmanRunner;
         public Task RedGhostRunner;
         public Task BlueGhostRunner;
+        public Task PinkGhostRunner;
+        public Task YellowGhostRunner;
 
 
         private int _delay = 70;
@@ -63,6 +66,10 @@ namespace PacmanWinForms
         private Pacman Pacman;
         private Pacman RedGhost;
         private Pacman BlueGhost;
+        private Pacman PinkGhost;
+        private Pacman YellowGhost;
+
+        private Direction[] directions = new Direction[4];
 
         List<Point> wallList = new List<Point>();
         List<Point> dotList = new List<Point>();
@@ -79,38 +86,23 @@ namespace PacmanWinForms
         {
             wallList = PointLists.banPointList();
             dotList = PointLists.dotPointList();
-
+            directionsInit();
             State = GameState.GAMEOVER;
             pacmanDirection = Direction.STOP;
 
             Pacman = new Pacman(new Point(27, 40), pacmanDirection);
             
             RedGhost = new Pacman(new Point(27, 22), Direction.RIGHT);
-            BlueGhost = new Pacman(new Point(27, 23), Direction.LEFT);
+            BlueGhost = new Pacman(new Point(27, 29), Direction.LEFT);
+            PinkGhost = new Pacman(new Point(32, 29), Direction.LEFT);
+            YellowGhost = new Pacman(new Point(23, 29), Direction.LEFT);
 
             score = 0;
-            Delay = 70;
+            Delay = 75;
             RePaint();
         }
-
-        public void Stop()
-        {
-            State = GameState.GAMEOVER;
-        }
-
-        public void Pause()
-        {
-            if (State == GameState.GAMERUN) State = GameState.GAMEPAUSE;
-        }
-
-        public void Continue()
-        {
-            if (State == GameState.GAMEPAUSE) State = GameState.GAMERUN;
-        }
-
         public void Run()
         {
-
             State = GameState.GAMERUN;
             PacmanRunner = new Task(runGame);
             PacmanRunner.Start();
@@ -118,17 +110,12 @@ namespace PacmanWinForms
             RedGhostRunner.Start();
             BlueGhostRunner = new Task(runBlueGhost);
             BlueGhostRunner.Start();
+            PinkGhostRunner = new Task(runPinkGhost);
+            PinkGhostRunner.Start();
+            YellowGhostRunner = new Task(runYellowGhost);
+            YellowGhostRunner.Start();
 
             RePaint();
-        }
-
-        public void setDirection(Direction d)
-        {
-            
-            if (checkPosition(nextPoint(Pacman.Point, d)))
-            {
-                pacmanDirection = d;
-            }
         }
 
         public void RePaint()
@@ -143,6 +130,7 @@ namespace PacmanWinForms
             //board.DrawGhost(RedGhost.Point, ghostDir);
             parentForm.ResumeLayout(false);
         }
+
         private void runBlueGhost()
         {
             while (State != GameState.GAMEOVER)
@@ -151,7 +139,35 @@ namespace PacmanWinForms
                 {
                     BlueGhost = ghostMove(BlueGhost.Point, BlueGhost.Direction);
                     parentForm.blueGhostMove(BlueGhost.Point, BlueGhost.Direction);
-                    BlueGhostRunner.Wait(80);
+                    BlueGhostRunner.Wait(_delay-1);
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+        }
+
+        private void runYellowGhost()
+        {
+            while (State != GameState.GAMEOVER)
+            {
+                try
+                {
+                    YellowGhost = ghostMove(YellowGhost.Point, YellowGhost.Direction);
+                    parentForm.YellowGhostMove(YellowGhost.Point, YellowGhost.Direction);
+                    YellowGhostRunner.Wait(_delay - 1);
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+        }
+
+        private void runPinkGhost()
+        {
+            while (State != GameState.GAMEOVER)
+            {
+                try
+                {
+                    PinkGhost = ghostMove(PinkGhost.Point, PinkGhost.Direction);
+                    parentForm.PinkGhostMove(PinkGhost.Point, PinkGhost.Direction);
+                    PinkGhostRunner.Wait(_delay - 1);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
@@ -165,7 +181,7 @@ namespace PacmanWinForms
                 {
                     RedGhost = ghostMove(RedGhost.Point, RedGhost.Direction);
                     parentForm.redGhostMove(RedGhost.Point, RedGhost.Direction);
-                    RedGhostRunner.Wait(80);
+                    RedGhostRunner.Wait(_delay - 1);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
@@ -193,56 +209,45 @@ namespace PacmanWinForms
         private Pacman ghostMove(Point StartPoint, Direction d)
         {
             Pacman Ghost = new Pacman(StartPoint, d);
+
             if (State != GameState.GAMERUN)
-            {
+            { 
                 return Ghost;
             }
-            Point P = nextPoint(StartPoint, d);
-            if (checkForConflict(P))
-            {
-                Ghost = new Pacman(P, d);
-            }
-            else
-            {
-                Ghost = new Pacman(StartPoint, changeDirection());
-            }
-            return Ghost;
-            
-        }
 
-        
-        private Direction changeDirection()
-        {
-            int randomvalue;
+            int randomInitValue ,i;
             using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
             {
                 byte[] rno = new byte[5];
                 rg.GetBytes(rno);
-                randomvalue = BitConverter.ToInt32(rno, 0);
+                randomInitValue = BitConverter.ToInt32(rno, 0);
             }
-            Random rnd = new Random(randomvalue);
-            int i = rnd.Next(0, 6);
-            switch (i)
+            Random rnd = new Random(randomInitValue);
+
+            List<Direction> nextPossibleDir = possibleDirections(StartPoint, d);
+
+            if (nextPossibleDir.Count != 0)
             {
-                case 0:
-                    return Direction.LEFT;
-                case 1:
-                    return Direction.UP;
-                case 2:
-                    return Direction.RIGHT;
-                case 3:
-                    return Direction.LEFT;
-                case 4:
-                    return Direction.DOWN;
-                case 5:
-                    return Direction.UP;
-
-                default:
-                    return Direction.RIGHT;
+                i = rnd.Next(0, nextPossibleDir.Count);
+                d = nextPossibleDir[i];
             }
-
-             
+                Ghost = new Pacman(nextPoint(StartPoint, d), d);
+            
+            return Ghost;
+            
         }
+
+        private List<Direction> possibleDirections(Point P, Direction curDir)
+        {
+            List<Direction> dList = new List<Direction>();
+            foreach (Direction d in directions)
+            {
+                if (checkForConflict(nextPoint(P, d)) && d != curDir &&  Math.Abs(d - curDir) != 2) dList.Add(d);
+            }
+            return dList;
+        }
+        
+        
 
         private bool checkForConflict(Point P)
         {
@@ -383,6 +388,16 @@ namespace PacmanWinForms
         }
 
 
+        public void setDirection(Direction d)
+        {
+
+            if (checkPosition(nextPoint(Pacman.Point, d)))
+            {
+                pacmanDirection = d;
+            }
+        }
+
+
         private void wallPaint()
         {
 
@@ -400,5 +415,28 @@ namespace PacmanWinForms
             }
         }
 
+
+        public void Stop()
+        {
+            State = GameState.GAMEOVER;
+        }
+
+        public void Pause()
+        {
+            if (State == GameState.GAMERUN) State = GameState.GAMEPAUSE;
+        }
+
+        public void Continue()
+        {
+            if (State == GameState.GAMEPAUSE) State = GameState.GAMERUN;
+        }
+
+        private void directionsInit()
+        {
+            directions[0] = Direction.UP;
+            directions[1] = Direction.RIGHT;
+            directions[2] = Direction.DOWN;
+            directions[3] = Direction.LEFT;
+        }
     }
 }

@@ -36,20 +36,24 @@
             this.lblHightScore = new System.Windows.Forms.Label();
             this.lblHScoreValue = new System.Windows.Forms.Label();
             this.pnlBoard = new System.Windows.Forms.Panel();
+            this.picBlueGhost = new System.Windows.Forms.PictureBox();
+            this.picRedGhost = new System.Windows.Forms.PictureBox();
             this.lblDelay = new System.Windows.Forms.Label();
             this.pnlDisplay = new System.Windows.Forms.Panel();
             this.pnlHighScore = new System.Windows.Forms.Panel();
             this.pnlLvl = new System.Windows.Forms.Panel();
             this.pnlSc = new System.Windows.Forms.Panel();
-            this.picRedGhost = new System.Windows.Forms.PictureBox();
-            this.picBlueGhost = new System.Windows.Forms.PictureBox();
+            this.picYellowGhost = new System.Windows.Forms.PictureBox();
+            this.picPinkGhost = new System.Windows.Forms.PictureBox();
             this.pnlBoard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).BeginInit();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
             this.pnlLvl.SuspendLayout();
             this.pnlSc.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picYellowGhost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPinkGhost)).BeginInit();
             this.SuspendLayout();
             // 
             // lblPosition
@@ -142,12 +146,34 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnlBoard.Controls.Add(this.picPinkGhost);
+            this.pnlBoard.Controls.Add(this.picYellowGhost);
             this.pnlBoard.Controls.Add(this.picBlueGhost);
             this.pnlBoard.Controls.Add(this.picRedGhost);
             this.pnlBoard.Location = new System.Drawing.Point(2, 70);
             this.pnlBoard.Name = "pnlBoard";
             this.pnlBoard.Size = new System.Drawing.Size(580, 640);
             this.pnlBoard.TabIndex = 0;
+            // 
+            // picBlueGhost
+            // 
+            this.picBlueGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.BlueGhost;
+            this.picBlueGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picBlueGhost.Location = new System.Drawing.Point(275, 305);
+            this.picBlueGhost.Name = "picBlueGhost";
+            this.picBlueGhost.Size = new System.Drawing.Size(30, 30);
+            this.picBlueGhost.TabIndex = 1;
+            this.picBlueGhost.TabStop = false;
+            // 
+            // picRedGhost
+            // 
+            this.picRedGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.RedGhost;
+            this.picRedGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picRedGhost.Location = new System.Drawing.Point(73, 64);
+            this.picRedGhost.Name = "picRedGhost";
+            this.picRedGhost.Size = new System.Drawing.Size(30, 30);
+            this.picRedGhost.TabIndex = 0;
+            this.picRedGhost.TabStop = false;
             // 
             // lblDelay
             // 
@@ -200,25 +226,25 @@
             this.pnlSc.Size = new System.Drawing.Size(78, 58);
             this.pnlSc.TabIndex = 15;
             // 
-            // picRedGhost
+            // picYellowGhost
             // 
-            this.picRedGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.RedGhost;
-            this.picRedGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picRedGhost.Location = new System.Drawing.Point(73, 64);
-            this.picRedGhost.Name = "picRedGhost";
-            this.picRedGhost.Size = new System.Drawing.Size(30, 30);
-            this.picRedGhost.TabIndex = 0;
-            this.picRedGhost.TabStop = false;
+            this.picYellowGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.YellowGhost;
+            this.picYellowGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picYellowGhost.Location = new System.Drawing.Point(227, 261);
+            this.picYellowGhost.Name = "picYellowGhost";
+            this.picYellowGhost.Size = new System.Drawing.Size(30, 30);
+            this.picYellowGhost.TabIndex = 2;
+            this.picYellowGhost.TabStop = false;
             // 
-            // picBlueGhost
+            // picPinkGhost
             // 
-            this.picBlueGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.BlueGhost;
-            this.picBlueGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picBlueGhost.Location = new System.Drawing.Point(275, 305);
-            this.picBlueGhost.Name = "picBlueGhost";
-            this.picBlueGhost.Size = new System.Drawing.Size(30, 30);
-            this.picBlueGhost.TabIndex = 1;
-            this.picBlueGhost.TabStop = false;
+            this.picPinkGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.PinkGhost;
+            this.picPinkGhost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picPinkGhost.Location = new System.Drawing.Point(302, 261);
+            this.picPinkGhost.Name = "picPinkGhost";
+            this.picPinkGhost.Size = new System.Drawing.Size(30, 30);
+            this.picPinkGhost.TabIndex = 3;
+            this.picPinkGhost.TabStop = false;
             // 
             // frmPacmanGame
             // 
@@ -247,6 +273,8 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPacmanGame_KeyDown);
             this.Resize += new System.EventHandler(this.frmPacmanGame_Resize);
             this.pnlBoard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).EndInit();
             this.pnlDisplay.ResumeLayout(false);
             this.pnlHighScore.ResumeLayout(false);
             this.pnlHighScore.PerformLayout();
@@ -254,8 +282,8 @@
             this.pnlLvl.PerformLayout();
             this.pnlSc.ResumeLayout(false);
             this.pnlSc.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picYellowGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPinkGhost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,6 +305,8 @@
         private System.Windows.Forms.Panel pnlHighScore;
         private System.Windows.Forms.PictureBox picRedGhost;
         private System.Windows.Forms.PictureBox picBlueGhost;
+        private System.Windows.Forms.PictureBox picYellowGhost;
+        private System.Windows.Forms.PictureBox picPinkGhost;
     }
 }
 

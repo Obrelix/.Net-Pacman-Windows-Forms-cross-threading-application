@@ -14,6 +14,8 @@ namespace PacmanWinForms
     {
         PacmanGame game = null;
         int cellHeight, cellWidth;
+        bool Redflag = true, Blueflag = true, PinkFlag = true, YellowFlag = true;
+
         public frmPacmanGame()
         {
             InitializeComponent();
@@ -23,7 +25,7 @@ namespace PacmanWinForms
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
             game = new PacmanGame(this, pnlBoard);
-            lblPosInit();
+            posSizeInit();
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
@@ -49,12 +51,17 @@ namespace PacmanWinForms
             }
         }
 
-        private void lblPosInit()
+        private void posSizeInit()
         {
             cellHeight = pnlBoard.Height / 64;
             cellWidth = pnlBoard.Width / 58;
+
+
             picRedGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
             picBlueGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            picPinkGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            picYellowGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
             pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
             pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
@@ -64,7 +71,7 @@ namespace PacmanWinForms
 
         public void redGhostMove(Point P, Direction D)
         {
-            bool flag = true;
+            
             if (InvokeRequired)
             {
                 Invoke(new Action<Point, Direction>(redGhostMove), new object[] { P , D });
@@ -75,51 +82,177 @@ namespace PacmanWinForms
             switch (D)
             {
                 case Direction.DOWN:
-                    if (flag)
+                    if (Redflag)
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown1;
-                        flag = false;
+                        Redflag = false;
                     }
                     else
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown2;
-                        flag = true;
+                        Redflag = true;
                     }
                         break;
                 case Direction.UP:
-                    if (flag)
+                    if (Redflag)
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp1;
-                        flag = false;
+                        Redflag = false;
                     }
                     else
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp2;
-                        flag = true;
+                        Redflag = true;
                     }
                     break;
                 case Direction.RIGHT:
-                    if (flag)
+                    if (Redflag)
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight1;
-                        flag = false;
+                        Redflag = false;
                     }
                     else
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight2;
-                        flag = true;
+                        Redflag = true;
                     }
                     break;
                 case Direction.LEFT:
-                    if (flag)
+                    if (Redflag)
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft1;
-                        flag = false;
+                        Redflag = false;
                     }
                     else
                     {
                         picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft2;
-                        flag = true;
+                        Redflag = true;
+                    }
+                    break;
+            }
+        }
+
+        public void YellowGhostMove(Point P, Direction D)
+        {
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action<Point, Direction>(YellowGhostMove), new object[] { P, D });
+                //Invoke(new Action<string>(WritePosition), value);
+                return;
+            }
+            picYellowGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+            switch (D)
+            {
+                case Direction.DOWN:
+                    if (YellowFlag)
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown1;
+                        YellowFlag = false;
+                    }
+                    else
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown2;
+                        YellowFlag = true;
+                    }
+                    break;
+                case Direction.UP:
+                    if (YellowFlag)
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp1;
+                        YellowFlag = false;
+                    }
+                    else
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp2;
+                        YellowFlag = true;
+                    }
+                    break;
+                case Direction.RIGHT:
+                    if (YellowFlag)
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight1;
+                        YellowFlag = false;
+                    }
+                    else
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight2;
+                        YellowFlag = true;
+                    }
+                    break;
+                case Direction.LEFT:
+                    if (YellowFlag)
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft1;
+                        YellowFlag = false;
+                    }
+                    else
+                    {
+                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft2;
+                        YellowFlag = true;
+                    }
+                    break;
+            }
+        }
+
+        public void PinkGhostMove(Point P, Direction D)
+        {
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action<Point, Direction>(PinkGhostMove), new object[] { P, D });
+                //Invoke(new Action<string>(WritePosition), value);
+                return;
+            }
+            picPinkGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+            switch (D)
+            {
+                case Direction.DOWN:
+                    if (PinkFlag)
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown1;
+                        PinkFlag = false;
+                    }
+                    else
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown2;
+                        PinkFlag = true;
+                    }
+                    break;
+                case Direction.UP:
+                    if (PinkFlag)
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp1;
+                        PinkFlag = false;
+                    }
+                    else
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp2;
+                        PinkFlag = true;
+                    }
+                    break;
+                case Direction.RIGHT:
+                    if (PinkFlag)
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight1;
+                        PinkFlag = false;
+                    }
+                    else
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight2;
+                        PinkFlag = true;
+                    }
+                    break;
+                case Direction.LEFT:
+                    if (PinkFlag)
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft1;
+                        PinkFlag = false;
+                    }
+                    else
+                    {
+                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft2;
+                        PinkFlag = true;
                     }
                     break;
             }
@@ -127,7 +260,6 @@ namespace PacmanWinForms
 
         public void blueGhostMove(Point P, Direction D)
         {
-            bool flag = true;
             if (InvokeRequired)
             {
                 Invoke(new Action<Point, Direction>(blueGhostMove), new object[] { P, D });
@@ -138,51 +270,51 @@ namespace PacmanWinForms
             switch (D)
             {
                 case Direction.DOWN:
-                    if (flag)
+                    if (Blueflag)
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown1;
-                        flag = false;
+                        Blueflag = false;
                     }
                     else
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown2;
-                        flag = true;
+                        Blueflag = true;
                     }
                     break;
                 case Direction.UP:
-                    if (flag)
+                    if (Blueflag)
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp1;
-                        flag = false;
+                        Blueflag = false;
                     }
                     else
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp2;
-                        flag = true;
+                        Blueflag = true;
                     }
                     break;
                 case Direction.RIGHT:
-                    if (flag)
+                    if (Blueflag)
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight1;
-                        flag = false;
+                        Blueflag = false;
                     }
                     else
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight2;
-                        flag = true;
+                        Blueflag = true;
                     }
                     break;
                 case Direction.LEFT:
-                    if (flag)
+                    if (Blueflag)
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft1;
-                        flag = false;
+                        Blueflag = false;
                     }
                     else
                     {
                         picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft2;
-                        flag = true;
+                        Blueflag = true;
                     }
                     break;
             }
@@ -225,7 +357,7 @@ namespace PacmanWinForms
             this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
-            lblPosInit();
+            posSizeInit();
         }
 
         public void Write(string data)
@@ -239,7 +371,7 @@ namespace PacmanWinForms
             this.lblPosition.Text ="Coors : " + data.Split('@').First() ;
             this.lblScore.Text = data.Split('@').Last().Split('%').First();
             lblDelay.Text = "Delay : " + data.Split('%').Last() + " ms";
-            lblPosInit();
+            posSizeInit();
         }
 
 
