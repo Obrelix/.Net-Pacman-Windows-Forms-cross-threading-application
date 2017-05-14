@@ -45,8 +45,8 @@ namespace PacmanWinForms
             else if (e.KeyCode == Keys.Right) { game.setDirection(Direction.RIGHT); }
             else if (e.KeyCode == Keys.Up) { game.setDirection(Direction.UP); }
             else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
-            else if (e.KeyCode == Keys.Subtract) { game.Delay += 10; }
-            else if (e.KeyCode == Keys.Add) { game.Delay -= 10; }
+            else if (e.KeyCode == Keys.Subtract) { game.Delay += 5; }
+            else if (e.KeyCode == Keys.Add) { game.Delay -= 5; }
             else if (e.KeyCode == Keys.P)
             {
                 if (game.State == GameState.GAMERUN)
@@ -362,6 +362,11 @@ namespace PacmanWinForms
             game.RePaint();
         }
 
+        private void tmrClock_Tick(object sender, EventArgs e)
+        {
+            //playSound(Properties.Resources.Pacman_Siren);
+        }
+
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
             this.Height = (int)(1.25 * this.Width);
@@ -386,7 +391,6 @@ namespace PacmanWinForms
             if (InvokeRequired)
             {
                 Invoke(new Action<string>(Write), new object[] { data });
-                //Invoke(new Action<string>(WritePosition), value);
                 return;
             }
             this.lblPosition.Text ="Coors : " + data.Split('@').First() ;

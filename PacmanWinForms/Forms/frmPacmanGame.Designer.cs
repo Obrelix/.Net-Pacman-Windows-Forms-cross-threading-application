@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblLScore = new System.Windows.Forms.Label();
             this.lblScore = new System.Windows.Forms.Label();
@@ -45,6 +46,7 @@
             this.picYellowGhost = new System.Windows.Forms.PictureBox();
             this.picBlueGhost = new System.Windows.Forms.PictureBox();
             this.picRedGhost = new System.Windows.Forms.PictureBox();
+            this.tmrClock = new System.Windows.Forms.Timer(this.components);
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -246,6 +248,12 @@
             this.picRedGhost.TabIndex = 0;
             this.picRedGhost.TabStop = false;
             // 
+            // tmrClock
+            // 
+            this.tmrClock.Enabled = true;
+            this.tmrClock.Interval = 500;
+            this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
+            // 
             // frmPacmanGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,6 +315,7 @@
         private System.Windows.Forms.PictureBox picBlueGhost;
         private System.Windows.Forms.PictureBox picYellowGhost;
         private System.Windows.Forms.PictureBox picPinkGhost;
+        private System.Windows.Forms.Timer tmrClock;
     }
 }
 
