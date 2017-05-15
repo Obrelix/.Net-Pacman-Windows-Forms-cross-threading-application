@@ -179,7 +179,7 @@ namespace PacmanWinForms
 
         private static void dotListInit()
         {
-            dotList.Clear();
+            //dotList.Clear();
             dotList.Add(new Point(26, 42));
             dotList.Add(new Point(24, 42));
             dotList.Add(new Point(22, 42));
@@ -453,7 +453,7 @@ namespace PacmanWinForms
 
         private static void banListInit()
         {
-            banList.Clear();
+            //banList.Clear();
 
             
                 for (int i = 1; i <= 56; i++)

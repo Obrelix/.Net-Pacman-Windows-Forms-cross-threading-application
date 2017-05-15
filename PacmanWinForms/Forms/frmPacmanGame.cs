@@ -38,7 +38,7 @@ namespace PacmanWinForms
             {
                 game.Continue();
             }
-            game.RePaint();
+            //game.RePaint();
             //game.KeyDown(e);
             if (game == null) return;
             if (e.KeyCode == Keys.Left) { game.setDirection(Direction.LEFT); }
@@ -333,13 +333,13 @@ namespace PacmanWinForms
         {
             if (game == null) return;
             game.Stop();
-            if (!game.PacmanRunner.IsCompleted)
+            if (!game.Runner.IsCompleted)
             {
 #if RELESE
                 this.Hide();
 #endif
                 e.Cancel = true;
-                await game.PacmanRunner;
+                await game.Runner;
                 this.Close();
             }
         }
