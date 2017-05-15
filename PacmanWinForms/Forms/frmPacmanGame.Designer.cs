@@ -42,11 +42,11 @@
             this.pnlHighScore = new System.Windows.Forms.Panel();
             this.pnlLvl = new System.Windows.Forms.Panel();
             this.pnlSc = new System.Windows.Forms.Panel();
+            this.tmrClock = new System.Windows.Forms.Timer(this.components);
             this.picPinkGhost = new System.Windows.Forms.PictureBox();
             this.picYellowGhost = new System.Windows.Forms.PictureBox();
             this.picBlueGhost = new System.Windows.Forms.PictureBox();
             this.picRedGhost = new System.Windows.Forms.PictureBox();
-            this.tmrClock = new System.Windows.Forms.Timer(this.components);
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -208,6 +208,11 @@
             this.pnlSc.Size = new System.Drawing.Size(78, 58);
             this.pnlSc.TabIndex = 15;
             // 
+            // tmrClock
+            // 
+            this.tmrClock.Enabled = true;
+            this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
+            // 
             // picPinkGhost
             // 
             this.picPinkGhost.BackgroundImage = global::PacmanWinForms.Properties.Resources.PinkGhost;
@@ -247,12 +252,6 @@
             this.picRedGhost.Size = new System.Drawing.Size(30, 30);
             this.picRedGhost.TabIndex = 0;
             this.picRedGhost.TabStop = false;
-            // 
-            // tmrClock
-            // 
-            this.tmrClock.Enabled = true;
-            this.tmrClock.Interval = 500;
-            this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
             // 
             // frmPacmanGame
             // 

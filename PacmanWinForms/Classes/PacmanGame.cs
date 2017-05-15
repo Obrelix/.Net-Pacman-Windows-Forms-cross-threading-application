@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 using System.Media;
 using System.IO;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 public delegate void Communicate(Task t, Point P);
 
@@ -43,22 +38,55 @@ namespace PacmanWinForms
     public class PacmanGame
     {
 
-        public int Delay
+        public int PacmanDelay
         {
             get { return _delay; }
             set
             {
+                
                 _delay = (value < 10) ? 10 : value;
-                RedGhost.Delay = _delay;
-                BlueGhost.Delay = _delay;
-                PinkGhost.Delay = _delay;
-                YellowGhost.Delay = _delay;
                 Pacman.Delay = _delay;
             }
         }
 
-        private GameState _state = GameState.GAMEOVER;
+        public int RedGhostDelay
+        {
+            get { return RedGhost.Delay; }
+            set { RedGhost.Delay = value; }
+        }
 
+        public int BlueGhostDelay
+        {
+            get { return BlueGhost.Delay; }
+            set { BlueGhost.Delay = value; }
+        }
+
+        public int PinkGhostDelay
+        {
+            get { return PinkGhost.Delay; }
+            set { PinkGhost.Delay = value; }
+        }
+
+        public int YellowGhostDelay
+        {
+            get { return YellowGhost.Delay; }
+            set { YellowGhost.Delay = value; }
+        }
+
+        public int GhostDelay
+        {
+            get { return _ghostDelay; }
+            set
+            {
+                _ghostDelay = (value < 10) ? 10 : value;
+                //RedGhost.Delay = _ghostDelay;
+                //BlueGhost.Delay = _ghostDelay;
+                //PinkGhost.Delay = _ghostDelay;
+                //YellowGhost.Delay = _ghostDelay;
+            }
+        }
+
+        private GameState _state = GameState.GAMEOVER;
         public  GameState State
         {
             get { return _state; }
@@ -72,17 +100,38 @@ namespace PacmanWinForms
                 PinkGhost.State = value;
             }
         }
+
         public Task Runner;
-        
+        public Task wallRunner;
+
+        private int _ghostDelay = 70;
         private int _delay = 70;
-        private int score = 0;       
+        private int score = 0;
+        private bool _bonus = false;
+
+        private int lives = 3;
+
+        public bool Bonus
+        {
+            get
+            {
+                return _bonus;
+            }
+            set
+            {
+                _bonus = value;
+            }
+        }
+
         private  frmPacmanGame parentForm;
         private  PacmanBoard board;
+
         private PacmanRun Pacman;
         private GhostRun RedGhost;
         private GhostRun BlueGhost;
         private GhostRun PinkGhost;
         private GhostRun YellowGhost;
+
         List<Point> wallList = new List<Point>();
         List<Point> dotList = new List<Point>();
         List<Point> boxList = new List<Point>();
@@ -103,15 +152,6 @@ namespace PacmanWinForms
             RePaint();
         }
 
-        public void setState(GameState state)
-        {
-            this.State = state;
-            Pacman.State = GameState.GAMEOVER;
-            RedGhost.State = GameState.GAMEOVER;
-            BlueGhost.State = GameState.GAMEOVER;
-            YellowGhost.State = GameState.GAMEOVER;
-            PinkGhost.State = GameState.GAMEOVER;
-        }
 
         private void Init()
         {
@@ -122,26 +162,28 @@ namespace PacmanWinForms
             bonusList = PointLists.bonusPointList();
 
             State = GameState.GAMEOVER;
-            Pacman.State = GameState.GAMEOVER;
-            RedGhost.State = GameState.GAMEOVER;
-            BlueGhost.State = GameState.GAMEOVER;
-            YellowGhost.State = GameState.GAMEOVER;
-            PinkGhost.State = GameState.GAMEOVER;
+            //Pacman.State = GameState.GAMEOVER;
+            //RedGhost.State = GameState.GAMEOVER;
+            //BlueGhost.State = GameState.GAMEOVER;
+            //YellowGhost.State = GameState.GAMEOVER;
+            //PinkGhost.State = GameState.GAMEOVER;
 
             score = 0;
-            Delay = 70;
+            PacmanDelay = 70;
         }
 
         public void Run()
         {
             State = GameState.GAMERUN;
-            Pacman.State = GameState.GAMERUN;
-            RedGhost.State = GameState.GAMERUN;
-            BlueGhost.State = GameState.GAMERUN;
-            YellowGhost.State = GameState.GAMERUN;
-            PinkGhost.State = GameState.GAMERUN;
+            //Pacman.State = GameState.GAMERUN;
+            //RedGhost.State = GameState.GAMERUN;
+            //BlueGhost.State = GameState.GAMERUN;
+            //YellowGhost.State = GameState.GAMERUN;
+            //PinkGhost.State = GameState.GAMERUN;
             Runner = new Task(runGame);
             Runner.Start();
+            wallRunner = new Task(runWalls);
+            wallRunner.Start();
             Pacman.Run();
             RedGhost.Run();
             BlueGhost.Run();
@@ -163,15 +205,29 @@ namespace PacmanWinForms
             {
                 try
                 {
-                    checkForWin();
-                    doorPaint();
-                    wallPaint();
+                    eatDots(Pacman.core());
+                    eatBonus(Pacman.core());
                     dotPaint();
                     bonusPaint();
-                    string data = Pacman.Point.ToString() + "@" + score + "%" + Delay;
+                    checkForEnd();
+                    string data = Pacman.Point.ToString() + "@" + score + "%" + PacmanDelay;
                     parentForm.Write(data);
-                    Runner.Wait(_delay);
+                    Runner.Wait(10);
 
+                }
+                catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+            }
+        }
+
+        private void runWalls()
+        {
+            while (State != GameState.GAMEOVER)
+            {
+                try
+                {
+                    doorPaint();
+                    wallPaint();
+                    Runner.Wait(100);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
@@ -191,7 +247,6 @@ namespace PacmanWinForms
                         Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
                         SoundPlayer player = new SoundPlayer(s);
                         player.Play();
-                        // parentForm.playSound(Properties.Resources.Pacman_Waka_Waka_Cut);
                         break;
                     }
                 }
@@ -207,8 +262,9 @@ namespace PacmanWinForms
                     if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
                     {
                         bonusList.RemoveAt(i);
-                        score += 25;
-                        parentForm.playSound(Properties.Resources.Pacman_Waka_Waka_Cut);
+                        score += 50;
+                        Bonus = true;
+                        parentForm.Bonus(Bonus);
                         break;
                     }
                 }
@@ -216,20 +272,64 @@ namespace PacmanWinForms
         }
 
 
-        private void checkForWin()
+        private void checkForEnd()
         {
+
             if (dotList.Count == 0)
             {
                 parentForm.playSound(Properties.Resources.Pacman_Intermission);
                 State = GameState.GAMEOVER;
-                Pacman.State = GameState.GAMEOVER;
-                RedGhost.State = GameState.GAMEOVER;
-                BlueGhost.State = GameState.GAMEOVER;
-                YellowGhost.State = GameState.GAMEOVER;
-                PinkGhost.State = GameState.GAMEOVER;
             }
+
+            List<Point> mergedList = new List<Point>();
+            mergedList = RedGhost.core().Union(BlueGhost.core()).Union(PinkGhost.core()).Union(YellowGhost.core()).ToList();
+
+            List<Point> commonPoints = Pacman.core().Intersect(mergedList.Select(u => u)).ToList();
+
+
+            if ((commonPoints.Count != 0 && !Bonus) || lives==0)
+            {
+                lives--;
+                parentForm.playSound(Properties.Resources.Pacman_Dies);
+
+                State = GameState.GAMEPAUSE;
+                //if (lives == 0)
+                //{
+                   // State = GameState.GAMEOVER;
+                //}
+            }
+            commonPoints.Clear();
+            commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
+            if (commonPoints.Count != 0 && Bonus)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                parentForm.setCollision(GhostColor.RED);
+            }
+            commonPoints.Clear();
+            commonPoints = Pacman.core().Intersect(BlueGhost.core().Select(u => u)).ToList();
+            if (commonPoints.Count != 0 && Bonus)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                parentForm.setCollision(GhostColor.BLUE);
+            }
+            commonPoints.Clear();
+            commonPoints = Pacman.core().Intersect(YellowGhost.core().Select(u => u)).ToList();
+            if (commonPoints.Count != 0 && Bonus)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                parentForm.setCollision(GhostColor.YELLOW);
+            }
+            commonPoints.Clear();
+            commonPoints = Pacman.core().Intersect(PinkGhost.core().Select(u => u)).ToList();
+            if (commonPoints.Count != 0 && Bonus)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                parentForm.setCollision(GhostColor.PINK);
+            }
+
         }
-        
+
+
         public void setDirection(Direction d)
         {
             Pacman.setDirection(d);

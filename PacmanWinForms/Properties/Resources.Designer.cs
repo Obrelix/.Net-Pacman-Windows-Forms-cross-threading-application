@@ -243,6 +243,15 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Pacman_Dies {
+            get {
+                return ResourceManager.GetStream("Pacman_Dies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Pacman_Eating_Ghost {
             get {
                 return ResourceManager.GetStream("Pacman_Eating_Ghost", resourceCulture);

@@ -92,15 +92,15 @@ namespace PacmanWinForms
         }
 
 
-        public Point[] perimeter(Point p)
+        public Point[] perimeter()
         {
             
-            return pacman.perimeter(p);
+            return pacman.perimeter(pacman.Point);
         }
 
-        public Point[] core(Point p)
+        public Point[] core()
         {
-            return pacman.core(p);
+            return pacman.core(pacman.Point);
         }
 
 
