@@ -35,6 +35,13 @@ namespace PacmanWinForms
         PINK = 3
     }
 
+    public enum GhostState : byte
+    {
+        NORMAL = 0,
+        BONUS = 1,
+        EATEN = 2
+    }
+
     public class PacmanGame
     {
 
@@ -162,11 +169,6 @@ namespace PacmanWinForms
             bonusList = PointLists.bonusPointList();
 
             State = GameState.GAMEOVER;
-            //Pacman.State = GameState.GAMEOVER;
-            //RedGhost.State = GameState.GAMEOVER;
-            //BlueGhost.State = GameState.GAMEOVER;
-            //YellowGhost.State = GameState.GAMEOVER;
-            //PinkGhost.State = GameState.GAMEOVER;
 
             score = 0;
             PacmanDelay = 70;
@@ -175,11 +177,6 @@ namespace PacmanWinForms
         public void Run()
         {
             State = GameState.GAMERUN;
-            //Pacman.State = GameState.GAMERUN;
-            //RedGhost.State = GameState.GAMERUN;
-            //BlueGhost.State = GameState.GAMERUN;
-            //YellowGhost.State = GameState.GAMERUN;
-            //PinkGhost.State = GameState.GAMERUN;
             Runner = new Task(runGame);
             Runner.Start();
             wallRunner = new Task(runWalls);
