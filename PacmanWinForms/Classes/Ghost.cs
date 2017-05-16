@@ -65,7 +65,7 @@ namespace PacmanWinForms
         public Direction ghostDirection = Direction.UP;
         Task ghostRunner;
         private int _delay = 70;
-
+        public GhostState gState;
         Ghost ghost;
 
         public GameState State = GameState.GAMEOVER;
@@ -102,7 +102,8 @@ namespace PacmanWinForms
 
         public Point[] core()
         {
-            return ghost.core(ghost.Point);
+            if (gState == GhostState.EATEN) return ghost.core(new Point(0,0));
+            else return ghost.core(ghost.Point);
         }
 
 
@@ -119,7 +120,7 @@ namespace PacmanWinForms
             wallList = PointLists.banPointList();
             boxList = PointLists.boxPointList();
             directionsInit();
-
+            gState = GhostState.NORMAL;
             switch (color)
             {
                 case GhostColor.BLUE:
@@ -137,6 +138,27 @@ namespace PacmanWinForms
             }
 
             State = GameState.GAMEOVER;
+        }
+
+        public void reset()
+        {
+            gState = GhostState.NORMAL;
+            switch (color)
+            {
+                case GhostColor.BLUE:
+                    ghost = new Ghost(new Point(31, 29), Direction.UP);
+                    break;
+                case GhostColor.PINK:
+                    ghost = new Ghost(new Point(27, 29), Direction.DOWN);
+                    break;
+                case GhostColor.RED:
+                    ghost = new Ghost(new Point(27, 22), Direction.RIGHT);
+                    break;
+                case GhostColor.YELLOW:
+                    ghost = new Ghost(new Point(23, 29), Direction.UP);
+                    break;
+            }
+            
         }
 
 
@@ -164,8 +186,18 @@ namespace PacmanWinForms
                             parentForm.YellowGhostMove(ghost.Point, ghost.Direction);
                             break;
                     }
-
-                    ghostRunner.Wait(_delay);
+                    if (gState == GhostState.NORMAL)
+                    {
+                        ghostRunner.Wait(_delay + 5);
+                    }
+                    else if(gState == GhostState.BONUS)
+                    {
+                        ghostRunner.Wait(120);
+                    }
+                    else
+                    {
+                        ghostRunner.Wait(25);
+                    }
 
                 }
 

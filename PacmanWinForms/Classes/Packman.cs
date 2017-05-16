@@ -74,7 +74,6 @@ namespace PacmanWinForms
         List<Point> boxDoorList = new List<Point>();
 
         private Direction[] directions = new Direction[4];
-
         private frmPacmanGame parentForm;
         private PacmanBoard board;
 
@@ -120,6 +119,12 @@ namespace PacmanWinForms
             State = GameState.GAMEOVER;
         }
 
+        public void reset()
+        {
+
+            board.ClearPacMan(pacman.Point);
+            pacman = new Pacman(new Point(27, 40), Direction.STOP);
+        }
 
         private void runPacman()
         {
@@ -149,18 +154,18 @@ namespace PacmanWinForms
                 return new Pacman(StartPoint, d);
             }
 
-            foreach (Direction dir in directions)
+            foreach (Direction direction in directions)
             {
-                nextP = nextPoint(StartPoint, dir);
+                nextP = nextPoint(StartPoint, direction);
                 conflictCheck = collisionCheck(nextP);
 
-                if (conflictCheck && dir == pacmanNextDirection)
+                if (conflictCheck && direction == pacmanNextDirection)
                 {
-                    pacmanDirection = dir;
+                    pacmanDirection = pacmanNextDirection;
                     pacmanNextDirection = Direction.STOP;
-                    return new Pacman(nextP, dir);
+                    return new Pacman(nextP, pacmanNextDirection);
                 }
-                else if (conflictCheck && dir == d)
+                else if (conflictCheck && direction == d)
                 {
                     pass = true;
                 }

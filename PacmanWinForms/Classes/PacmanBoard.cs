@@ -16,7 +16,7 @@ namespace PacmanWinForms
         private Control.ControlCollection c;
         private float cellHeight;
         private float cellWidth;
-        private static int state = 1;
+        private int state = 1;
         //PictureBox[] picsGhosts = new PictureBox[4];
         PictureBox redGhost;
 
@@ -83,17 +83,40 @@ namespace PacmanWinForms
                 g.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
             }
         }
-        public void DrawBonus(Point p, Color col)
+        public void DrawBonus(Point p, Color col, int bonusState)
         {
-            float dotWidth =  cellWidth + cellWidth;
-            float dotHeight =  cellHeight + cellHeight;
+            float dotWidth; 
+            float dotHeight;
             Brush b = new SolidBrush(col);
+            if (bonusState == 1)
+            {
+                dotWidth = cellWidth; dotHeight = cellHeight;
+            }
+            else if (bonusState == 2)
+            {
+                dotWidth =(float)1.25*cellWidth; dotHeight = (float)1.25 * cellHeight;
+            }
+            else if (bonusState == 3)
+            {
+                dotWidth = (float)2 * cellWidth; dotHeight = (float)2 * cellHeight;
+            }
+            else
+            {
+                dotWidth = (float)1.25 * cellWidth; dotHeight = (float)1.25 * cellHeight;
+            }
             lock (this)
             {
                 g.FillEllipse(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
             }
         }
 
+        public void ClearBonus(Point p)
+        {
+            lock (this)
+            {
+                g.FillEllipse(new SolidBrush(Color.Black), p.X * cellWidth - cellWidth, p.Y * cellHeight - cellHeight, 2 * cellWidth, 2 * cellHeight);
+            }
+        }
 
 
         public void DrawGhost(int x, int y, Direction dir, string color = "red")

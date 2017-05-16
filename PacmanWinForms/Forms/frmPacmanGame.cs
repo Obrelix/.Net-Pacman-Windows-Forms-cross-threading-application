@@ -40,6 +40,8 @@ namespace PacmanWinForms
                 case GhostColor.YELLOW:
                     yellowCollision = true;
                     break;
+                default:
+                    break;
             }
         }
 
@@ -49,6 +51,10 @@ namespace PacmanWinForms
             playSound(Properties.Resources.Pacman_Opening_Song);
             posSizeInit();
             game.State = GameState.GAMEPAUSE;
+            picRedGhost.Location = new Point(27 * cellWidth + 2, 22 * cellHeight + 2);
+            picBlueGhost.Location = new Point(31 * cellWidth + 2, 29 * cellHeight + 2);
+            picPinkGhost.Location = new Point(27 * cellWidth + 2, 29 * cellHeight + 2);
+            picYellowGhost.Location = new Point(23 * cellWidth + 2, 29 * cellHeight + 2);
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
@@ -582,20 +588,20 @@ namespace PacmanWinForms
             //playSound(Properties.Resources.Pacman_Siren);
             if (bonusFlag)
             {
-                if (bonusFlag && counter <= 80)
+                if (bonusFlag && counter <= 60)
                 {
-                    game.RedGhostDelay = 110;
-                    game.BlueGhostDelay = 110;
-                    game.PinkGhostDelay = 110;
-                    game.YellowGhostDelay = 110;
+                    game.setGhostState(GhostColor.BLUE, GhostState.BONUS);
+                    game.setGhostState(GhostColor.RED, GhostState.BONUS);
+                    game.setGhostState(GhostColor.PINK, GhostState.BONUS);
+                    game.setGhostState(GhostColor.YELLOW, GhostState.BONUS);
                     counter++;
                 }
                 else
                 {
-                    game.RedGhostDelay = 70;
-                    game.BlueGhostDelay = 70;
-                    game.PinkGhostDelay = 70;
-                    game.YellowGhostDelay = 70;
+                    game.setGhostState(GhostColor.BLUE, GhostState.NORMAL);
+                    game.setGhostState(GhostColor.RED, GhostState.NORMAL);
+                    game.setGhostState(GhostColor.PINK, GhostState.NORMAL);
+                    game.setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
                     counter = 0;
                     bonusFlag = false;
                 }
@@ -604,45 +610,45 @@ namespace PacmanWinForms
 
             if (redCollision && redCounter <= 50)
             {
-                game.RedGhostDelay = 30;
+                game.setGhostState(GhostColor.RED, GhostState.EATEN);
                 redCounter++;
             }
             else if (redCounter >= 50)
             {
-                game.RedGhostDelay = 70;
+                game.setGhostState(GhostColor.RED, GhostState.NORMAL);
                 redCollision = false;
                 redCounter = 0;
             }
             if (blueCollision && blueCounter <= 50)
             {
-                game.BlueGhostDelay = 30;
+                game.setGhostState(GhostColor.BLUE, GhostState.EATEN);
                 blueCounter++;
             }
             else if (blueCounter >= 50)
             {
-                game.BlueGhostDelay = 70;
+                game.setGhostState(GhostColor.BLUE, GhostState.NORMAL);
                 blueCollision = false;
                 blueCounter = 0;
             }
             if (pinkCollision && pinkCounter <= 50)
             {
-                game.PinkGhostDelay = 30;
+                game.setGhostState(GhostColor.PINK, GhostState.EATEN);
                 pinkCounter++;
             }
             else if (pinkCounter >= 50)
             {
-                game.PinkGhostDelay = 70;
+                game.setGhostState(GhostColor.PINK, GhostState.NORMAL);
                 pinkCollision = false;
                 pinkCounter = 0;
             }
             if (yellowCollision && yellowCounter <= 50)
             {
-                game.YellowGhostDelay = 30;
+                game.setGhostState(GhostColor.YELLOW, GhostState.EATEN);
                 yellowCounter++;
             }
             else if( yellowCounter >= 50 )
             {
-                game.YellowGhostDelay = 70;
+                game.setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
                 yellowCollision = false;
                 yellowCounter = 0;
             }
@@ -669,16 +675,17 @@ namespace PacmanWinForms
             player.Play();
         }
 
-        public void Write(string data)
+        public void Write(string score, string lvl, string position, string delay  )
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<string>(Write), new object[] { data });
+                Invoke(new Action<string, string, string, string>(Write), new object[] { score, lvl, position, delay });
                 return;
             }
-            this.lblPosition.Text ="Coors : " + data.Split('@').First() ;
-            this.lblScore.Text = data.Split('@').Last().Split('%').First();
-            lblDelay.Text = "Delay : " + data.Split('%').Last() + " ms";
+            this.lblPosition.Text ="Coors : " + position ;
+            this.lblScore.Text = score;
+            lblDelay.Text = "Delay : " + delay + " ms";
+            lblLVLValue.Text = lvl;
             posSizeInit();
         }
 

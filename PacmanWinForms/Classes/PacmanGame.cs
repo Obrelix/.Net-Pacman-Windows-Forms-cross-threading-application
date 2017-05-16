@@ -32,7 +32,8 @@ namespace PacmanWinForms
         RED = 0,
         BLUE = 1,
         YELLOW = 2,
-        PINK = 3
+        PINK = 3,
+        NULL = 5
     }
 
     public enum GhostState : byte
@@ -86,12 +87,13 @@ namespace PacmanWinForms
             set
             {
                 _ghostDelay = (value < 10) ? 10 : value;
-                //RedGhost.Delay = _ghostDelay;
-                //BlueGhost.Delay = _ghostDelay;
-                //PinkGhost.Delay = _ghostDelay;
-                //YellowGhost.Delay = _ghostDelay;
+                RedGhost.Delay = _ghostDelay;
+                BlueGhost.Delay = _ghostDelay;
+                PinkGhost.Delay = _ghostDelay;
+                YellowGhost.Delay = _ghostDelay;
             }
         }
+        
 
         private GameState _state = GameState.GAMEOVER;
         public  GameState State
@@ -110,14 +112,13 @@ namespace PacmanWinForms
 
         public Task Runner;
         public Task wallRunner;
-
         private int _ghostDelay = 70;
         private int _delay = 70;
         private int score = 0;
         private bool _bonus = false;
-
+        private int Level = 1;
         private int lives = 3;
-
+        private bool changeLvl = false;
         public bool Bonus
         {
             get
@@ -174,8 +175,10 @@ namespace PacmanWinForms
             PacmanDelay = 70;
         }
 
+
         public void Run()
         {
+            RePaint();
             State = GameState.GAMERUN;
             Runner = new Task(runGame);
             Runner.Start();
@@ -186,7 +189,6 @@ namespace PacmanWinForms
             BlueGhost.Run();
             YellowGhost.Run();
             PinkGhost.Run();
-            RePaint();
         }
 
         public void RePaint()
@@ -195,7 +197,6 @@ namespace PacmanWinForms
             board.Resize();
             parentForm.ResumeLayout(false);
         }
-
         private void runGame()
         {
             while (State != GameState.GAMEOVER)
@@ -204,27 +205,33 @@ namespace PacmanWinForms
                 {
                     eatDots(Pacman.core());
                     eatBonus(Pacman.core());
+                    bonusClear();
+                    counter = (counter > 4) ? 1 : counter;
+                    bonusPaint(counter);
                     dotPaint();
-                    bonusPaint();
-                    checkForEnd();
+                    checkForWin();
+                    parentForm.setCollision(checkForCollision());
+                    checkForLose();
                     string data = Pacman.Point.ToString() + "@" + score + "%" + PacmanDelay;
-                    parentForm.Write(data);
+                    parentForm.Write(score.ToString(), Level.ToString(), Pacman.Point.ToString(), _delay.ToString());
                     Runner.Wait(10);
-
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
         }
 
+        int counter = 1;
         private void runWalls()
         {
             while (State != GameState.GAMEOVER)
             {
                 try
                 {
+                    counter = (counter > 4) ? 1 : counter;
+                    counter++;
                     doorPaint();
                     wallPaint();
-                    Runner.Wait(100);
+                    Runner.Wait(70);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
@@ -241,9 +248,9 @@ namespace PacmanWinForms
                     {
                         dotList.RemoveAt(i);
                         score += 10;
-                        Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
-                        SoundPlayer player = new SoundPlayer(s);
-                        player.Play();
+                        //Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
+                        //SoundPlayer player = new SoundPlayer(s);
+                        //player.Play();
                         break;
                     }
                 }
@@ -268,64 +275,128 @@ namespace PacmanWinForms
             }
         }
 
+        int eatenScore = 200;
 
-        private void checkForEnd()
+        private void checkForLose()
         {
-
-            if (dotList.Count == 0)
-            {
-                parentForm.playSound(Properties.Resources.Pacman_Intermission);
-                State = GameState.GAMEOVER;
-            }
-
             List<Point> mergedList = new List<Point>();
             mergedList = RedGhost.core().Union(BlueGhost.core()).Union(PinkGhost.core()).Union(YellowGhost.core()).ToList();
 
             List<Point> commonPoints = Pacman.core().Intersect(mergedList.Select(u => u)).ToList();
 
-
-            if ((commonPoints.Count != 0 && !Bonus) || lives==0)
+            if ((commonPoints.Count != 0 && !Bonus) || lives == 0)
             {
-                lives--;
+               // WaitSomeTime();
+                State = GameState.GAMEPAUSE;
                 parentForm.playSound(Properties.Resources.Pacman_Dies);
 
-                State = GameState.GAMEPAUSE;
-                //if (lives == 0)
-                //{
-                   // State = GameState.GAMEOVER;
-                //}
+                RedGhost.reset();
+                BlueGhost.reset();
+                PinkGhost.reset();
+                YellowGhost.reset();
+                Pacman.reset();
+                lives--;
+                if (lives == 0)
+                {
+                    State = GameState.GAMEOVER;
+                }
             }
-            commonPoints.Clear();
-            commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
+        }
+
+        private void checkForWin()
+        {
+            if (dotList.Count == 0 && bonusList.Count == 0)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Intermission);
+                State = GameState.GAMEPAUSE;
+                ChangeLevel();
+            }
+        }
+
+        private GhostColor checkForCollision()
+        {
+            eatenScore = (Bonus) ? eatenScore : 200;
+            List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus)
             {
+                score += eatenScore;
+                eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
-                parentForm.setCollision(GhostColor.RED);
+                return GhostColor.RED;
             }
+
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(BlueGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus)
             {
+                score += eatenScore;
+                eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
-                parentForm.setCollision(GhostColor.BLUE);
+                return GhostColor.BLUE;
             }
+
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(YellowGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus)
             {
+                score += eatenScore;
+                eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
-                parentForm.setCollision(GhostColor.YELLOW);
+                return GhostColor.YELLOW;
             }
+
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(PinkGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus)
             {
+                score += eatenScore;
+                eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
-                parentForm.setCollision(GhostColor.PINK);
+                return GhostColor.PINK;
             }
+
+            return GhostColor.NULL;
+        }
+
+
+        private void ChangeLevel()
+        {
+            dotList = PointLists.dotPointList();
+            bonusList = PointLists.bonusPointList();
+            State = GameState.GAMEPAUSE;
+            RedGhost.reset();
+            BlueGhost.reset();
+            PinkGhost.reset();
+            YellowGhost.reset();
+            Pacman.reset();
+            GhostDelay -= 10;
+            GhostDelay = (_ghostDelay < 10) ? 10 : _ghostDelay;
+            Level++;
+        }
+        public async void WaitSomeTime()
+        {
+            await Task.Delay(1000);
 
         }
 
+        public void setGhostState(GhostColor color, GhostState state)
+        {
+            switch (color)
+            {
+                case GhostColor.RED:
+                    RedGhost.gState = state;
+                    break;
+                case GhostColor.BLUE:
+                    BlueGhost.gState = state;
+                    break;
+                case GhostColor.PINK:
+                    PinkGhost.gState = state;
+                    break;
+                case GhostColor.YELLOW:
+                    YellowGhost.gState = state;
+                    break;
+            }
+        }
 
         public void setDirection(Direction d)
         {
@@ -342,9 +413,11 @@ namespace PacmanWinForms
 
         private void wallPaint()
         {
+            Color color = new Color();
+            color = (Level == 1) ? Color.DarkBlue : Color.Blue;
             foreach (Point p in wallList)
             {
-                board.DrawRect(p, Color.DarkBlue);
+                board.DrawRect(p, color);
             }
         }
 
@@ -356,33 +429,34 @@ namespace PacmanWinForms
             }
         }
 
-        private void bonusPaint()
+        private void bonusPaint(int state)
         {
             foreach (Point p in bonusList)
             {
-                board.DrawBonus(p, Color.White);
+                board.DrawBonus(p, Color.White, state);
+            }
+        }
+
+        private void bonusClear()
+        {
+            if(bonusList.Count != 0)
+            {
+                foreach (Point p in bonusList)
+                {
+                    board.ClearBonus(p);
+                }
             }
         }
 
         public void Stop()
         {
             State = GameState.GAMEOVER;
-            Pacman.State = GameState.GAMEOVER;
-            RedGhost.State = GameState.GAMEOVER;
-            BlueGhost.State = GameState.GAMEOVER;
-            YellowGhost.State = GameState.GAMEOVER;
-            PinkGhost.State = GameState.GAMEOVER;
         }
 
         public void Pause()
         {
             if (State == GameState.GAMERUN)
             {
-                Pacman.State = GameState.GAMEPAUSE;
-                RedGhost.State = GameState.GAMEPAUSE;
-                BlueGhost.State = GameState.GAMEPAUSE;
-                YellowGhost.State = GameState.GAMEPAUSE;
-                PinkGhost.State = GameState.GAMEPAUSE;
                 State = GameState.GAMEPAUSE;
             }
         }
@@ -391,11 +465,6 @@ namespace PacmanWinForms
         {
             if (State == GameState.GAMEPAUSE)
             {
-                Pacman.State = GameState.GAMERUN;
-                RedGhost.State = GameState.GAMERUN;
-                BlueGhost.State = GameState.GAMERUN;
-                YellowGhost.State = GameState.GAMERUN;
-                PinkGhost.State = GameState.GAMERUN;
                 State = GameState.GAMERUN;
             }
         }
