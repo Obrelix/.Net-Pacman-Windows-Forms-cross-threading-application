@@ -37,25 +37,25 @@
             this.lblHightScore = new System.Windows.Forms.Label();
             this.lblHScoreValue = new System.Windows.Forms.Label();
             this.pnlBoard = new System.Windows.Forms.Panel();
+            this.picPinkGhost = new System.Windows.Forms.PictureBox();
+            this.picYellowGhost = new System.Windows.Forms.PictureBox();
+            this.picBlueGhost = new System.Windows.Forms.PictureBox();
+            this.picRedGhost = new System.Windows.Forms.PictureBox();
             this.lblDelay = new System.Windows.Forms.Label();
             this.pnlDisplay = new System.Windows.Forms.Panel();
             this.pnlHighScore = new System.Windows.Forms.Panel();
             this.pnlLvl = new System.Windows.Forms.Panel();
             this.pnlSc = new System.Windows.Forms.Panel();
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
-            this.picPinkGhost = new System.Windows.Forms.PictureBox();
-            this.picYellowGhost = new System.Windows.Forms.PictureBox();
-            this.picBlueGhost = new System.Windows.Forms.PictureBox();
-            this.picRedGhost = new System.Windows.Forms.PictureBox();
             this.pnlBoard.SuspendLayout();
-            this.pnlDisplay.SuspendLayout();
-            this.pnlHighScore.SuspendLayout();
-            this.pnlLvl.SuspendLayout();
-            this.pnlSc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPinkGhost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picYellowGhost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).BeginInit();
+            this.pnlDisplay.SuspendLayout();
+            this.pnlHighScore.SuspendLayout();
+            this.pnlLvl.SuspendLayout();
+            this.pnlSc.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPosition
@@ -74,7 +74,7 @@
             this.lblLScore.AutoSize = true;
             this.lblLScore.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblLScore.ForeColor = System.Drawing.Color.White;
-            this.lblLScore.Location = new System.Drawing.Point(10, 10);
+            this.lblLScore.Location = new System.Drawing.Point(12, 20);
             this.lblLScore.Name = "lblLScore";
             this.lblLScore.Size = new System.Drawing.Size(58, 18);
             this.lblLScore.TabIndex = 2;
@@ -99,7 +99,7 @@
             this.lblLVL.AutoSize = true;
             this.lblLVL.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblLVL.ForeColor = System.Drawing.Color.White;
-            this.lblLVL.Location = new System.Drawing.Point(10, 10);
+            this.lblLVL.Location = new System.Drawing.Point(12, 20);
             this.lblLVL.Name = "lblLVL";
             this.lblLVL.Size = new System.Drawing.Size(58, 18);
             this.lblLVL.TabIndex = 4;
@@ -124,11 +124,11 @@
             this.lblHightScore.AutoSize = true;
             this.lblHightScore.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblHightScore.ForeColor = System.Drawing.Color.White;
-            this.lblHightScore.Location = new System.Drawing.Point(10, 10);
+            this.lblHightScore.Location = new System.Drawing.Point(12, 20);
             this.lblHightScore.Name = "lblHightScore";
-            this.lblHightScore.Size = new System.Drawing.Size(108, 18);
+            this.lblHightScore.Size = new System.Drawing.Size(58, 18);
             this.lblHightScore.TabIndex = 6;
-            this.lblHightScore.Text = "High Score";
+            this.lblHightScore.Text = "Lives";
             // 
             // lblHScoreValue
             // 
@@ -136,11 +136,12 @@
             this.lblHScoreValue.AutoSize = true;
             this.lblHScoreValue.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblHScoreValue.ForeColor = System.Drawing.Color.White;
-            this.lblHScoreValue.Location = new System.Drawing.Point(33, 33);
+            this.lblHScoreValue.Location = new System.Drawing.Point(37, 31);
             this.lblHScoreValue.Name = "lblHScoreValue";
-            this.lblHScoreValue.Size = new System.Drawing.Size(58, 18);
+            this.lblHScoreValue.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblHScoreValue.Size = new System.Drawing.Size(18, 18);
             this.lblHScoreValue.TabIndex = 7;
-            this.lblHScoreValue.Text = "99999";
+            this.lblHScoreValue.Text = "3";
             // 
             // pnlBoard
             // 
@@ -156,62 +157,6 @@
             this.pnlBoard.Name = "pnlBoard";
             this.pnlBoard.Size = new System.Drawing.Size(580, 640);
             this.pnlBoard.TabIndex = 0;
-            // 
-            // lblDelay
-            // 
-            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDelay.AutoSize = true;
-            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblDelay.ForeColor = System.Drawing.Color.White;
-            this.lblDelay.Location = new System.Drawing.Point(485, 65);
-            this.lblDelay.Name = "lblDelay";
-            this.lblDelay.Size = new System.Drawing.Size(14, 13);
-            this.lblDelay.TabIndex = 14;
-            this.lblDelay.Text = "0";
-            // 
-            // pnlDisplay
-            // 
-            this.pnlDisplay.Controls.Add(this.pnlHighScore);
-            this.pnlDisplay.Controls.Add(this.pnlLvl);
-            this.pnlDisplay.Controls.Add(this.pnlSc);
-            this.pnlDisplay.Location = new System.Drawing.Point(59, 4);
-            this.pnlDisplay.Name = "pnlDisplay";
-            this.pnlDisplay.Size = new System.Drawing.Size(453, 60);
-            this.pnlDisplay.TabIndex = 0;
-            // 
-            // pnlHighScore
-            // 
-            this.pnlHighScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlHighScore.Controls.Add(this.lblHightScore);
-            this.pnlHighScore.Controls.Add(this.lblHScoreValue);
-            this.pnlHighScore.Location = new System.Drawing.Point(322, 0);
-            this.pnlHighScore.Name = "pnlHighScore";
-            this.pnlHighScore.Size = new System.Drawing.Size(128, 58);
-            this.pnlHighScore.TabIndex = 17;
-            // 
-            // pnlLvl
-            // 
-            this.pnlLvl.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pnlLvl.Controls.Add(this.lblLVL);
-            this.pnlLvl.Controls.Add(this.lblLVLValue);
-            this.pnlLvl.Location = new System.Drawing.Point(153, 0);
-            this.pnlLvl.Name = "pnlLvl";
-            this.pnlLvl.Size = new System.Drawing.Size(78, 58);
-            this.pnlLvl.TabIndex = 16;
-            // 
-            // pnlSc
-            // 
-            this.pnlSc.Controls.Add(this.lblLScore);
-            this.pnlSc.Controls.Add(this.lblScore);
-            this.pnlSc.Location = new System.Drawing.Point(3, 0);
-            this.pnlSc.Name = "pnlSc";
-            this.pnlSc.Size = new System.Drawing.Size(78, 58);
-            this.pnlSc.TabIndex = 15;
-            // 
-            // tmrClock
-            // 
-            this.tmrClock.Enabled = true;
-            this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
             // 
             // picPinkGhost
             // 
@@ -253,6 +198,62 @@
             this.picRedGhost.TabIndex = 0;
             this.picRedGhost.TabStop = false;
             // 
+            // lblDelay
+            // 
+            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDelay.AutoSize = true;
+            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDelay.ForeColor = System.Drawing.Color.White;
+            this.lblDelay.Location = new System.Drawing.Point(485, 65);
+            this.lblDelay.Name = "lblDelay";
+            this.lblDelay.Size = new System.Drawing.Size(14, 13);
+            this.lblDelay.TabIndex = 14;
+            this.lblDelay.Text = "0";
+            // 
+            // pnlDisplay
+            // 
+            this.pnlDisplay.Controls.Add(this.pnlHighScore);
+            this.pnlDisplay.Controls.Add(this.pnlLvl);
+            this.pnlDisplay.Controls.Add(this.pnlSc);
+            this.pnlDisplay.Location = new System.Drawing.Point(134, 4);
+            this.pnlDisplay.Name = "pnlDisplay";
+            this.pnlDisplay.Size = new System.Drawing.Size(341, 60);
+            this.pnlDisplay.TabIndex = 0;
+            // 
+            // pnlHighScore
+            // 
+            this.pnlHighScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlHighScore.Controls.Add(this.lblHightScore);
+            this.pnlHighScore.Controls.Add(this.lblHScoreValue);
+            this.pnlHighScore.Location = new System.Drawing.Point(259, 0);
+            this.pnlHighScore.Name = "pnlHighScore";
+            this.pnlHighScore.Size = new System.Drawing.Size(82, 58);
+            this.pnlHighScore.TabIndex = 17;
+            // 
+            // pnlLvl
+            // 
+            this.pnlLvl.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pnlLvl.Controls.Add(this.lblLVL);
+            this.pnlLvl.Controls.Add(this.lblLVLValue);
+            this.pnlLvl.Location = new System.Drawing.Point(132, 0);
+            this.pnlLvl.Name = "pnlLvl";
+            this.pnlLvl.Size = new System.Drawing.Size(82, 58);
+            this.pnlLvl.TabIndex = 16;
+            // 
+            // pnlSc
+            // 
+            this.pnlSc.Controls.Add(this.lblLScore);
+            this.pnlSc.Controls.Add(this.lblScore);
+            this.pnlSc.Location = new System.Drawing.Point(0, 0);
+            this.pnlSc.Name = "pnlSc";
+            this.pnlSc.Size = new System.Drawing.Size(82, 58);
+            this.pnlSc.TabIndex = 15;
+            // 
+            // tmrClock
+            // 
+            this.tmrClock.Enabled = true;
+            this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
+            // 
             // frmPacmanGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,6 +281,10 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPacmanGame_KeyDown);
             this.Resize += new System.EventHandler(this.frmPacmanGame_Resize);
             this.pnlBoard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picPinkGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picYellowGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).EndInit();
             this.pnlDisplay.ResumeLayout(false);
             this.pnlHighScore.ResumeLayout(false);
             this.pnlHighScore.PerformLayout();
@@ -287,10 +292,6 @@
             this.pnlLvl.PerformLayout();
             this.pnlSc.ResumeLayout(false);
             this.pnlSc.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPinkGhost)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picYellowGhost)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBlueGhost)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picRedGhost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

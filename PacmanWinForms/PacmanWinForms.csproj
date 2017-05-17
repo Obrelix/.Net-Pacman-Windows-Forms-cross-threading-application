@@ -54,7 +54,7 @@
     <Compile Include="Classes\PacmanGame.cs" />
     <Compile Include="Classes\PacmanBoard.cs" />
     <Compile Include="Classes\PointLists.cs" />
-    <Compile Include="Classes\Packman.cs" />
+    <Compile Include="Classes\Pacman.cs" />
     <Compile Include="Classes\Ghost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

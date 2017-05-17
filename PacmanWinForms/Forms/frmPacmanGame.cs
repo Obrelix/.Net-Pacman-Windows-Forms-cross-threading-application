@@ -59,10 +59,10 @@ namespace PacmanWinForms
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
         {
-            if (game.State == GameState.GAMEPAUSE)
-            {
-                game.Continue();
-            }
+            //if (game.State == GameState.GAMEPAUSE)
+            //{
+            //    game.Continue();
+            //}
             //game.RePaint();
             //game.KeyDown(e);
             if (game == null) return;
@@ -80,7 +80,7 @@ namespace PacmanWinForms
                 game.PacmanDelay -= 5;
                 game.GhostDelay -= 5;
             }
-            else if (e.KeyCode == Keys.P)
+            else if (e.KeyCode == Keys.P || e.KeyCode == Keys.Space)
             {
                 if (game.State == GameState.GAMERUN)
                 {
@@ -105,9 +105,11 @@ namespace PacmanWinForms
             picYellowGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
 
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
-            pnlSc.Location = new Point(pnlLvl.Location.X - 78 - 50, 0);
-            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 10);
+            pnlHighScore.Location = new Point(pnlLvl.Location.X + 100, 0);
+            pnlSc.Location = new Point(pnlLvl.Location.X - 100, 0);
+            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 20);
+            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height + 20);
+            lblHScoreValue.Location = new Point((pnlSc.Width - lblHScoreValue.Width) / 2, lblLVL.Height + 20);
             pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
         }
 
@@ -675,17 +677,18 @@ namespace PacmanWinForms
             player.Play();
         }
 
-        public void Write(string score, string lvl, string position, string delay  )
+        public void Write(string score, string lvl, string lives, string position, string delay  )
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<string, string, string, string>(Write), new object[] { score, lvl, position, delay });
+                Invoke(new Action<string, string, string, string, string>(Write), new object[] { score, lvl, lives, position, delay });
                 return;
             }
             this.lblPosition.Text ="Coors : " + position ;
             this.lblScore.Text = score;
             lblDelay.Text = "Delay : " + delay + " ms";
             lblLVLValue.Text = lvl;
+            lblHScoreValue.Text = lives;
             posSizeInit();
         }
 

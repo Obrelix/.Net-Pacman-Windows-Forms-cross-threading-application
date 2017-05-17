@@ -67,7 +67,7 @@ namespace PacmanWinForms
         private int _delay = 70;
         public GhostState gState;
         Ghost ghost;
-
+        Pacman pacman; 
         public GameState State = GameState.GAMEOVER;
 
         List<Point> wallList = new List<Point>();
@@ -118,6 +118,7 @@ namespace PacmanWinForms
         {
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
+            wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
             boxList = PointLists.boxPointList();
             directionsInit();
             gState = GhostState.NORMAL;
@@ -161,7 +162,10 @@ namespace PacmanWinForms
             
         }
 
+        public void setTarget()
+        {
 
+        }
         private void runghost()
         {
             while (State != GameState.GAMEOVER)

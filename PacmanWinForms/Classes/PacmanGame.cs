@@ -117,7 +117,7 @@ namespace PacmanWinForms
         private int score = 0;
         private bool _bonus = false;
         private int Level = 1;
-        private int lives = 3;
+        private int lives = 4;
         private bool changeLvl = false;
         public bool Bonus
         {
@@ -164,6 +164,9 @@ namespace PacmanWinForms
         private void Init()
         {
             wallList = PointLists.banPointList();
+            wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
+
+
             dotList = PointLists.dotPointList();
             boxList = PointLists.boxPointList();
             boxDoorList = PointLists.boxDoorPointList();
@@ -213,11 +216,19 @@ namespace PacmanWinForms
                     parentForm.setCollision(checkForCollision());
                     checkForLose();
                     string data = Pacman.Point.ToString() + "@" + score + "%" + PacmanDelay;
-                    parentForm.Write(score.ToString(), Level.ToString(), Pacman.Point.ToString(), _delay.ToString());
+                    parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), _delay.ToString());
                     Runner.Wait(10);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
+        }
+
+        private string convertLives(int l)
+        {
+            string lives = string.Empty;
+            for (int i = 0; i < l; i++) lives += "❤";
+            return lives;
+
         }
 
         int counter = 1;
@@ -286,10 +297,12 @@ namespace PacmanWinForms
 
             if ((commonPoints.Count != 0 && !Bonus) || lives == 0)
             {
-               // WaitSomeTime();
                 State = GameState.GAMEPAUSE;
                 parentForm.playSound(Properties.Resources.Pacman_Dies);
 
+                WaitSomeTime(1000);
+                while (wait) { }
+                wait = true;
                 RedGhost.reset();
                 BlueGhost.reset();
                 PinkGhost.reset();
@@ -309,19 +322,28 @@ namespace PacmanWinForms
             {
                 parentForm.playSound(Properties.Resources.Pacman_Intermission);
                 State = GameState.GAMEPAUSE;
+                WaitSomeTime(5000);
+                while (wait) { }
+                wait = true;
                 ChangeLevel();
             }
         }
 
         private GhostColor checkForCollision()
         {
-            eatenScore = (Bonus) ? eatenScore : 200;
+            eatenScore = (!Bonus || eatenScore > 1600) ? 200 : eatenScore;
             List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus)
             {
                 score += eatenScore;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                State = GameState.GAMEPAUSE;
+                setGhostState(GhostColor.RED, GhostState.EATEN);
+                WaitSomeTime(100);
+                while (wait) { }
+                wait = true;
+                State = GameState.GAMERUN;
                 return GhostColor.RED;
             }
 
@@ -332,6 +354,12 @@ namespace PacmanWinForms
                 score += eatenScore;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                State = GameState.GAMEPAUSE;
+                setGhostState(GhostColor.BLUE, GhostState.EATEN);
+                WaitSomeTime(100);
+                while (wait) { }
+                wait = true;
+                State = GameState.GAMERUN;
                 return GhostColor.BLUE;
             }
 
@@ -342,6 +370,12 @@ namespace PacmanWinForms
                 score += eatenScore;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                State = GameState.GAMEPAUSE;
+                setGhostState(GhostColor.YELLOW, GhostState.EATEN);
+                WaitSomeTime(100);
+                while (wait) { }
+                wait = true;
+                State = GameState.GAMERUN;
                 return GhostColor.YELLOW;
             }
 
@@ -352,13 +386,19 @@ namespace PacmanWinForms
                 score += eatenScore;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
+                State = GameState.GAMEPAUSE;
+                setGhostState(GhostColor.PINK, GhostState.EATEN);
+                WaitSomeTime(100);
+                while (wait) { }
+                wait = true;
+                State = GameState.GAMERUN;
                 return GhostColor.PINK;
             }
 
             return GhostColor.NULL;
         }
 
-
+        bool wait = true;
         private void ChangeLevel()
         {
             dotList = PointLists.dotPointList();
@@ -373,28 +413,20 @@ namespace PacmanWinForms
             GhostDelay = (_ghostDelay < 10) ? 10 : _ghostDelay;
             Level++;
         }
-        public async void WaitSomeTime()
+        public async void WaitSomeTime(int time)
         {
-            await Task.Delay(1000);
-
+            await Task.Delay(time);
+            wait = false;
         }
 
         public void setGhostState(GhostColor color, GhostState state)
         {
             switch (color)
             {
-                case GhostColor.RED:
-                    RedGhost.gState = state;
-                    break;
-                case GhostColor.BLUE:
-                    BlueGhost.gState = state;
-                    break;
-                case GhostColor.PINK:
-                    PinkGhost.gState = state;
-                    break;
-                case GhostColor.YELLOW:
-                    YellowGhost.gState = state;
-                    break;
+                case GhostColor.RED: RedGhost.gState = state; break;
+                case GhostColor.BLUE: BlueGhost.gState = state; break;
+                case GhostColor.PINK: PinkGhost.gState = state; break;
+                case GhostColor.YELLOW: YellowGhost.gState = state; break;
             }
         }
 
@@ -414,7 +446,19 @@ namespace PacmanWinForms
         private void wallPaint()
         {
             Color color = new Color();
-            color = (Level == 1) ? Color.DarkBlue : Color.Blue;
+            switch (Level)
+            {
+                case 1: color = Color.DarkBlue; break;
+                case 2: color = Color.MediumBlue; break;
+                case 3: color = Color.Blue; break;
+                case 4: color = Color.DodgerBlue; break;
+                case 5: color = Color.RoyalBlue; break;
+                case 6: color = Color.LightBlue; break;
+                case 7: color = Color.LightSkyBlue; break;
+                case 8: color = Color.LightSteelBlue; break;
+                case 9: color = Color.SteelBlue; break;
+                default: color = Color.Blue; break;
+            }
             foreach (Point p in wallList)
             {
                 board.DrawRect(p, color);
