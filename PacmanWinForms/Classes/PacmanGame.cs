@@ -112,13 +112,12 @@ namespace PacmanWinForms
 
         public Task Runner;
         public Task wallRunner;
-        private int _ghostDelay = 70;
-        private int _delay = 70;
+        private int _ghostDelay = 90;
+        private int _delay = 90;
         private int score = 0;
         private bool _bonus = false;
         private int Level = 1;
         private int lives = 4;
-        private bool changeLvl = false;
         public bool Bonus
         {
             get
@@ -164,9 +163,6 @@ namespace PacmanWinForms
         private void Init()
         {
             wallList = PointLists.banPointList();
-            wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
-
-
             dotList = PointLists.dotPointList();
             boxList = PointLists.boxPointList();
             boxDoorList = PointLists.boxDoorPointList();
@@ -175,7 +171,8 @@ namespace PacmanWinForms
             State = GameState.GAMEOVER;
 
             score = 0;
-            PacmanDelay = 70;
+            PacmanDelay = 90;
+            GhostDelay = 90;
         }
 
 
@@ -200,6 +197,7 @@ namespace PacmanWinForms
             board.Resize();
             parentForm.ResumeLayout(false);
         }
+
         private void runGame()
         {
             while (State != GameState.GAMEOVER)
@@ -216,7 +214,7 @@ namespace PacmanWinForms
                     parentForm.setCollision(checkForCollision());
                     checkForLose();
                     string data = Pacman.Point.ToString() + "@" + score + "%" + PacmanDelay;
-                    parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), _delay.ToString());
+                    parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
                     Runner.Wait(10);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
@@ -242,7 +240,7 @@ namespace PacmanWinForms
                     counter++;
                     doorPaint();
                     wallPaint();
-                    wallRunner.Wait(50);
+                    wallRunner.Wait(150);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
@@ -399,8 +397,14 @@ namespace PacmanWinForms
         }
 
         bool wait = true;
+        public void cheat()
+        {
+            ChangeLevel();
+        }
         private void ChangeLevel()
         {
+            PacmanDelay -= 3;
+            GhostDelay -= 6;
             dotList = PointLists.dotPointList();
             bonusList = PointLists.bonusPointList();
             State = GameState.GAMEPAUSE;
@@ -409,8 +413,6 @@ namespace PacmanWinForms
             PinkGhost.reset();
             YellowGhost.reset();
             Pacman.reset();
-            GhostDelay -= 10;
-            GhostDelay = (_ghostDelay < 10) ? 10 : _ghostDelay;
             Level++;
         }
         public async void WaitSomeTime(int time)

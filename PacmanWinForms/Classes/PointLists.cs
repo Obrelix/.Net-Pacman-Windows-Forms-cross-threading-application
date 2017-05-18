@@ -49,6 +49,7 @@ namespace PacmanWinForms
         }
         private static List<Point> bonusListInit()
         {
+            bonusList.Clear();
             bonusList.Add(new Point(50, 48));
             bonusList.Add(new Point(8, 48));
             bonusList.Add(new Point(50, 12));

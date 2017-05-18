@@ -43,6 +43,8 @@
             this.pnlLvl = new System.Windows.Forms.Panel();
             this.pnlSc = new System.Windows.Forms.Panel();
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
+            this.lblGhostDelay = new System.Windows.Forms.Label();
+            this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
             this.pnlLvl.SuspendLayout();
@@ -51,10 +53,11 @@
             // 
             // lblPosition
             // 
+            this.lblPosition.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblPosition.AutoSize = true;
             this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(17, 65);
+            this.lblPosition.Location = new System.Drawing.Point(233, 627);
             this.lblPosition.Name = "lblPosition";
             this.lblPosition.Size = new System.Drawing.Size(14, 13);
             this.lblPosition.TabIndex = 1;
@@ -140,6 +143,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnlBoard.Controls.Add(this.lblPosition);
+            this.pnlBoard.Controls.Add(this.lblGhostDelay);
+            this.pnlBoard.Controls.Add(this.lblDelay);
             this.pnlBoard.Location = new System.Drawing.Point(2, 70);
             this.pnlBoard.Name = "pnlBoard";
             this.pnlBoard.Size = new System.Drawing.Size(580, 640);
@@ -147,11 +153,11 @@
             // 
             // lblDelay
             // 
-            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblDelay.AutoSize = true;
             this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblDelay.ForeColor = System.Drawing.Color.White;
-            this.lblDelay.Location = new System.Drawing.Point(485, 65);
+            this.lblDelay.Location = new System.Drawing.Point(10, 627);
             this.lblDelay.Name = "lblDelay";
             this.lblDelay.Size = new System.Drawing.Size(14, 13);
             this.lblDelay.TabIndex = 14;
@@ -201,6 +207,18 @@
             this.tmrClock.Enabled = true;
             this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
             // 
+            // lblGhostDelay
+            // 
+            this.lblGhostDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGhostDelay.AutoSize = true;
+            this.lblGhostDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblGhostDelay.ForeColor = System.Drawing.Color.White;
+            this.lblGhostDelay.Location = new System.Drawing.Point(447, 627);
+            this.lblGhostDelay.Name = "lblGhostDelay";
+            this.lblGhostDelay.Size = new System.Drawing.Size(14, 13);
+            this.lblGhostDelay.TabIndex = 15;
+            this.lblGhostDelay.Text = "0";
+            // 
             // frmPacmanGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,8 +226,6 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(584, 712);
-            this.Controls.Add(this.lblDelay);
-            this.Controls.Add(this.lblPosition);
             this.Controls.Add(this.pnlDisplay);
             this.Controls.Add(this.pnlBoard);
             this.DoubleBuffered = true;
@@ -227,6 +243,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmPacmanGame_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPacmanGame_KeyDown);
             this.Resize += new System.EventHandler(this.frmPacmanGame_Resize);
+            this.pnlBoard.ResumeLayout(false);
+            this.pnlBoard.PerformLayout();
             this.pnlDisplay.ResumeLayout(false);
             this.pnlHighScore.ResumeLayout(false);
             this.pnlHighScore.PerformLayout();
@@ -235,7 +253,6 @@
             this.pnlSc.ResumeLayout(false);
             this.pnlSc.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -254,6 +271,7 @@
         private System.Windows.Forms.Panel pnlSc;
         private System.Windows.Forms.Panel pnlHighScore;
         private System.Windows.Forms.Timer tmrClock;
+        private System.Windows.Forms.Label lblGhostDelay;
     }
 }
 

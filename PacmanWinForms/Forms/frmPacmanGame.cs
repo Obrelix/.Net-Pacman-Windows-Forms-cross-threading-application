@@ -66,6 +66,7 @@ namespace PacmanWinForms
             else if (e.KeyCode == Keys.Right) { game.setDirection(Direction.RIGHT); }
             else if (e.KeyCode == Keys.Up) { game.setDirection(Direction.UP); }
             else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
+            else if (e.KeyCode == Keys.F1) { game.cheat(); }
             else if (e.KeyCode == Keys.Subtract)
             {
                 game.PacmanDelay += 5;
@@ -673,18 +674,19 @@ namespace PacmanWinForms
             player.Play();
         }
 
-        public void Write(string score, string lvl, string lives, string position, string delay  )
+        public void Write(string score, string lvl, string lives, string position, string delay, string ghostDelay  )
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<string, string, string, string, string>(Write), new object[] { score, lvl, lives, position, delay });
+                Invoke(new Action<string, string, string, string, string, string>(Write), new object[] { score, lvl, lives, position, delay, ghostDelay });
                 return;
             }
             this.lblPosition.Text ="Coors : " + position ;
             this.lblScore.Text = score;
-            lblDelay.Text = "Delay : " + delay + " ms";
+            lblDelay.Text = "Pacman Delay : " + delay + " ms";
             lblLVLValue.Text = lvl;
             lblHScoreValue.Text = lives;
+            lblGhostDelay.Text = "Ghost Delay : " + ghostDelay + " ms";
             posSizeInit();
         }
 
