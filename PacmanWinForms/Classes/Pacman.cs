@@ -115,7 +115,7 @@ namespace PacmanWinForms
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
             wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
-            pacman = new Pacman(new Point(27, 40), pacmanDirection);
+            pacman = new Pacman(new Point(26, 39), pacmanDirection);
             directionsInit();
             State = GameState.GAMEOVER;
         }
@@ -124,7 +124,7 @@ namespace PacmanWinForms
         {
 
             board.ClearPacMan(pacman.Point);
-            pacman = new Pacman(new Point(27, 40), Direction.STOP);
+            pacman = new Pacman(new Point(26, 39), Direction.STOP);
         }
 
         private void runPacman()

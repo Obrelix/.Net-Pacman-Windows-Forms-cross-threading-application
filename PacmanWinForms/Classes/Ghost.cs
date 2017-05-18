@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PacmanWinForms;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace PacmanWinForms
 {
@@ -125,16 +127,16 @@ namespace PacmanWinForms
             switch (color)
             {
                 case GhostColor.BLUE:
-                    ghost = new Ghost(new Point(31, 29), Direction.UP);
+                    ghost = new Ghost(new Point(30, 28), Direction.UP);
                     break;
                 case GhostColor.PINK:
-                    ghost = new Ghost(new Point(27, 29), Direction.DOWN);
+                    ghost = new Ghost(new Point(26, 28), Direction.DOWN);
                     break;
                 case GhostColor.RED:
-                    ghost = new Ghost(new Point(27, 22), Direction.RIGHT);
+                    ghost = new Ghost(new Point(26, 21), Direction.RIGHT);
                     break;
                 case GhostColor.YELLOW:
-                    ghost = new Ghost(new Point(23, 29), Direction.UP);
+                    ghost = new Ghost(new Point(22, 28), Direction.UP);
                     break;
             }
 
@@ -147,16 +149,16 @@ namespace PacmanWinForms
             switch (color)
             {
                 case GhostColor.BLUE:
-                    ghost = new Ghost(new Point(31, 29), Direction.UP);
+                    ghost = new Ghost(new Point(30, 28), Direction.UP);
                     break;
                 case GhostColor.PINK:
-                    ghost = new Ghost(new Point(27, 29), Direction.DOWN);
+                    ghost = new Ghost(new Point(26, 28), Direction.DOWN);
                     break;
                 case GhostColor.RED:
-                    ghost = new Ghost(new Point(27, 22), Direction.RIGHT);
+                    ghost = new Ghost(new Point(26, 21), Direction.RIGHT);
                     break;
                 case GhostColor.YELLOW:
-                    ghost = new Ghost(new Point(23, 29), Direction.UP);
+                    ghost = new Ghost(new Point(22, 28), Direction.UP);
                     break;
             }
             
@@ -166,6 +168,7 @@ namespace PacmanWinForms
         {
 
         }
+        bool sprite1 = true;
         private void runghost()
         {
             while (State != GameState.GAMEOVER)
@@ -174,22 +177,23 @@ namespace PacmanWinForms
                 {
                     this.Point = ghost.Point;
                     ghost = ghostMove(ghost.Point, ghost.Direction);
-
-                    switch (color)
-                    {
-                        case GhostColor.BLUE:
-                            parentForm.blueGhostMove(ghost.Point, ghost.Direction);
-                            break;
-                        case GhostColor.PINK:
-                            parentForm.PinkGhostMove(ghost.Point, ghost.Direction);
-                            break;
-                        case GhostColor.RED:
-                            parentForm.redGhostMove(ghost.Point, ghost.Direction);
-                            break;
-                        case GhostColor.YELLOW:
-                            parentForm.YellowGhostMove(ghost.Point, ghost.Direction);
-                            break;
-                    }
+                    board.GhostMove(ghost.Point, ghost.Direction, color, sprite1, gState);
+                    sprite1 = !sprite1;
+                    //switch (color)
+                    //{
+                    //    case GhostColor.BLUE:
+                    //        parentForm.blueGhostMove(ghost.Point, ghost.Direction);
+                    //        break;
+                    //    case GhostColor.PINK:
+                    //        parentForm.PinkGhostMove(ghost.Point, ghost.Direction);
+                    //        break;
+                    //    case GhostColor.RED:
+                    //        parentForm.redGhostMove(ghost.Point, ghost.Direction);
+                    //        break;
+                    //    case GhostColor.YELLOW:
+                    //        parentForm.YellowGhostMove(ghost.Point, ghost.Direction);
+                    //        break;
+                    //}
                     if (gState == GhostState.NORMAL)
                     {
                         ghostRunner.Wait(_delay + 5);

@@ -2,7 +2,9 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System;
+using PacmanWinForms;
 
+public delegate void GhostPaint(Point point, Direction D, GhostColor color, bool sprite1, GhostState state);
 namespace PacmanWinForms
 {
     public class PacmanBoard
@@ -18,9 +20,13 @@ namespace PacmanWinForms
         private float cellWidth;
         private int state = 1;
         //PictureBox[] picsGhosts = new PictureBox[4];
-        PictureBox redGhost;
 
-        public PacmanBoard(Panel pnl, int rows = 64, int cols = 58, Color? bgColor = null)
+        PictureBox picRedGhost;
+        PictureBox picBlueGhost;
+        PictureBox picPinkGhost;
+        PictureBox picYellowGhost;
+
+        public PacmanBoard(Panel pnl, int rows = 62, int cols = 56, Color? bgColor = null)
         {
             // Color? <=> nullable <Color>
             this.Rows = rows;
@@ -119,25 +125,148 @@ namespace PacmanWinForms
         }
 
 
-        public void DrawGhost(int x, int y, Direction dir, string color = "red")
+        public void GhostMove(Point P, Direction D, GhostColor color, bool sprite1, GhostState state)
         {
+            pnl.Invoke(new GhostPaint(changePic), P, D, color, sprite1, state);
+        }
 
-            redGhost = new PictureBox();
-            redGhost.BackgroundImage = Properties.Resources.RedGhost;
-            redGhost.BackgroundImageLayout = ImageLayout.Stretch;
-            redGhost.Name = "picRedG";
-            redGhost.Size = new Size((int)(cellWidth * 4 - 4), (int)(cellHeight * 4 - 4));
-            redGhost.Location = new Point((int)(x * cellWidth + 2) , (int)(y * cellHeight + 2));
-            try
+        private Bitmap findImage(Direction D, GhostColor color, bool sprite1, GhostState state)
+        {
+            if (state == GhostState.BONUS && state != GhostState.EATEN)
             {
-                lock (this)
+                if (sprite1) return new Bitmap(Properties.Resources.BonusBGhost1);
+                else return new Bitmap(Properties.Resources.BonusBGhost2);
+            }
+            else if (state == GhostState.EATEN)
+            {
+                switch (D)
                 {
-                    c.Add(redGhost);
+                    case Direction.DOWN: return new Bitmap(Properties.Resources.eyesDown);
+                    case Direction.UP: return new Bitmap(Properties.Resources.eyesUp);
+                    case Direction.RIGHT: return new Bitmap(Properties.Resources.eyesRight);
+                    case Direction.LEFT: return new Bitmap(Properties.Resources.eyesLeft);
+                    default: return null;
                 }
             }
-            catch { }
-            
+            else
+            {
+                switch (color)
+                {
+                    case GhostColor.RED:
+                        switch (D)
+                        {
+                            case Direction.DOWN:if (sprite1) return new Bitmap(Properties.Resources.RedGhostDown1);
+                                                else return new Bitmap(Properties.Resources.RedGhostDown2);
+                            case Direction.UP:if (sprite1) return new Bitmap(Properties.Resources.RedGhostUp1);
+                                              else return new Bitmap(Properties.Resources.RedGhostUp2);
+                            case Direction.RIGHT:if(sprite1) return new Bitmap(Properties.Resources.RedGhostRight1);
+                                                 else return new Bitmap(Properties.Resources.RedGhostRight2);
+                            case Direction.LEFT:if (sprite1) return new Bitmap(Properties.Resources.RedGhostLeft1);
+                                                else return new Bitmap(Properties.Resources.RedGhostLeft2);
+                            default: return null;
+                        }
+
+                    case GhostColor.BLUE:
+                        switch (D)
+                        {
+                            case Direction.DOWN: if (sprite1) return new Bitmap(Properties.Resources.BlueGhostDown1);
+                                                 else return new Bitmap(Properties.Resources.BlueGhostDown2);
+                            case Direction.UP: if (sprite1) return new Bitmap(Properties.Resources.BlueGhostUp1);
+                                               else return new Bitmap(Properties.Resources.BlueGhostUp2);
+                            case Direction.RIGHT: if (sprite1) return new Bitmap(Properties.Resources.BlueGhostRight1);
+                                                 else return new Bitmap(Properties.Resources.BlueGhostRight2);
+                            case Direction.LEFT: if (sprite1) return new Bitmap(Properties.Resources.BlueGhostLeft1);
+                                                 else return new Bitmap(Properties.Resources.BlueGhostLeft2);
+
+                            default: return null;
+                        }
+
+                    case GhostColor.PINK:
+                        switch (D)
+                        {
+                            case Direction.DOWN:
+                                if (sprite1) return new Bitmap(Properties.Resources.PinkGhostDown1);
+                                else return new Bitmap(Properties.Resources.PinkGhostDown2);
+                            case Direction.UP:
+                                if (sprite1) return new Bitmap(Properties.Resources.PinkGhostUp1);
+                                else return new Bitmap(Properties.Resources.PinkGhostUp2);
+                            case Direction.RIGHT:
+                                if (sprite1) return new Bitmap(Properties.Resources.PinkGhostRight1);
+                                else return new Bitmap(Properties.Resources.PinkGhostRight2);
+                            case Direction.LEFT:
+                                if (sprite1) return new Bitmap(Properties.Resources.PinkGhostLeft1);
+                                else return new Bitmap(Properties.Resources.PinkGhostLeft2);
+                            default: return null;
+                        }
+
+                    case GhostColor.YELLOW:
+                        switch (D)
+                        {
+                            case Direction.DOWN:
+                                if (sprite1) return new Bitmap(Properties.Resources.YellowGhostDown1);
+                                else return new Bitmap(Properties.Resources.YellowGhostDown2);
+                            case Direction.UP:
+                                if (sprite1) return new Bitmap(Properties.Resources.YellowGhostUp1);
+                                else return new Bitmap(Properties.Resources.YellowGhostUp2);
+                            case Direction.RIGHT:
+                                if (sprite1) return new Bitmap(Properties.Resources.YellowGhostRight1);
+                                else return new Bitmap(Properties.Resources.YellowGhostRight2);
+                            case Direction.LEFT:
+                                if (sprite1) return new Bitmap(Properties.Resources.YellowGhostLeft1);
+                                else return new Bitmap(Properties.Resources.YellowGhostLeft2);
+                            default: return null;
+                        }
+                    default: return null;
+                }
+            }
+
+
         }
+
+        private void changePic(Point P, Direction D, GhostColor color, bool sprite1, GhostState state)
+        {
+            switch (color)
+            {
+                case GhostColor.RED:
+                    if (picRedGhost != null) pnl.Controls.Remove(picRedGhost);
+                    picRedGhost = new PictureBox();
+                    picRedGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picRedGhost.Location = new Point((int)(P.X * cellWidth + 2 ), (int)(P.Y * cellHeight +2));
+                    picRedGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
+                    picRedGhost.BackgroundImage = findImage(D, color, sprite1, state);
+                    pnl.Controls.Add(picRedGhost);
+                    break;
+                case GhostColor.BLUE:
+                    if (picBlueGhost != null) pnl.Controls.Remove(picBlueGhost);
+                    picBlueGhost = new PictureBox();
+                    picBlueGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picBlueGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picBlueGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
+                    picBlueGhost.BackgroundImage = findImage(D, color, sprite1, state);
+                    pnl.Controls.Add(picBlueGhost);
+                    break;
+                case GhostColor.PINK:
+                    if (picPinkGhost != null) pnl.Controls.Remove(picPinkGhost);
+                    picPinkGhost = new PictureBox();
+                    picPinkGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picPinkGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picPinkGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
+                    picPinkGhost.BackgroundImage = findImage(D, color, sprite1, state);
+                    pnl.Controls.Add(picPinkGhost);
+                    break;
+                case GhostColor.YELLOW:
+                    if (picYellowGhost != null) pnl.Controls.Remove(picYellowGhost);
+                    picYellowGhost = new PictureBox();
+                    picYellowGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picYellowGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picYellowGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
+                    picYellowGhost.BackgroundImage = findImage(D, color, sprite1, state);
+                    pnl.Controls.Add(picYellowGhost);
+                    break;
+            }
+
+        }
+
 
         public void DrawPacMan(int x, int y, Color color, Direction dir)
         {
@@ -152,10 +281,6 @@ namespace PacmanWinForms
             }
         }
 
-        public void DrawGhost(Point P, Direction dir, string color = "red")
-        {
-            DrawGhost(P.X, P.Y, dir, color);
-        }
 
         private void calculateAngles(Direction dir, out int startAngle, out int sweepAngle)
         {
@@ -220,12 +345,12 @@ namespace PacmanWinForms
             }
         }
 
-        public void ClearRedGhost()
-        {
-            lock (this)
-            {
-                c.Remove(redGhost);
-            }
-        }
+        //public void ClearRedGhost()
+        //{
+        //    lock (this)
+        //    {
+        //        c.Remove(redGhost);
+        //    }
+        //}
     }
 }

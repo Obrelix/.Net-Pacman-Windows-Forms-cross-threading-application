@@ -51,18 +51,14 @@ namespace PacmanWinForms
             playSound(Properties.Resources.Pacman_Opening_Song);
             posSizeInit();
             game.State = GameState.GAMEPAUSE;
-            picRedGhost.Location = new Point(27 * cellWidth + 2, 22 * cellHeight + 2);
-            picBlueGhost.Location = new Point(31 * cellWidth + 2, 29 * cellHeight + 2);
-            picPinkGhost.Location = new Point(27 * cellWidth + 2, 29 * cellHeight + 2);
-            picYellowGhost.Location = new Point(23 * cellWidth + 2, 29 * cellHeight + 2);
+            //picRedGhost.Location = new Point(27 * cellWidth + 2, 22 * cellHeight + 2);
+            //picBlueGhost.Location = new Point(31 * cellWidth + 2, 29 * cellHeight + 2);
+            //picPinkGhost.Location = new Point(27 * cellWidth + 2, 29 * cellHeight + 2);
+            //picYellowGhost.Location = new Point(23 * cellWidth + 2, 29 * cellHeight + 2);
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
         {
-            //if (game.State == GameState.GAMEPAUSE)
-            //{
-            //    game.Continue();
-            //}
             //game.RePaint();
             //game.KeyDown(e);
             if (game == null) return;
@@ -99,455 +95,455 @@ namespace PacmanWinForms
             cellWidth = pnlBoard.Width / 58;
 
 
-            picRedGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
-            picBlueGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
-            picPinkGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
-            picYellowGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            //picRedGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            //picBlueGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            //picPinkGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
+            //picYellowGhost.Size = new Size(cellWidth * 4 - 4, cellHeight * 4 - 4);
 
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            pnlHighScore.Location = new Point(pnlLvl.Location.X + 100, 0);
-            pnlSc.Location = new Point(pnlLvl.Location.X - 100, 0);
+            pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
+            pnlSc.Location = new Point(pnlLvl.Location.X -78 - 50, 0); 
             lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 20);
             lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height + 20);
             lblHScoreValue.Location = new Point((pnlSc.Width - lblHScoreValue.Width) / 2, lblLVL.Height + 20);
             pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
         }
 
-        public void redGhostMove(Point P, Direction D)
-        {
+        //public void redGhostMove(Point P, Direction D)
+        //{
 
-            if (InvokeRequired)
-            {
-                Invoke(new Action<Point, Direction>(redGhostMove), new object[] { P, D });
-                //Invoke(new Action<string>(WritePosition), value);
-                return;
-            }
-            picRedGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<Point, Direction>(redGhostMove), new object[] { P, D });
+        //        //Invoke(new Action<string>(WritePosition), value);
+        //        return;
+        //    }
+        //    picRedGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
 
-            if (!bonusFlag || redCollision)
-            {
-                switch (D)
-                {
-                    case Direction.DOWN:
-                        if (redCollision)
-                        {
-                            picRedGhost.BackgroundImage = Properties.Resources.eyesDown;
-                        }
-                        else
-                        {
-                            if (Redflag)
-                            {
+        //    if (!bonusFlag || redCollision)
+        //    {
+        //        switch (D)
+        //        {
+        //            case Direction.DOWN:
+        //                if (redCollision)
+        //                {
+        //                    picRedGhost.BackgroundImage = Properties.Resources.eyesDown;
+        //                }
+        //                else
+        //                {
+        //                    if (Redflag)
+        //                    {
 
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown1;
-                                Redflag = false;
-                            }
-                            else
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown2;
-                                Redflag = true;
-                            }
-                        }
-                    break;
-                    case Direction.UP:
-                        if (redCollision)
-                        {
-                            picRedGhost.BackgroundImage = Properties.Resources.eyesUp;
-                        }
-                        else
-                        {
-                            if (Redflag)
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp1;
-                                Redflag = false;
-                            }
-                            else
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp2;
-                                Redflag = true;
-                            }
-                        }
-                    break;
-                    case Direction.RIGHT:
-                        if (redCollision)
-                        {
-                            picRedGhost.BackgroundImage = Properties.Resources.eyesRight;
-                        }
-                        else
-                        {
-                            if (Redflag)
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight1;
-                                Redflag = false;
-                            }
-                            else
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight2;
-                                Redflag = true;
-                            }
-                        }
-                    break;
-                    case Direction.LEFT:
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown1;
+        //                        Redflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostDown2;
+        //                        Redflag = true;
+        //                    }
+        //                }
+        //            break;
+        //            case Direction.UP:
+        //                if (redCollision)
+        //                {
+        //                    picRedGhost.BackgroundImage = Properties.Resources.eyesUp;
+        //                }
+        //                else
+        //                {
+        //                    if (Redflag)
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp1;
+        //                        Redflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostUp2;
+        //                        Redflag = true;
+        //                    }
+        //                }
+        //            break;
+        //            case Direction.RIGHT:
+        //                if (redCollision)
+        //                {
+        //                    picRedGhost.BackgroundImage = Properties.Resources.eyesRight;
+        //                }
+        //                else
+        //                {
+        //                    if (Redflag)
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight1;
+        //                        Redflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostRight2;
+        //                        Redflag = true;
+        //                    }
+        //                }
+        //            break;
+        //            case Direction.LEFT:
 
-                        if (redCollision)
-                        {
-                            picRedGhost.BackgroundImage = Properties.Resources.eyesLeft;
-                        }
-                        else
-                        {
-                            if (Redflag)
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft1;
-                                Redflag = false;
-                            }
-                            else
-                            {
-                                picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft2;
-                                Redflag = true;
-                            }
-                        }
-                    break;
-                }
-            }
-            else
-            {
-                if (Redflag)
-                {
+        //                if (redCollision)
+        //                {
+        //                    picRedGhost.BackgroundImage = Properties.Resources.eyesLeft;
+        //                }
+        //                else
+        //                {
+        //                    if (Redflag)
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft1;
+        //                        Redflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picRedGhost.BackgroundImage = Properties.Resources.RedGhostLeft2;
+        //                        Redflag = true;
+        //                    }
+        //                }
+        //            break;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (Redflag)
+        //        {
                    
-                    picRedGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
-                    Redflag = false;
-                }
-                else
-                {
-                    picRedGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
-                    Redflag = true;
-                }
-            }
-        }
+        //            picRedGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
+        //            Redflag = false;
+        //        }
+        //        else
+        //        {
+        //            picRedGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
+        //            Redflag = true;
+        //        }
+        //    }
+        //}
 
-        public void YellowGhostMove(Point P, Direction D)
-        {
+        //public void YellowGhostMove(Point P, Direction D)
+        //{
 
-            if (InvokeRequired)
-            {
-                Invoke(new Action<Point, Direction>(YellowGhostMove), new object[] { P, D });
-                //Invoke(new Action<string>(WritePosition), value);
-                return;
-            }
-            picYellowGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
-            if (!bonusFlag || yellowCollision)
-            {
-                switch (D)
-                {
-                    case Direction.DOWN:
-                        if (yellowCollision)
-                        {
-                            picYellowGhost.BackgroundImage = Properties.Resources.eyesDown;
-                        }
-                        else
-                        {
-                            if (YellowFlag)
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown1;
-                                YellowFlag = false;
-                            }
-                            else
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown2;
-                                YellowFlag = true;
-                            }
-                        }
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<Point, Direction>(YellowGhostMove), new object[] { P, D });
+        //        //Invoke(new Action<string>(WritePosition), value);
+        //        return;
+        //    }
+        //    picYellowGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+        //    if (!bonusFlag || yellowCollision)
+        //    {
+        //        switch (D)
+        //        {
+        //            case Direction.DOWN:
+        //                if (yellowCollision)
+        //                {
+        //                    picYellowGhost.BackgroundImage = Properties.Resources.eyesDown;
+        //                }
+        //                else
+        //                {
+        //                    if (YellowFlag)
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown1;
+        //                        YellowFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostDown2;
+        //                        YellowFlag = true;
+        //                    }
+        //                }
                         
-                        break;
-                    case Direction.UP:
-                        if (yellowCollision)
-                        {
-                            picYellowGhost.BackgroundImage = Properties.Resources.eyesUp;
-                        }
-                        else
-                        {
-                            if (YellowFlag)
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp1;
-                                YellowFlag = false;
-                            }
-                            else
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp2;
-                                YellowFlag = true;
-                            }
-                        }
+        //                break;
+        //            case Direction.UP:
+        //                if (yellowCollision)
+        //                {
+        //                    picYellowGhost.BackgroundImage = Properties.Resources.eyesUp;
+        //                }
+        //                else
+        //                {
+        //                    if (YellowFlag)
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp1;
+        //                        YellowFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostUp2;
+        //                        YellowFlag = true;
+        //                    }
+        //                }
                         
-                        break;
-                    case Direction.RIGHT:
-                        if (yellowCollision)
-                        {
-                            picYellowGhost.BackgroundImage = Properties.Resources.eyesRight;
-                        }
-                        else
-                        {
-                            if (YellowFlag)
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight1;
-                                YellowFlag = false;
-                            }
-                            else
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight2;
-                                YellowFlag = true;
-                            }
-                        }
+        //                break;
+        //            case Direction.RIGHT:
+        //                if (yellowCollision)
+        //                {
+        //                    picYellowGhost.BackgroundImage = Properties.Resources.eyesRight;
+        //                }
+        //                else
+        //                {
+        //                    if (YellowFlag)
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight1;
+        //                        YellowFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostRight2;
+        //                        YellowFlag = true;
+        //                    }
+        //                }
                         
-                        break;
-                    case Direction.LEFT:
-                        if (yellowCollision)
-                        {
-                            picYellowGhost.BackgroundImage = Properties.Resources.eyesLeft;
-                        }
-                        else
-                        {
-                            if (YellowFlag)
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft1;
-                                YellowFlag = false;
-                            }
-                            else
-                            {
-                                picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft2;
-                                YellowFlag = true;
-                            }
-                        }
+        //                break;
+        //            case Direction.LEFT:
+        //                if (yellowCollision)
+        //                {
+        //                    picYellowGhost.BackgroundImage = Properties.Resources.eyesLeft;
+        //                }
+        //                else
+        //                {
+        //                    if (YellowFlag)
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft1;
+        //                        YellowFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picYellowGhost.BackgroundImage = Properties.Resources.YellowGhostLeft2;
+        //                        YellowFlag = true;
+        //                    }
+        //                }
                         
-                        break;
-                }
-            }
-            else
-            {
-                if (YellowFlag)
-                {
-                    picYellowGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
-                    YellowFlag = false;
-                }
-                else
-                {
-                    picYellowGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
-                    YellowFlag = true;
-                }
-            }
-        }
+        //                break;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (YellowFlag)
+        //        {
+        //            picYellowGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
+        //            YellowFlag = false;
+        //        }
+        //        else
+        //        {
+        //            picYellowGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
+        //            YellowFlag = true;
+        //        }
+        //    }
+        //}
 
-        public void PinkGhostMove(Point P, Direction D)
-        {
+        //public void PinkGhostMove(Point P, Direction D)
+        //{
 
-            if (InvokeRequired)
-            {
-                Invoke(new Action<Point, Direction>(PinkGhostMove), new object[] { P, D });
-                //Invoke(new Action<string>(WritePosition), value);
-                return;
-            }
-            picPinkGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
-            if (!bonusFlag || pinkCollision)
-            {
-                switch (D)
-                {
-                    case Direction.DOWN:
-                        if (pinkCollision)
-                        {
-                            picPinkGhost.BackgroundImage = Properties.Resources.eyesDown;
-                        }
-                        else
-                        {
-                            if (PinkFlag)
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown1;
-                                PinkFlag = false;
-                            }
-                            else
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown2;
-                                PinkFlag = true;
-                            }
-                        }
-                        break;
-                    case Direction.UP:
-                        if (pinkCollision)
-                        {
-                            picPinkGhost.BackgroundImage = Properties.Resources.eyesUp;
-                        }
-                        else
-                        {
-                            if (PinkFlag)
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp1;
-                                PinkFlag = false;
-                            }
-                            else
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp2;
-                                PinkFlag = true;
-                            }
-                        }
-                        break;
-                    case Direction.RIGHT:
-                        if (pinkCollision)
-                        {
-                            picPinkGhost.BackgroundImage = Properties.Resources.eyesRight;
-                        }
-                        else
-                        {
-                            if (PinkFlag)
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight1;
-                                PinkFlag = false;
-                            }
-                            else
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight2;
-                                PinkFlag = true;
-                            }
-                        }
-                        break;
-                    case Direction.LEFT:
-                        if (pinkCollision)
-                        {
-                            picPinkGhost.BackgroundImage = Properties.Resources.eyesLeft;
-                        }
-                        else
-                        {
-                            if (PinkFlag)
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft1;
-                                PinkFlag = false;
-                            }
-                            else
-                            {
-                                picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft2;
-                                PinkFlag = true;
-                            }
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                if (PinkFlag)
-                {
-                    picPinkGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
-                    PinkFlag = false;
-                }
-                else
-                {
-                    picPinkGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
-                    PinkFlag = true;
-                }
-            }
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<Point, Direction>(PinkGhostMove), new object[] { P, D });
+        //        //Invoke(new Action<string>(WritePosition), value);
+        //        return;
+        //    }
+        //    picPinkGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+        //    if (!bonusFlag || pinkCollision)
+        //    {
+        //        switch (D)
+        //        {
+        //            case Direction.DOWN:
+        //                if (pinkCollision)
+        //                {
+        //                    picPinkGhost.BackgroundImage = Properties.Resources.eyesDown;
+        //                }
+        //                else
+        //                {
+        //                    if (PinkFlag)
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown1;
+        //                        PinkFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostDown2;
+        //                        PinkFlag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.UP:
+        //                if (pinkCollision)
+        //                {
+        //                    picPinkGhost.BackgroundImage = Properties.Resources.eyesUp;
+        //                }
+        //                else
+        //                {
+        //                    if (PinkFlag)
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp1;
+        //                        PinkFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostUp2;
+        //                        PinkFlag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.RIGHT:
+        //                if (pinkCollision)
+        //                {
+        //                    picPinkGhost.BackgroundImage = Properties.Resources.eyesRight;
+        //                }
+        //                else
+        //                {
+        //                    if (PinkFlag)
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight1;
+        //                        PinkFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostRight2;
+        //                        PinkFlag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.LEFT:
+        //                if (pinkCollision)
+        //                {
+        //                    picPinkGhost.BackgroundImage = Properties.Resources.eyesLeft;
+        //                }
+        //                else
+        //                {
+        //                    if (PinkFlag)
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft1;
+        //                        PinkFlag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picPinkGhost.BackgroundImage = Properties.Resources.PinkGhostLeft2;
+        //                        PinkFlag = true;
+        //                    }
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (PinkFlag)
+        //        {
+        //            picPinkGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
+        //            PinkFlag = false;
+        //        }
+        //        else
+        //        {
+        //            picPinkGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
+        //            PinkFlag = true;
+        //        }
+        //    }
 
-        }
+        //}
 
-        public void blueGhostMove(Point P, Direction D)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action<Point, Direction>(blueGhostMove), new object[] { P, D });
-                //Invoke(new Action<string>(WritePosition), value);
-                return;
-            }
-            picBlueGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
-            if (!bonusFlag || blueCollision)
-            {
-                switch (D)
-                {
-                    case Direction.DOWN:
-                        if (blueCollision)
-                        {
-                            picBlueGhost.BackgroundImage = Properties.Resources.eyesDown;
-                        }
-                        else
-                        {
-                            if (Blueflag)
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown1;
-                                Blueflag = false;
-                            }
-                            else
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown2;
-                                Blueflag = true;
-                            }
-                        }
-                        break;
-                    case Direction.UP:
-                        if (blueCollision)
-                        {
-                            picBlueGhost.BackgroundImage = Properties.Resources.eyesUp;
-                        }
-                        else
-                        {
-                            if (Blueflag)
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp1;
-                                Blueflag = false;
-                            }
-                            else
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp2;
-                                Blueflag = true;
-                            }
-                        }
-                        break;
-                    case Direction.RIGHT:
-                        if (blueCollision)
-                        {
-                            picBlueGhost.BackgroundImage = Properties.Resources.eyesRight;
-                        }
-                        else
-                        {
-                            if (Blueflag)
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight1;
-                                Blueflag = false;
-                            }
-                            else
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight2;
-                                Blueflag = true;
-                            }
-                        }
-                        break;
-                    case Direction.LEFT:
-                        if (blueCollision)
-                        {
-                            picBlueGhost.BackgroundImage = Properties.Resources.eyesLeft;
-                        }
-                        else
-                        {
-                            if (Blueflag)
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft1;
-                                Blueflag = false;
-                            }
-                            else
-                            {
-                                picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft2;
-                                Blueflag = true;
-                            }
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                if (Blueflag)
-                {
-                    picBlueGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
-                    Blueflag = false;
-                }
-                else
-                {
-                    picBlueGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
-                    Blueflag = true;
-                }
-            }
-        }
+        //public void blueGhostMove(Point P, Direction D)
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<Point, Direction>(blueGhostMove), new object[] { P, D });
+        //        //Invoke(new Action<string>(WritePosition), value);
+        //        return;
+        //    }
+        //    picBlueGhost.Location = new Point(P.X * cellWidth + 2, P.Y * cellHeight + 2);
+        //    if (!bonusFlag || blueCollision)
+        //    {
+        //        switch (D)
+        //        {
+        //            case Direction.DOWN:
+        //                if (blueCollision)
+        //                {
+        //                    picBlueGhost.BackgroundImage = Properties.Resources.eyesDown;
+        //                }
+        //                else
+        //                {
+        //                    if (Blueflag)
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown1;
+        //                        Blueflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostDown2;
+        //                        Blueflag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.UP:
+        //                if (blueCollision)
+        //                {
+        //                    picBlueGhost.BackgroundImage = Properties.Resources.eyesUp;
+        //                }
+        //                else
+        //                {
+        //                    if (Blueflag)
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp1;
+        //                        Blueflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostUp2;
+        //                        Blueflag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.RIGHT:
+        //                if (blueCollision)
+        //                {
+        //                    picBlueGhost.BackgroundImage = Properties.Resources.eyesRight;
+        //                }
+        //                else
+        //                {
+        //                    if (Blueflag)
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight1;
+        //                        Blueflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostRight2;
+        //                        Blueflag = true;
+        //                    }
+        //                }
+        //                break;
+        //            case Direction.LEFT:
+        //                if (blueCollision)
+        //                {
+        //                    picBlueGhost.BackgroundImage = Properties.Resources.eyesLeft;
+        //                }
+        //                else
+        //                {
+        //                    if (Blueflag)
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft1;
+        //                        Blueflag = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        picBlueGhost.BackgroundImage = Properties.Resources.BlueGhostLeft2;
+        //                        Blueflag = true;
+        //                    }
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (Blueflag)
+        //        {
+        //            picBlueGhost.BackgroundImage = Properties.Resources.BonusBGhost1;
+        //            Blueflag = false;
+        //        }
+        //        else
+        //        {
+        //            picBlueGhost.BackgroundImage = Properties.Resources.BonusBGhost2;
+        //            Blueflag = true;
+        //        }
+        //    }
+        //}
 
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
         {

@@ -13,6 +13,7 @@ namespace PacmanWinForms
         public static List<Point> dotPointList()
         {
             dotListInit();
+            dotList = dotList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return dotList;
         }
 
@@ -20,6 +21,7 @@ namespace PacmanWinForms
         public static List<Point> bonusPointList()
         {
             bonusListInit();
+            bonusList = bonusList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return bonusList;
         }
 
@@ -27,12 +29,14 @@ namespace PacmanWinForms
         public static List<Point> banPointList()
         {
             banListInit();
+            banList = banList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return banList;
         }
         private static List<Point> boxList = new List<Point>();
         public static List<Point> boxPointList()
         {
             boxListInit();
+            boxList = boxList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return boxList;
         }
 
@@ -40,6 +44,7 @@ namespace PacmanWinForms
         public static List<Point> boxDoorPointList()
         {
             boxDoorInit();
+            BoxDoorList = BoxDoorList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return BoxDoorList;
         }
         private static List<Point> bonusListInit()
@@ -48,11 +53,23 @@ namespace PacmanWinForms
             bonusList.Add(new Point(8, 48));
             bonusList.Add(new Point(50, 12));
             bonusList.Add(new Point(8, 12));
+            for (int i = 0; i < bonusList.Count; i++)
+            {
+                if (bonusList[i].X == 0 || bonusList[i].Y == 0)
+                {
+                    bonusList.RemoveAt(i);
+                }
+                else
+                {
+                    bonusList[i] = new Point(bonusList[i].X - 1, bonusList[i].Y - 1);
+                }
+            }
             return bonusList;
         }
 
         private static void boxListInit()
         {
+            boxList.Clear();
             boxList.Add(new Point(22, 26));
             boxList.Add(new Point(22, 27));
             boxList.Add(new Point(23, 26));
@@ -165,21 +182,45 @@ namespace PacmanWinForms
             boxList.Add(new Point(34, 33));
             boxList.Add(new Point(35, 32));
             boxList.Add(new Point(35, 33));
+            for (int i = 0; i < boxList.Count; i++)
+            {
+                if (boxList[i].X == 0 || boxList[i].Y == 0)
+                {
+                    boxList.RemoveAt(i);
+                }
+                else
+                {
+                    boxList[i] = new Point(boxList[i].X - 1, boxList[i].Y - 1);
+                }
+            }
         }
 
         private static void boxDoorInit()
         {
+            BoxDoorList.Clear();
             BoxDoorList.Add(new Point(26, 26));
             BoxDoorList.Add(new Point(27, 26));
             BoxDoorList.Add(new Point(28, 26));
             BoxDoorList.Add(new Point(29, 26));
             BoxDoorList.Add(new Point(30, 26));
             BoxDoorList.Add(new Point(31, 26));
+
+            for (int i = 0; i < BoxDoorList.Count; i++)
+            {
+                if (BoxDoorList[i].X == 0 || BoxDoorList[i].Y == 0)
+                {
+                    BoxDoorList.RemoveAt(i);
+                }
+                else
+                {
+                    BoxDoorList[i] = new Point(BoxDoorList[i].X - 1, BoxDoorList[i].Y - 1);
+                }
+            }
         }
 
         private static void dotListInit()
         {
-            //dotList.Clear();
+            dotList.Clear();
             dotList.Add(new Point(26, 42));
             dotList.Add(new Point(24, 42));
             dotList.Add(new Point(22, 42));
@@ -196,7 +237,7 @@ namespace PacmanWinForms
             dotList.Add(new Point(4, 46));
             dotList.Add(new Point(4, 48));
             dotList.Add(new Point(6, 48));
-            //dotList.Add(new Point(8, 48));
+            dotList.Add(new Point(8, 48));
             dotList.Add(new Point(8, 50));
             dotList.Add(new Point(8, 52));
             dotList.Add(new Point(8, 54));
@@ -281,6 +322,7 @@ namespace PacmanWinForms
             dotList.Add(new Point(54, 54));
             dotList.Add(new Point(52, 54));
             dotList.Add(new Point(50, 54));
+            dotList.Add(new Point(50, 48));
             dotList.Add(new Point(48, 54));
             dotList.Add(new Point(46, 54));
             dotList.Add(new Point(50, 52));
@@ -300,6 +342,8 @@ namespace PacmanWinForms
             dotList.Add(new Point(36, 42));
             dotList.Add(new Point(34, 42));
             dotList.Add(new Point(32, 42));
+            dotList.Add(new Point(30, 42));
+            dotList.Add(new Point(28, 42));
 
             for (int i = 40; i >= 24; i--)
             {
@@ -449,34 +493,73 @@ namespace PacmanWinForms
             dotList.Add(new Point(32, 6));
             dotList.Add(new Point(26, 6));
 
+            for (int i = 0; i < dotList.Count; i++)
+            {
+                if (dotList[i].X == 0 || dotList[i].Y == 0)
+                {
+                    dotList.RemoveAt(i);
+                }
+                else
+                {
+                    dotList[i] = new Point(dotList[i].X - 1, dotList[i].Y - 1);
+                }
+            }
+
+            Point p1 = new Point(13, 41);
+            Point p2 = new Point(13, 29);
+            Point p3 = new Point(13, 17);
+            Point p4 = new Point(13, 11);
+            Point p5 = new Point(53, 11);
+            Point p6 = new Point(53, 17);
+            Point p7 = new Point(53, 29);
+            List<Point> dList = dotList.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+
+            for (int i = 0; i < dotList.Count; i++)
+            {
+                if (dotList[i] == p1 || dotList[i] == p2 || dotList[i] == p3
+                    || dotList[i] == p4 || dotList[i] == p5 || dotList[i] == p6 || dotList[i] == p7)
+                {
+                    dotList.RemoveAt(i);
+                }
+            }
+            dotList.Add(p1);
+            dotList.Add(p2);
+            dotList.Add(p3);
+            dotList.Add(p4);
+            dotList.Add(p5);
+            dotList.Add(p6);
+            dotList.Add(p7);
+
         }
 
         private static void banListInit()
         {
-            //banList.Clear();
+            banList.Clear();
 
-            
-                for (int i = 1; i <= 56; i++)
-                {
-                    banList.Add(new Point(i, 1));
-                }
+            for (int i = 1; i <= 56; i++)
+            {
+                banList.Add(new Point(i, 1));
+            }
 
-            
-                for (int j = 2; j <= 62; j++)
-                {
-                    banList.Add(new Point(1, j));
-                }
 
-            
-                for (int i = 2; i <= 56; i++)
-                {
-                    banList.Add(new Point(i, 62));
-                }
+            for (int j = 2; j <= 62; j++)
+            {
+                banList.Add(new Point(1, j));
+            }
 
-                for (int j = 2; j <= 64 - 2; j++)
-                {
-                    banList.Add(new Point(56, j));
-                }
+
+            for (int i = 2; i <= 56; i++)
+            {
+                banList.Add(new Point(i, 62));
+            }
+
+            for (int j = 2; j <= 64 - 2; j++)
+            {
+                banList.Add(new Point(56, j));
+            }
             banList.Add(new Point(28, 2));
             banList.Add(new Point(29, 2));
             banList.Add(new Point(28, 3));
@@ -1101,17 +1184,17 @@ namespace PacmanWinForms
             //banList.Add(new Point(24, 27));
             banList.Add(new Point(25, 26));
             //banList.Add(new Point(25, 27));
-           // banList.Add(new Point(26, 26));
+            // banList.Add(new Point(26, 26));
             //banList.Add(new Point(26, 27));
-           // banList.Add(new Point(27, 26));
+            // banList.Add(new Point(27, 26));
             //banList.Add(new Point(27, 27));
-           // banList.Add(new Point(28, 26));
+            // banList.Add(new Point(28, 26));
             //banList.Add(new Point(28, 27));
-           // banList.Add(new Point(29, 26));
+            // banList.Add(new Point(29, 26));
             //banList.Add(new Point(29, 27));
-           // banList.Add(new Point(30, 26));
+            // banList.Add(new Point(30, 26));
             //banList.Add(new Point(30, 27));
-           // banList.Add(new Point(31, 26));
+            // banList.Add(new Point(31, 26));
             //banList.Add(new Point(31, 27));
 
             banList.Add(new Point(32, 26));
@@ -1279,6 +1362,17 @@ namespace PacmanWinForms
             banList.Add(new Point(28, 57));
             banList.Add(new Point(29, 57));
 
+            for (int i = 0; i < banList.Count; i++)
+            {
+                if (banList[i].X == 0 || banList[i].Y == 0)
+                {
+                    banList.RemoveAt(i);
+                }
+                else
+                {
+                    banList[i] = new Point(banList[i].X - 1, banList[i].Y - 1);
+                }
+            }
 
         }
 

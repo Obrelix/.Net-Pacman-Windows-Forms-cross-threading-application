@@ -242,7 +242,7 @@ namespace PacmanWinForms
                     counter++;
                     doorPaint();
                     wallPaint();
-                    Runner.Wait(70);
+                    wallRunner.Wait(50);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
