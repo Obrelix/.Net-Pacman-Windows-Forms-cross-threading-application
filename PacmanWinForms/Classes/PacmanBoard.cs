@@ -5,6 +5,7 @@ using System;
 using PacmanWinForms;
 
 public delegate void GhostPaint(Point point, Direction D, GhostColor color, bool sprite1, GhostState state);
+public delegate void FruitPaint(Point point);
 namespace PacmanWinForms
 {
     public class PacmanBoard
@@ -25,6 +26,8 @@ namespace PacmanWinForms
         PictureBox picBlueGhost;
         PictureBox picPinkGhost;
         PictureBox picYellowGhost;
+
+        PictureBox picFruit;
 
         public PacmanBoard(Panel pnl, int rows = 62, int cols = 56, Color? bgColor = null)
         {
@@ -130,6 +133,31 @@ namespace PacmanWinForms
             pnl.Invoke(new GhostPaint(changePic), P, D, color, sprite1, state);
         }
 
+        public void DrawFruit(Point P)
+        {
+            pnl.Invoke(new FruitPaint(changeFruitPos), P);
+        }
+
+        public void CleanFruit(Point P)
+        {
+            pnl.Invoke(new FruitPaint(CleanFruitPos), P);
+        }
+        private void CleanFruitPos(Point P)
+        {
+            if (picFruit != null) pnl.Controls.Remove(picFruit);
+
+        }
+        private void changeFruitPos(Point P)
+        {
+            if (picFruit != null) pnl.Controls.Remove(picFruit);
+            picFruit = new PictureBox();
+            picFruit.BackgroundImageLayout = ImageLayout.Stretch;
+            picFruit.Location = new Point((int)(P.X * cellWidth + 11), (int)(P.Y * cellHeight + 11));
+            picFruit.Size = new Size((int)(4 * cellWidth) - 13, (int)(4 * cellHeight) - 13);
+            picFruit.BackgroundImage = Properties.Resources.Cherry;
+            pnl.Controls.Add(picFruit);
+
+        }
         private Bitmap findImage(Direction D, GhostColor color, bool sprite1, GhostState state)
         {
             if (state == GhostState.BONUSEND)

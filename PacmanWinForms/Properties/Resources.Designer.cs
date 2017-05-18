@@ -193,6 +193,16 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cherry {
+            get {
+                object obj = ResourceManager.GetObject("Cherry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eyesDown {
             get {
                 object obj = ResourceManager.GetObject("eyesDown", resourceCulture);
@@ -246,6 +256,15 @@ namespace PacmanWinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream Pacman_Dies {
             get {
                 return ResourceManager.GetStream("Pacman_Dies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Pacman_Eating_Cherry {
+            get {
+                return ResourceManager.GetStream("Pacman_Eating_Cherry", resourceCulture);
             }
         }
         

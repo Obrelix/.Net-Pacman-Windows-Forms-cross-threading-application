@@ -122,7 +122,6 @@ namespace PacmanWinForms
 
         public void reset()
         {
-
             board.ClearPacMan(pacman.Point);
             pacman = new Pacman(new Point(26, 39), Direction.STOP);
         }

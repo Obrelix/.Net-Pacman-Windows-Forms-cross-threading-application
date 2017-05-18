@@ -108,6 +108,7 @@ namespace PacmanWinForms
                 BlueGhost.State = value;
                 YellowGhost.State = value;
                 PinkGhost.State = value;
+                fruit.State = value;
             }
         }
 
@@ -120,6 +121,7 @@ namespace PacmanWinForms
         private bool _bonus = false;
         private int Level = 1;
         private int lives = 3;
+        
 
         public bool Bonus
         {
@@ -141,6 +143,7 @@ namespace PacmanWinForms
         private GhostRun BlueGhost;
         private GhostRun PinkGhost;
         private GhostRun YellowGhost;
+        private FruitRun fruit;
 
         List<Point> wallList = new List<Point>();
         List<Point> dotList = new List<Point>();
@@ -158,6 +161,7 @@ namespace PacmanWinForms
             BlueGhost = new GhostRun(parentForm, board, GhostColor.BLUE);
             PinkGhost = new GhostRun(parentForm, board, GhostColor.PINK);
             YellowGhost = new GhostRun(parentForm, board, GhostColor.YELLOW);
+            fruit = new FruitRun(parentForm, board);
             this.Init();
             RePaint();
         }
@@ -189,11 +193,13 @@ namespace PacmanWinForms
             wallRunner.Start();
             Clock = new Task(runClock);
             Clock.Start();
-            Pacman.Run();
             RedGhost.Run();
             BlueGhost.Run();
             YellowGhost.Run();
             PinkGhost.Run();
+            Pacman.Run();
+            fruit.Run();
+            fruit.fruitState = FruitState.EATEN;
         }
 
         public void RePaint()
@@ -217,7 +223,8 @@ namespace PacmanWinForms
                     dotPaint();
                     checkForWin();
                     checkForLose();
-                    checkForCollision();
+                    eatGhost();
+                    eatFruit();
                     parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
                     Runner.Wait(10);
                 }
@@ -232,15 +239,30 @@ namespace PacmanWinForms
             return lives;
 
         }
-
+        bool addLive = true, addLive2 = true, addLive3 = true;
         private void addLives()
         {
-            if (score % 10000 == 0)
+           
+            if(score > 9999 && addLive)
             {
                 parentForm.playSound(Properties.Resources.Pacman_Extra_Live);
-                score += 10;
                 lives++;
+                addLive = false;
             }
+            if(score > 19999 && addLive2)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Extra_Live);
+                lives++;
+                addLive2 = false;
+            }
+            if (score > 29999 && addLive3)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Extra_Live);
+                lives++;
+                addLive3 = false;
+            }
+
+
         }
 
         private void runWalls()
@@ -263,6 +285,7 @@ namespace PacmanWinForms
             {
                 try
                 {
+                    fruitApear();
                     changeGhostState();
                     bonusStateChange();
                     Clock.Wait(100);
@@ -356,6 +379,20 @@ namespace PacmanWinForms
                 
             }
         }
+
+        int fruitCounter = 0;
+        private void fruitApear()
+        {
+            if(fruitCounter < 1200 && State == GameState.GAMERUN)
+            {
+                fruitCounter++;
+            }
+            else if(State == GameState.GAMERUN)
+            {
+                fruitCounter = 0;
+                fruit.reset();
+            }
+        }
         private void eatDots(Point[] core)
         {
             
@@ -375,6 +412,7 @@ namespace PacmanWinForms
                 }
             }
         }
+        
 
         private void eatBonus(Point[] core)
         {
@@ -443,7 +481,19 @@ namespace PacmanWinForms
             }
         }
 
-        private GhostColor checkForCollision()
+        private void eatFruit()
+        {
+            List<Point> commonPoints = Pacman.core().Intersect(fruit.core().Select(u => u)).ToList();
+            if (commonPoints.Count != 0)
+            {
+                score += 500;
+                parentForm.playSound(Properties.Resources.Pacman_Eating_Cherry);
+                fruit.fruitState = FruitState.EATEN;
+                board.CleanFruit(fruit.Point);
+            }
+        }
+
+        private GhostColor eatGhost()
         {
             eatenScore = (!Bonus || eatenScore > 1600) ? 200 : eatenScore;
             List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
