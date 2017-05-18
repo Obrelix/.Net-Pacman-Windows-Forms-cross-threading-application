@@ -261,6 +261,15 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Pacman_Extra_Live {
+            get {
+                return ResourceManager.GetStream("Pacman_Extra_Live", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Pacman_Intermission {
             get {
                 return ResourceManager.GetStream("Pacman_Intermission", resourceCulture);
@@ -490,6 +499,15 @@ namespace PacmanWinForms.Properties {
             get {
                 object obj = ResourceManager.GetObject("RedGhostUp2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Sound_Effect__6_ {
+            get {
+                return ResourceManager.GetStream("Sound_Effect__6_", resourceCulture);
             }
         }
         

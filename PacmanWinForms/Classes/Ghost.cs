@@ -105,7 +105,7 @@ namespace PacmanWinForms
 
         public Point[] core()
         {
-            if (gState == GhostState.EATEN) return ghost.core(new Point(0,0));
+            if (gState == GhostState.EATEN) return ghost.core(new Point(-10, -10));
             else return ghost.core(ghost.Point);
         }
 

@@ -119,7 +119,7 @@ namespace PacmanWinForms
         private int score = 0;
         private bool _bonus = false;
         private int Level = 1;
-        private int lives = 4;
+        private int lives = 3;
 
         public bool Bonus
         {
@@ -217,6 +217,7 @@ namespace PacmanWinForms
                     dotPaint();
                     checkForWin();
                     checkForLose();
+                    checkForCollision();
                     parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
                     Runner.Wait(10);
                 }
@@ -234,7 +235,12 @@ namespace PacmanWinForms
 
         private void addLives()
         {
-            if (score % 1000 == 0) lives++;
+            if (score % 10000 == 0)
+            {
+                parentForm.playSound(Properties.Resources.Pacman_Extra_Live);
+                score += 10;
+                lives++;
+            }
         }
 
         private void runWalls()
@@ -307,36 +313,39 @@ namespace PacmanWinForms
             }
         }
 
-        int bonusStateCounter = 1 , bonusCounter = 0, bonusEndCounter;
+        int bonusStateCounter = 1, bonusCounter = 0;
+        bool BonusEndSprite = true;
         
         private void bonusStateChange()
         {
             bonusStateCounter = (bonusStateCounter > 4) ? 1 : bonusStateCounter;
             bonusStateCounter++;
-            if (Bonus && bonusCounter < 55 && this.State == GameState.GAMERUN)
+            if (Bonus && bonusCounter < 70 && this.State == GameState.GAMERUN)
             {
                 bonusCounter++;
                 
             }
-            else if (Bonus && bonusCounter >= 55 && bonusCounter < 80)
+            else if (Bonus && bonusCounter >= 70 && bonusCounter < 100)
             {
-                if (bonusCounter % 10 == 0)
+                if (BonusEndSprite)
                 {
-                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.NORMAL);
-                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.NORMAL);
-                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.NORMAL);
-                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.BONUSEND);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.BONUSEND);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.BONUSEND);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.BONUSEND);
+                    BonusEndSprite = false;
                 }
-                else 
+                else
                 {
-                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.NORMAL);
-                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.NORMAL);
-                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.NORMAL);
-                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.BONUS);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.BONUS);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.BONUS);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.BONUS);
+                    BonusEndSprite = true;
                 }
                 bonusCounter++;
             }
-            else if(Bonus && bonusCounter >= 80)
+            else if(Bonus && bonusCounter >= 100)
             {
                 bonusCounter = 0;
                 Bonus = false;
@@ -397,7 +406,7 @@ namespace PacmanWinForms
 
             List<Point> commonPoints = Pacman.core().Intersect(mergedList.Select(u => u)).ToList();
 
-            if ((commonPoints.Count != 0 && !Bonus) || lives == 0)
+            if ((commonPoints.Count != 0 && !Bonus ) || lives == 0)
             {
                 State = GameState.GAMEPAUSE;
                 parentForm.playSound(Properties.Resources.Pacman_Dies);
@@ -410,6 +419,7 @@ namespace PacmanWinForms
                 PinkGhost.reset();
                 YellowGhost.reset();
                 Pacman.reset();
+                Bonus = false;
                 lives--;
                 if (lives == 0)
                 {
@@ -437,7 +447,7 @@ namespace PacmanWinForms
         {
             eatenScore = (!Bonus || eatenScore > 1600) ? 200 : eatenScore;
             List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus)
+            if (commonPoints.Count != 0 && Bonus && RedGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
                 eatenScore += eatenScore;
@@ -450,7 +460,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(BlueGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus)
+            if (commonPoints.Count != 0 && Bonus && BlueGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
                 eatenScore += eatenScore;
@@ -463,7 +473,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(YellowGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus)
+            if (commonPoints.Count != 0 && Bonus && YellowGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
                 eatenScore += eatenScore;
@@ -476,7 +486,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(PinkGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus)
+            if (commonPoints.Count != 0 && Bonus && PinkGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
                 eatenScore += eatenScore;
@@ -508,6 +518,7 @@ namespace PacmanWinForms
             PinkGhost.reset();
             YellowGhost.reset();
             Pacman.reset();
+            Bonus = false;
             Level++;
         }
         public async void WaitSomeTime(int time)
@@ -554,6 +565,10 @@ namespace PacmanWinForms
                 case 7: color = Color.LightSkyBlue; break;
                 case 8: color = Color.LightSteelBlue; break;
                 case 9: color = Color.SteelBlue; break;
+                case 10: color = Color.DarkSlateBlue; break;
+                case 11: color = Color.SlateBlue; break;
+                case 12: color = Color.DarkSlateGray; break;
+                case 13: color = Color.SlateGray; break;
                 default: color = Color.Blue; break;
             }
             foreach (Point p in wallList)

@@ -160,13 +160,13 @@ namespace PacmanWinForms
                     case GhostColor.RED:
                         switch (D)
                         {
-                            case Direction.DOWN:if (sprite1) return new Bitmap(Properties.Resources.RedGhostDown1);
+                            case Direction.DOWN: if (sprite1) return new Bitmap(Properties.Resources.RedGhostDown1);
                                                 else return new Bitmap(Properties.Resources.RedGhostDown2);
-                            case Direction.UP:if (sprite1) return new Bitmap(Properties.Resources.RedGhostUp1);
+                            case Direction.UP: if (sprite1) return new Bitmap(Properties.Resources.RedGhostUp1);
                                               else return new Bitmap(Properties.Resources.RedGhostUp2);
                             case Direction.RIGHT:if(sprite1) return new Bitmap(Properties.Resources.RedGhostRight1);
                                                  else return new Bitmap(Properties.Resources.RedGhostRight2);
-                            case Direction.LEFT:if (sprite1) return new Bitmap(Properties.Resources.RedGhostLeft1);
+                            case Direction.LEFT: if (sprite1) return new Bitmap(Properties.Resources.RedGhostLeft1);
                                                 else return new Bitmap(Properties.Resources.RedGhostLeft2);
                             default: return null;
                         }
