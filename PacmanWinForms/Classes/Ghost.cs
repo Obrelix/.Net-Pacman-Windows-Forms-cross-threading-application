@@ -64,10 +64,11 @@ namespace PacmanWinForms
 
 
         public Point Point = new Point();
-        public Direction ghostDirection = Direction.UP;
+        public Direction ghostDirection { get; set; }
         Task ghostRunner;
         private int _delay = 70;
-        public GhostState gState;
+        public GhostState gState { get; set; }
+        public bool collision { get; set; }
         Ghost ghost;
         Pacman pacman; 
         public GameState State = GameState.GAMEOVER;
@@ -179,37 +180,28 @@ namespace PacmanWinForms
                     ghost = ghostMove(ghost.Point, ghost.Direction);
                     board.GhostMove(ghost.Point, ghost.Direction, color, sprite1, gState);
                     sprite1 = !sprite1;
-                    //switch (color)
-                    //{
-                    //    case GhostColor.BLUE:
-                    //        parentForm.blueGhostMove(ghost.Point, ghost.Direction);
-                    //        break;
-                    //    case GhostColor.PINK:
-                    //        parentForm.PinkGhostMove(ghost.Point, ghost.Direction);
-                    //        break;
-                    //    case GhostColor.RED:
-                    //        parentForm.redGhostMove(ghost.Point, ghost.Direction);
-                    //        break;
-                    //    case GhostColor.YELLOW:
-                    //        parentForm.YellowGhostMove(ghost.Point, ghost.Direction);
-                    //        break;
-                    //}
-                    if (gState == GhostState.NORMAL)
-                    {
-                        ghostRunner.Wait(_delay + 5);
-                    }
-                    else if(gState == GhostState.BONUS)
-                    {
-                        ghostRunner.Wait(120);
-                    }
-                    else
-                    {
-                        ghostRunner.Wait(25);
-                    }
 
+                    changeWait();
                 }
 
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+        }
+
+        private void changeWait()
+        {
+            if (gState == GhostState.NORMAL)
+            {
+                ghostRunner.Wait(_delay + 5);
+            }
+            else if (gState == GhostState.BONUS || gState == GhostState.BONUSEND)
+            {
+                int tempDelay = _delay + 50;
+                ghostRunner.Wait(tempDelay);
+            }
+            else
+            {
+                ghostRunner.Wait(25);
             }
         }
 

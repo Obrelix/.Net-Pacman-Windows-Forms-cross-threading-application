@@ -37,13 +37,13 @@
             this.lblHightScore = new System.Windows.Forms.Label();
             this.lblHScoreValue = new System.Windows.Forms.Label();
             this.pnlBoard = new System.Windows.Forms.Panel();
+            this.lblGhostDelay = new System.Windows.Forms.Label();
             this.lblDelay = new System.Windows.Forms.Label();
             this.pnlDisplay = new System.Windows.Forms.Panel();
             this.pnlHighScore = new System.Windows.Forms.Panel();
             this.pnlLvl = new System.Windows.Forms.Panel();
             this.pnlSc = new System.Windows.Forms.Panel();
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
-            this.lblGhostDelay = new System.Windows.Forms.Label();
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -55,11 +55,11 @@
             // 
             this.lblPosition.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblPosition.AutoSize = true;
-            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(233, 627);
+            this.lblPosition.Location = new System.Drawing.Point(208, 565);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(14, 13);
+            this.lblPosition.Size = new System.Drawing.Size(11, 12);
             this.lblPosition.TabIndex = 1;
             this.lblPosition.Text = "0";
             // 
@@ -146,20 +146,32 @@
             this.pnlBoard.Controls.Add(this.lblPosition);
             this.pnlBoard.Controls.Add(this.lblGhostDelay);
             this.pnlBoard.Controls.Add(this.lblDelay);
-            this.pnlBoard.Location = new System.Drawing.Point(2, 70);
+            this.pnlBoard.Location = new System.Drawing.Point(9, 77);
             this.pnlBoard.Name = "pnlBoard";
-            this.pnlBoard.Size = new System.Drawing.Size(580, 640);
+            this.pnlBoard.Size = new System.Drawing.Size(522, 576);
             this.pnlBoard.TabIndex = 0;
+            // 
+            // lblGhostDelay
+            // 
+            this.lblGhostDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGhostDelay.AutoSize = true;
+            this.lblGhostDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblGhostDelay.ForeColor = System.Drawing.Color.White;
+            this.lblGhostDelay.Location = new System.Drawing.Point(408, 565);
+            this.lblGhostDelay.Name = "lblGhostDelay";
+            this.lblGhostDelay.Size = new System.Drawing.Size(11, 12);
+            this.lblGhostDelay.TabIndex = 15;
+            this.lblGhostDelay.Text = "0";
             // 
             // lblDelay
             // 
             this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblDelay.AutoSize = true;
-            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblDelay.ForeColor = System.Drawing.Color.White;
-            this.lblDelay.Location = new System.Drawing.Point(10, 627);
+            this.lblDelay.Location = new System.Drawing.Point(10, 565);
             this.lblDelay.Name = "lblDelay";
-            this.lblDelay.Size = new System.Drawing.Size(14, 13);
+            this.lblDelay.Size = new System.Drawing.Size(11, 12);
             this.lblDelay.TabIndex = 14;
             this.lblDelay.Text = "0";
             // 
@@ -168,7 +180,7 @@
             this.pnlDisplay.Controls.Add(this.pnlHighScore);
             this.pnlDisplay.Controls.Add(this.pnlLvl);
             this.pnlDisplay.Controls.Add(this.pnlSc);
-            this.pnlDisplay.Location = new System.Drawing.Point(134, 4);
+            this.pnlDisplay.Location = new System.Drawing.Point(103, 4);
             this.pnlDisplay.Name = "pnlDisplay";
             this.pnlDisplay.Size = new System.Drawing.Size(341, 60);
             this.pnlDisplay.TabIndex = 0;
@@ -207,25 +219,13 @@
             this.tmrClock.Enabled = true;
             this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
             // 
-            // lblGhostDelay
-            // 
-            this.lblGhostDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblGhostDelay.AutoSize = true;
-            this.lblGhostDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblGhostDelay.ForeColor = System.Drawing.Color.White;
-            this.lblGhostDelay.Location = new System.Drawing.Point(447, 627);
-            this.lblGhostDelay.Name = "lblGhostDelay";
-            this.lblGhostDelay.Size = new System.Drawing.Size(14, 13);
-            this.lblGhostDelay.TabIndex = 15;
-            this.lblGhostDelay.Text = "0";
-            // 
             // frmPacmanGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(584, 712);
+            this.ClientSize = new System.Drawing.Size(539, 662);
             this.Controls.Add(this.pnlDisplay);
             this.Controls.Add(this.pnlBoard);
             this.DoubleBuffered = true;

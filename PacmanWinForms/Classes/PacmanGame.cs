@@ -8,7 +8,7 @@ using System.Media;
 using System.IO;
 
 public delegate void Communicate(Task t, Point P);
-
+public delegate void CheatCode();
 namespace PacmanWinForms
 {
     public enum GameState : byte
@@ -40,7 +40,8 @@ namespace PacmanWinForms
     {
         NORMAL = 0,
         BONUS = 1,
-        EATEN = 2
+        EATEN = 2,
+        BONUSEND = 4
     }
 
     public class PacmanGame
@@ -112,12 +113,14 @@ namespace PacmanWinForms
 
         public Task Runner;
         public Task wallRunner;
+        public Task Clock;
         private int _ghostDelay = 90;
         private int _delay = 90;
         private int score = 0;
         private bool _bonus = false;
         private int Level = 1;
         private int lives = 4;
+
         public bool Bonus
         {
             get
@@ -171,8 +174,8 @@ namespace PacmanWinForms
             State = GameState.GAMEOVER;
 
             score = 0;
-            PacmanDelay = 90;
-            GhostDelay = 90;
+            PacmanDelay = 80;
+            GhostDelay = 80;
         }
 
 
@@ -184,6 +187,8 @@ namespace PacmanWinForms
             Runner.Start();
             wallRunner = new Task(runWalls);
             wallRunner.Start();
+            Clock = new Task(runClock);
+            Clock.Start();
             Pacman.Run();
             RedGhost.Run();
             BlueGhost.Run();
@@ -206,14 +211,12 @@ namespace PacmanWinForms
                 {
                     eatDots(Pacman.core());
                     eatBonus(Pacman.core());
+                    addLives();
                     bonusClear();
-                    counter = (counter > 4) ? 1 : counter;
-                    bonusPaint(counter);
+                    bonusPaint(bonusStateCounter);
                     dotPaint();
                     checkForWin();
-                    parentForm.setCollision(checkForCollision());
                     checkForLose();
-                    string data = Pacman.Point.ToString() + "@" + score + "%" + PacmanDelay;
                     parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
                     Runner.Wait(10);
                 }
@@ -229,23 +232,121 @@ namespace PacmanWinForms
 
         }
 
-        int counter = 1;
+        private void addLives()
+        {
+            if (score % 1000 == 0) lives++;
+        }
+
         private void runWalls()
         {
             while (State != GameState.GAMEOVER)
             {
                 try
                 {
-                    counter = (counter > 4) ? 1 : counter;
-                    counter++;
                     doorPaint();
                     wallPaint();
-                    wallRunner.Wait(150);
+                    wallRunner.Wait(100);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
         }
 
+        private void runClock()
+        {
+            while (State != GameState.GAMEOVER)
+            {
+                try
+                {
+                    changeGhostState();
+                    bonusStateChange();
+                    Clock.Wait(100);
+                }
+                catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+            }
+        }
+
+        int  redCounter = 0, blueCounter = 0, pinkCounter = 0, yellowCounter = 0;
+
+        private void changeGhostState()
+        {
+            if (RedGhost.gState == GhostState.EATEN && redCounter <= 50 && this.State == GameState.GAMERUN)
+            {
+                redCounter++;
+            }
+            else if (redCounter >= 50)
+            {
+                setGhostState(GhostColor.RED, GhostState.NORMAL );
+                redCounter = 0;
+            }
+            if (BlueGhost.gState == GhostState.EATEN && blueCounter <= 50 && this.State == GameState.GAMERUN)
+            {
+                blueCounter++;
+            }
+            else if (blueCounter >= 50)
+            {
+                setGhostState(GhostColor.BLUE, GhostState.NORMAL);
+                blueCounter = 0;
+            }
+            if (PinkGhost.gState == GhostState.EATEN && pinkCounter <= 50 && this.State == GameState.GAMERUN)
+            {
+                pinkCounter++;
+            }
+            else if (pinkCounter >= 50)
+            {
+                setGhostState(GhostColor.PINK, GhostState.NORMAL);
+                pinkCounter = 0;
+            }
+            if (YellowGhost.gState == GhostState.EATEN && yellowCounter <= 50 && this.State == GameState.GAMERUN)
+            {
+                yellowCounter++;
+            }
+            else if (yellowCounter >= 50)
+            {
+                setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                yellowCounter = 0;
+            }
+        }
+
+        int bonusStateCounter = 1 , bonusCounter = 0, bonusEndCounter;
+        
+        private void bonusStateChange()
+        {
+            bonusStateCounter = (bonusStateCounter > 4) ? 1 : bonusStateCounter;
+            bonusStateCounter++;
+            if (Bonus && bonusCounter < 55 && this.State == GameState.GAMERUN)
+            {
+                bonusCounter++;
+                
+            }
+            else if (Bonus && bonusCounter >= 55 && bonusCounter < 80)
+            {
+                if (bonusCounter % 10 == 0)
+                {
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.NORMAL);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.NORMAL);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.NORMAL);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                }
+                else 
+                {
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.NORMAL);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.NORMAL);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.NORMAL);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                }
+                bonusCounter++;
+            }
+            else if(Bonus && bonusCounter >= 80)
+            {
+                bonusCounter = 0;
+                Bonus = false;
+                if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.NORMAL);
+                if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.NORMAL);
+                if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.NORMAL);
+                if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
+                
+            }
+        }
         private void eatDots(Point[] core)
         {
             
@@ -256,7 +357,7 @@ namespace PacmanWinForms
                     if (corePoint.X == dotList[i].X && corePoint.Y == dotList[i].Y)
                     {
                         dotList.RemoveAt(i);
-                        score += 10;
+                        score += 20 * Level/2;
                         //Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
                         //SoundPlayer player = new SoundPlayer(s);
                         //player.Play();
@@ -275,9 +376,12 @@ namespace PacmanWinForms
                     if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
                     {
                         bonusList.RemoveAt(i);
-                        score += 50;
-                        Bonus = true;
-                        parentForm.Bonus(Bonus);
+                        score += 100 * Level/2;
+                        setGhostState(GhostColor.BLUE, GhostState.BONUS);
+                        setGhostState(GhostColor.RED, GhostState.BONUS);
+                        setGhostState(GhostColor.PINK, GhostState.BONUS);
+                        setGhostState(GhostColor.YELLOW, GhostState.BONUS);
+                        Bonus = true; bonusCounter = 0;
                         break;
                     }
                 }
@@ -323,6 +427,8 @@ namespace PacmanWinForms
                 WaitSomeTime(5000);
                 while (wait) { }
                 wait = true;
+                dotList = PointLists.dotPointList();
+                bonusList = PointLists.bonusPointList();
                 ChangeLevel();
             }
         }
@@ -338,9 +444,6 @@ namespace PacmanWinForms
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
                 setGhostState(GhostColor.RED, GhostState.EATEN);
-                WaitSomeTime(100);
-                while (wait) { }
-                wait = true;
                 State = GameState.GAMERUN;
                 return GhostColor.RED;
             }
@@ -354,9 +457,6 @@ namespace PacmanWinForms
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
                 setGhostState(GhostColor.BLUE, GhostState.EATEN);
-                WaitSomeTime(100);
-                while (wait) { }
-                wait = true;
                 State = GameState.GAMERUN;
                 return GhostColor.BLUE;
             }
@@ -370,9 +470,6 @@ namespace PacmanWinForms
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
                 setGhostState(GhostColor.YELLOW, GhostState.EATEN);
-                WaitSomeTime(100);
-                while (wait) { }
-                wait = true;
                 State = GameState.GAMERUN;
                 return GhostColor.YELLOW;
             }
@@ -386,9 +483,6 @@ namespace PacmanWinForms
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
                 setGhostState(GhostColor.PINK, GhostState.EATEN);
-                WaitSomeTime(100);
-                while (wait) { }
-                wait = true;
                 State = GameState.GAMERUN;
                 return GhostColor.PINK;
             }
@@ -399,14 +493,15 @@ namespace PacmanWinForms
         bool wait = true;
         public void cheat()
         {
-            ChangeLevel();
+            lock (this)
+            {
+                ChangeLevel();
+            }
         }
         private void ChangeLevel()
         {
-            PacmanDelay -= 3;
-            GhostDelay -= 6;
-            dotList = PointLists.dotPointList();
-            bonusList = PointLists.bonusPointList();
+            //PacmanDelay -= 3;
+            GhostDelay -= 3;
             State = GameState.GAMEPAUSE;
             RedGhost.reset();
             BlueGhost.reset();

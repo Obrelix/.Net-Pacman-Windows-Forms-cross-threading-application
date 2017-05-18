@@ -132,7 +132,12 @@ namespace PacmanWinForms
 
         private Bitmap findImage(Direction D, GhostColor color, bool sprite1, GhostState state)
         {
-            if (state == GhostState.BONUS && state != GhostState.EATEN)
+            if (state == GhostState.BONUSEND)
+            {
+                if (sprite1) return new Bitmap(Properties.Resources.BonusWGhost1);
+                else return new Bitmap(Properties.Resources.BonusWGhost2);
+            }
+            else if (state == GhostState.BONUS)
             {
                 if (sprite1) return new Bitmap(Properties.Resources.BonusBGhost1);
                 else return new Bitmap(Properties.Resources.BonusBGhost2);
@@ -231,7 +236,7 @@ namespace PacmanWinForms
                     if (picRedGhost != null) pnl.Controls.Remove(picRedGhost);
                     picRedGhost = new PictureBox();
                     picRedGhost.BackgroundImageLayout = ImageLayout.Stretch;
-                    picRedGhost.Location = new Point((int)(P.X * cellWidth + 2 ), (int)(P.Y * cellHeight +2));
+                    picRedGhost.Location = new Point((int)(P.X * cellWidth + 4 ), (int)(P.Y * cellHeight +4));
                     picRedGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picRedGhost.BackgroundImage = findImage(D, color, sprite1, state);
                     pnl.Controls.Add(picRedGhost);
@@ -240,7 +245,7 @@ namespace PacmanWinForms
                     if (picBlueGhost != null) pnl.Controls.Remove(picBlueGhost);
                     picBlueGhost = new PictureBox();
                     picBlueGhost.BackgroundImageLayout = ImageLayout.Stretch;
-                    picBlueGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picBlueGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picBlueGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picBlueGhost.BackgroundImage = findImage(D, color, sprite1, state);
                     pnl.Controls.Add(picBlueGhost);
@@ -249,7 +254,7 @@ namespace PacmanWinForms
                     if (picPinkGhost != null) pnl.Controls.Remove(picPinkGhost);
                     picPinkGhost = new PictureBox();
                     picPinkGhost.BackgroundImageLayout = ImageLayout.Stretch;
-                    picPinkGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picPinkGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picPinkGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picPinkGhost.BackgroundImage = findImage(D, color, sprite1, state);
                     pnl.Controls.Add(picPinkGhost);
@@ -258,7 +263,7 @@ namespace PacmanWinForms
                     if (picYellowGhost != null) pnl.Controls.Remove(picYellowGhost);
                     picYellowGhost = new PictureBox();
                     picYellowGhost.BackgroundImageLayout = ImageLayout.Stretch;
-                    picYellowGhost.Location = new Point((int)(P.X * cellWidth + 2), (int)(P.Y * cellHeight + 2));
+                    picYellowGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picYellowGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picYellowGhost.BackgroundImage = findImage(D, color, sprite1, state);
                     pnl.Controls.Add(picYellowGhost);
