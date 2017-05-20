@@ -114,7 +114,7 @@ namespace PacmanWinForms
         {
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
-            roadList = SmallScaleLists.RoadList();
+            roadList = ScaleLists.RoadList();
             pacman = new Pacman(new Point(26, 39), pacmanDirection);
             directionsInit();
             State = GameState.GAMEOVER;

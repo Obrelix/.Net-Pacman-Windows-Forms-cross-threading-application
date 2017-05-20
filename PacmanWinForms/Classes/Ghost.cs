@@ -66,22 +66,30 @@ namespace PacmanWinForms
         public Point Point = new Point();
         public Direction ghostDirection { get; set; }
         Task ghostRunner;
-        private int _delay = 70;
         public GhostState gState { get; set; }
-        public bool collision { get; set; }
-        Ghost ghost;
-        Pacman pacman; 
+        public bool eatenFlag { get; set; }
         public GameState State = GameState.GAMEOVER;
 
-        List<Point> wallList = new List<Point>();
-        List<Point> boxDoorList = new List<Point>();
-        List<Point> boxList = new List<Point>();
+        private List<Point> scaleList = new List<Point>();
+        private List<Point> wallList = new List<Point>();
+        private List<Point> boxDoorList = new List<Point>();
+        private List<Point> boxList = new List<Point>();
 
+        private int _delay = 70;
+        private Ghost ghost;
+        private Point target;
         private Direction[] directions = new Direction[4];
-
+        private bool AIFlag = false;
         private frmPacmanGame parentForm;
         private PacmanBoard board;
         private GhostColor color;
+
+        private Map map;
+        private AStar aStar;
+        private BestFirst bestFirst;
+        private BreadthFirst breadthFirst;
+
+
 
         public GhostRun(frmPacmanGame frm, PacmanBoard b, GhostColor color)
         {
@@ -105,7 +113,8 @@ namespace PacmanWinForms
 
         public Point[] core()
         {
-            if (gState == GhostState.EATEN) return ghost.core(new Point(-10, -10));
+            Ghost g = new Ghost(new Point(-10, -10), Direction.STOP);
+            if (gState == GhostState.EATEN) return g.core(g.Point);
             else return ghost.core(ghost.Point);
         }
 
@@ -123,8 +132,10 @@ namespace PacmanWinForms
             wallList = PointLists.banPointList();
             wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
             boxList = PointLists.boxPointList();
+            scaleList = ScaleLists.WallList();
             directionsInit();
             gState = GhostState.NORMAL;
+            target = new Point();
             switch (color)
             {
                 case GhostColor.BLUE:
@@ -141,6 +152,10 @@ namespace PacmanWinForms
                     break;
             }
 
+            map = new Map(scaleList);
+            aStar = new AStar(map);
+            bestFirst = new BestFirst(map);
+            breadthFirst = new BreadthFirst(map);
             State = GameState.GAMEOVER;
         }
 
@@ -165,10 +180,6 @@ namespace PacmanWinForms
             
         }
 
-        public void setTarget()
-        {
-
-        }
 
         public Point scalePoint(Point P)
         {
@@ -199,7 +210,7 @@ namespace PacmanWinForms
 
         private void changeWait()
         {
-            if (gState == GhostState.NORMAL)
+            if (gState == GhostState.NORMAL && !AIFlag)
             {
                 ghostRunner.Wait(_delay + 5);
             }
@@ -208,9 +219,13 @@ namespace PacmanWinForms
                 int tempDelay = _delay + 50;
                 ghostRunner.Wait(tempDelay);
             }
+            else if (AIFlag && gState != GhostState.EATEN)
+            {
+                ghostRunner.Wait(_delay + 10);
+            }
             else
             {
-                ghostRunner.Wait(25);
+                ghostRunner.Wait(35);
             }
         }
 
@@ -248,14 +263,52 @@ namespace PacmanWinForms
         private List<Direction> possibleDirections(Point P, Direction curDir)
         {
             List<Direction> dList = new List<Direction>();
+
+            if (AIFlag || gState == GhostState.EATEN)
+            {
+                Point scaleP = scalePoint(ghost.Point);
+                Point scaleTargetPoint = scalePoint(target);
+
+                if (scaleP != scaleTargetPoint)
+                {
+                    Direction aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                    map.map[scaleTargetPoint.X, scaleTargetPoint.Y], curDir);
+                    map.Reset();
+                    if (checkForConflict(nextPoint(P, aiDirection), P))
+                    {
+                        dList.Add(aiDirection);
+                        return dList;
+                    }
+                }
+                
+            }
+            dList.Clear();
             foreach (Direction d in directions)
             {
                 //if (checkForConflict(nextPoint(P, d), P) && d != curDir &&  Math.Abs(d - curDir) != 2) dList.Add(d);
                 if (checkForConflict(nextPoint(P, d), P) && Math.Abs(d - curDir) != 2) dList.Add(d);
+
             }
+           
             return dList;
         }
-        
+
+        public void setTarget(Point P, bool flag)
+        {
+            if (flag)
+            {
+                bool outOfB = outOfBox(ghost.Point);
+                if (outOfB && gState == GhostState.NORMAL) AIFlag = true;
+                else if (outOfB && gState == GhostState.EATEN) AIFlag = true;
+                else  AIFlag = false;
+                target = P;
+            }
+            else
+            {
+                AIFlag = false;
+            }
+
+        }
 
         private bool outOfBox(Point P)
         {
@@ -270,7 +323,7 @@ namespace PacmanWinForms
         {
             Ghost Ghost = new Ghost(P, Direction.STOP);
             List<Point> mergedList = new List<Point>();
-            if (outOfBox(PrevP))
+            if (outOfBox(PrevP) && gState != GhostState.EATEN)
             {
                 mergedList = boxDoorList.Union(wallList).ToList();
             }

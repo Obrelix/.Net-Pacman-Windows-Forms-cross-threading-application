@@ -20,7 +20,7 @@ namespace PacmanWinForms
          
 		public Node[,] map;
         
-        public Map(Panel pnl,List<Point> wallList, int rows = 31, int cols = 28, Color? bgColor = null)
+        public Map(List<Point> wallList, int rows = 31, int cols = 28)
         {
 			map = new Node[cols, rows];
 			for(int i=0; i<map.GetLength(0); i++){

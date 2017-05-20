@@ -1457,7 +1457,7 @@ namespace PacmanWinForms
 
     }
 
-    public static class SmallScaleLists
+    public static class ScaleLists
     {
         //private static List<MazeRectangle> mList = new List<MazeRectangle>();
 
@@ -1659,7 +1659,7 @@ namespace PacmanWinForms
         {
             // hardwired data instead of reading from file (not feasible on web player)
             List<Point> wList = new List<Point>();
-            using (StringReader reader = new StringReader(roadInit()))
+            using (StringReader reader = new StringReader(wallInit()))
             {
                 string line;
                 int Y = 0;

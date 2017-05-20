@@ -49,7 +49,6 @@ namespace PacmanWinForms
 			currentNode.State = 3;
 			if(currentNode.Location.Equals(_target.Location))
             {
-                _target.Predecessor = currentNode.Predecessor;
                 //Check if the current node is the target
                 _found = true;
 				return true;

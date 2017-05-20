@@ -60,7 +60,6 @@ namespace PacmanWinForms
 			currentNode.State = 3;
 			if(currentNode.Location.Equals(_target.Location)){
                 //Check if the current node is the target
-                _target.Predecessor = currentNode.Predecessor;
 				_found = true;
 				return true;
 			}
