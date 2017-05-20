@@ -169,6 +169,14 @@ namespace PacmanWinForms
         {
 
         }
+
+        public Point scalePoint(Point P)
+        {
+            return new Point((int)(P.X * PacmanBoard.cellWidth / PacmanBoard.modelCellWidth) + 1,
+                (int)(P.Y * PacmanBoard.cellHeight / PacmanBoard.modelCellHeight) + 1);
+        }
+
+
         bool sprite1 = true;
         private void runghost()
         {
@@ -179,6 +187,7 @@ namespace PacmanWinForms
                     this.Point = ghost.Point;
                     ghost = ghostMove(ghost.Point, ghost.Direction);
                     board.GhostMove(ghost.Point, ghost.Direction, color, sprite1, gState);
+                   // Debug.WriteLine(scalePoint(ghost.Point));
                     sprite1 = !sprite1;
 
                     changeWait();

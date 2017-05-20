@@ -17,8 +17,10 @@ namespace PacmanWinForms
         private Panel pnl;
         private Graphics g;
         private Control.ControlCollection c;
-        private float cellHeight;
-        private float cellWidth;
+        public static float cellHeight;
+        public static float cellWidth;
+        public static float modelCellHeight;
+        public static float modelCellWidth;
         private int state = 1;
         //PictureBox[] picsGhosts = new PictureBox[4];
 
@@ -43,7 +45,8 @@ namespace PacmanWinForms
         {
             cellHeight = pnl.Height / (float)Rows;
             cellWidth = pnl.Width / (float)Cols;
-
+            modelCellHeight = pnl.Height / (float)31;
+            modelCellWidth = pnl.Width / (float)28;
             g = pnl.CreateGraphics();
             c = pnl.Controls;
 

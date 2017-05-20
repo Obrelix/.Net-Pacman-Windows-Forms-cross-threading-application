@@ -150,7 +150,7 @@ namespace PacmanWinForms
         List<Point> boxList = new List<Point>();
         List<Point> boxDoorList = new List<Point>();
         List<Point> bonusList = new List<Point>();
-
+        List<Point> roadList = new List<Point>();
 
         public PacmanGame(frmPacmanGame frm, Panel p)
         {
@@ -174,6 +174,7 @@ namespace PacmanWinForms
             boxList = PointLists.boxPointList();
             boxDoorList = PointLists.boxDoorPointList();
             bonusList = PointLists.bonusPointList();
+            roadList = PointLists.roadPointList();
 
             State = GameState.GAMEOVER;
 
@@ -255,7 +256,7 @@ namespace PacmanWinForms
                 lives++;
                 addLive2 = false;
             }
-            if (score > 29999 && addLive3)
+            if (score > 39999 && addLive3)
             {
                 parentForm.playSound(Properties.Resources.Pacman_Extra_Live);
                 lives++;
@@ -271,6 +272,7 @@ namespace PacmanWinForms
             {
                 try
                 {
+                    //RoadPaint();
                     doorPaint();
                     wallPaint();
                     wallRunner.Wait(100);
@@ -624,6 +626,14 @@ namespace PacmanWinForms
             foreach (Point p in wallList)
             {
                 board.DrawRect(p, color);
+            }
+        }
+
+        private void RoadPaint()
+        {
+            foreach(Point p in roadList)
+            {
+                board.DrawRect(p, Color.Red);
             }
         }
 

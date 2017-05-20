@@ -72,7 +72,7 @@ namespace PacmanWinForms
 
         List<Point> wallList = new List<Point>();
         List<Point> boxDoorList = new List<Point>();
-
+        List<Point> roadList = new List<Point>();
         private Direction[] directions = new Direction[4];
         private frmPacmanGame parentForm;
         private PacmanBoard board;
@@ -114,7 +114,7 @@ namespace PacmanWinForms
         {
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
-            wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
+            roadList = SmallScaleLists.RoadList();
             pacman = new Pacman(new Point(26, 39), pacmanDirection);
             directionsInit();
             State = GameState.GAMEOVER;
@@ -126,6 +126,12 @@ namespace PacmanWinForms
             pacman = new Pacman(new Point(26, 39), Direction.STOP);
         }
 
+        public Point scalePoint(Point P)
+        {
+            return new Point((int)(P.X * PacmanBoard.cellWidth / PacmanBoard.modelCellWidth) + 1,
+                (int)(P.Y * PacmanBoard.cellHeight / PacmanBoard.modelCellHeight) + 1);
+        }
+
         private void runPacman()
         {
             while (State != GameState.GAMEOVER)
@@ -134,6 +140,10 @@ namespace PacmanWinForms
                 {
                     this.Point = pacman.Point;
                     board.ClearPacMan(pacman.Point);
+                    Point sp = scalePoint(pacman.Point);
+                    List<Point> commonPoints = roadList.Where(u => u == sp).ToList();
+                    if(commonPoints.Count != 0) Debug.WriteLine("Passed:  " + sp.ToString());
+                    else Debug.WriteLine("Rejected:  " + sp.ToString());
                     pacman = pacmanMove(pacman.Point, pacmanDirection);
                     board.DrawPacMan(pacman.Point, Color.Yellow, pacman.Direction);
                     PacmanRunner.Wait(_delay);

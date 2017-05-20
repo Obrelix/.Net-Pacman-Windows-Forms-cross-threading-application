@@ -129,7 +129,7 @@
             this.lblHScoreValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHScoreValue.AutoSize = true;
             this.lblHScoreValue.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblHScoreValue.ForeColor = System.Drawing.Color.White;
+            this.lblHScoreValue.ForeColor = System.Drawing.Color.Red;
             this.lblHScoreValue.Location = new System.Drawing.Point(37, 31);
             this.lblHScoreValue.Name = "lblHScoreValue";
             this.lblHScoreValue.RightToLeft = System.Windows.Forms.RightToLeft.Yes;

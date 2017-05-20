@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,14 @@ namespace PacmanWinForms
             banList = banList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return banList;
         }
+
+        private static List<Point> roadList = new List<Point>();
+        public static List<Point> roadPointList()
+        {
+            roadInit();
+            roadList = roadList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+            return roadList;
+        }
         private static List<Point> boxList = new List<Point>();
         public static List<Point> boxPointList()
         {
@@ -47,6 +56,57 @@ namespace PacmanWinForms
             BoxDoorList = BoxDoorList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
             return BoxDoorList;
         }
+
+
+        private static void roadInit()
+        {
+            roadList.Clear();
+            List<Point> mapList = new List<Point>();
+            for (int Y = 0; Y < 62; Y++)
+            {
+                for (int X = 0; X < 58; X++)
+                {
+                    mapList.Add(new Point(X, Y));
+                }
+            }
+
+            List<Point> tempList = new List<Point>();
+            for (int Y = 6; Y < 8; Y++)
+            {
+                for (int X = 6; X < 10; X++)
+                {
+                    tempList.Add(new Point(X, Y));
+                }
+            }
+
+            for (int Y = 6; Y < 8; Y++)
+            {
+                for (int X = 16; X < 22; X++)
+                {
+                    tempList.Add(new Point(X, Y));
+                }
+            }
+
+            for (int Y = 6; Y < 8; Y++)
+            {
+                for (int X = 34; X < 40; X++)
+                {
+                    tempList.Add(new Point(X, Y));
+                }
+            }
+
+            for (int Y = 6; Y < 8; Y++)
+            {
+                for (int X = 46; X < 50; X++)
+                {
+                    tempList.Add(new Point(X, Y));
+                }
+            }
+
+            roadList = mapList.Where(p => !banList.Union(tempList).Union(boxPointList()).Any(p2 => p2 == p)).ToList();
+            tempList.Add(new Point());
+        }
+
         private static List<Point> bonusListInit()
         {
             bonusList.Clear();
@@ -1375,7 +1435,300 @@ namespace PacmanWinForms
                 }
             }
 
+
+            Point p1 = new Point(55, 61);
+            for (int i = 0; i < banList.Count; i++)
+            {
+                if (banList[i] == p1)
+                {
+                    banList.RemoveAt(i);
+                }
+            }
+
+
+            banList.Add(p1);
+
+            List<Point> dList = banList.GroupBy(x => x)
+             .Where(g => g.Count() > 1)
+             .Select(y => y.Key)
+             .ToList();
+            //dList.Add(p1);
         }
 
+    }
+
+    public static class SmallScaleLists
+    {
+        //private static List<MazeRectangle> mList = new List<MazeRectangle>();
+
+        private static string wallInit()
+        {
+            string data = @"0000000000000000000000000000
+0111111111111001111111111110
+0100001000001001000001000010
+0100001000001111000001000010
+0100001000001001000001000010
+0111111111111001111111111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111111001111001111001111110
+0001001000001001000001001000
+0001001000001001000001001000
+0111001111111111111111001110
+0100001001001111001001000010
+0100001001011111101001000010
+0111111001011111101001111110
+0100001001011111101001000010
+0100001001000000001001000010
+0111001001111111111001001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111111111111111111111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111001111111001111111001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111001111001111001111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111111111111111111111111110
+0000000000000000000000000000";
+            return data;
+        }
+
+        private static string roadInit()
+        {
+            string data = @"0000000000000000000000000000
+0111111111111001111111111110
+0100001000001001000001000010
+0100001000001111000001000010
+0100001000001001000001000010
+0111111111111001111111111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111111001111001111001111110
+0001001000001001000001001000
+0001001000001001000001001000
+0111001111111111111111001110
+0100001001000000001001000010
+0100001001000000001001000010
+0111111001000000001001111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111001001111111111001001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111111111111111111111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111001111111001111111001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111001111001111001111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111111111111111111111111110
+0000000000000000000000000000";
+            return data;
+        }
+
+        private static string boxInit()
+        {
+            string data = @"0000000000000000000000000000
+0111111111111001111111111110
+0100001000001001000001000010
+0100001000001111000001000010
+0100001000001001000001000010
+0111111111111001111111111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111111001111001111001111110
+0001001000001001000001001000
+0001001000001001000001001000
+0111001111111111111111001110
+0100001001333333331001000010
+0100001001333333331001000010
+0111111001333333331001111110
+0100001001333333331001000010
+0100001001333333331001000010
+0111001001111111111001001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111111111111111111111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111001111111001111111001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111001111001111001111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111111111111111111111111110
+0000000000000000000000000000";
+            return data;
+        }
+
+        private static string boxDoorInit()
+        {
+            string data = @"0000000000000000000000000000
+0111111111111001111111111110
+0100001000001001000001000010
+0100001000001111000001000010
+0100001000001001000001000010
+0111111111111001111111111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111111001111001111001111110
+0001001000001001000001001000
+0001001000001001000001001000
+0111001111111111111111001110
+0100001001003333001001000010
+0100001001000000001001000010
+0111111001000000001001111110
+0100001001000000001001000010
+0100001001000000001001000010
+0111001001111111111001001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111111111111111111111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111001111111001111111001110
+0001001001000000001001001000
+0001001001000000001001001000
+0111111001111001111001111110
+0100001000001001000001000010
+0100001000001001000001000010
+0111111111111111111111111110
+0000000000000000000000000000";
+            return data;
+        }
+
+        public static List<Point> BoxDoorList()
+        {
+            List<Point> bList = new List<Point>();
+            using (StringReader reader = new StringReader(boxDoorInit()))
+            {
+                string line;
+                int Y = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    for (int i = 0; i < line.Length; ++i)
+                    {
+
+                        if (line[i] == '3')
+                        {
+                            bList.Add(new Point(i, Y));
+
+                        }
+                    }
+                    Y++;
+                }
+            }
+
+            return bList;
+        }
+
+        public static List<Point> BoxList()
+        {
+            List<Point> bList = new List<Point>();
+            using (StringReader reader = new StringReader(boxInit()))
+            {
+                string line;
+                int Y = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    for (int i = 0; i < line.Length; ++i)
+                    {
+
+                        if (line[i] == '3')
+                        {
+                            bList.Add(new Point(i, Y));
+
+                        }
+                    }
+                    Y++;
+                }
+            }
+
+            return bList;
+        }
+
+        public static List<Point> WallList()
+        {
+            // hardwired data instead of reading from file (not feasible on web player)
+            List<Point> wList = new List<Point>();
+            using (StringReader reader = new StringReader(roadInit()))
+            {
+                string line;
+                int Y = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+
+                    for (int i = 0; i < line.Length; ++i)
+                    {
+                        //if (line[i] == '1')
+                        //{
+                        //    mList.Add(new MazeRectangle(new Point(i, Y), PointState.Road));
+                        //}
+                        //else
+                        if (line[i] == '0')
+                        {
+                            wList.Add(new Point(i, Y));
+
+                        }
+                    }
+                    Y++;
+                }
+            }
+            wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+            return wList;
+        }
+
+        public static List<Point> RoadList()
+        {
+            // hardwired data instead of reading from file (not feasible on web player)
+            List<Point> wList = new List<Point>();
+            using (StringReader reader = new StringReader(roadInit()))
+            {
+                string line;
+                int Y = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+
+                    for (int i = 0; i < line.Length; ++i)
+                    {
+                        //if (line[i] == '1')
+                        //{
+                        //    mList.Add(new MazeRectangle(new Point(i, Y), PointState.Road));
+                        //}
+                        //else
+                        if (line[i] == '1')
+                        {
+                            wList.Add(new Point(i, Y));
+
+                        }
+                    }
+                    Y++;
+                }
+            }
+            wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+            return wList;
+        }
+        //public static List<MazeRectangle> wallList()
+        //{
+        //    //List<MazeRectangle> wlist = CreateList().Where(a => a.state == PointState.Wall).ToList();
+        //    return wlist;
+        //}
+        public static List<Point> wallPoints()
+        {
+            List<Point> pList = new List<Point>();
+            //foreach (MazeRectangle rect in CreateList())
+            //{
+            //    if (rect.state == PointState.Wall) pList.Add(rect.point);
+            //}
+            return pList;
+        }
     }
 }
