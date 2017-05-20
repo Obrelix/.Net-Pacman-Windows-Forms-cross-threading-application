@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathFindingAlgorithms\AStar.cs" />
+    <Compile Include="PathFindingAlgorithms\BestFirst.cs" />
+    <Compile Include="PathFindingAlgorithms\BreadthFirst.cs" />
     <Compile Include="Forms\frmPacmanGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,12 +56,15 @@
     </Compile>
     <Compile Include="Classes\PacmanGame.cs" />
     <Compile Include="Classes\PacmanBoard.cs" />
-    <Compile Include="Classes\PointLists.cs" />
+    <Compile Include="Lists of Points\PointLists.cs" />
     <Compile Include="Classes\Pacman.cs" />
     <Compile Include="Classes\Ghost.cs" />
     <Compile Include="Classes\Fruit.cs" />
+    <Compile Include="PathFindingAlgorithms\Map.cs" />
+    <Compile Include="PathFindingAlgorithms\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PathFindingAlgorithms\SearchAlgorithm.cs" />
     <EmbeddedResource Include="Forms\frmPacmanGame.resx">
       <DependentUpon>frmPacmanGame.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,6 +262,7 @@
   <ItemGroup>
     <None Include="Resources\Pacman_Eating_Cherry.wav" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

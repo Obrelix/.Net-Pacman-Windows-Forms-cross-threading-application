@@ -16,7 +16,6 @@ namespace PacmanWinForms
 
         private Panel pnl;
         private Graphics g;
-        private Control.ControlCollection c;
         public static float cellHeight;
         public static float cellWidth;
         public static float modelCellHeight;
@@ -48,12 +47,6 @@ namespace PacmanWinForms
             modelCellHeight = pnl.Height / (float)31;
             modelCellWidth = pnl.Width / (float)28;
             g = pnl.CreateGraphics();
-            c = pnl.Controls;
-
-            lock (this)
-            {
-                //g.Clear(BgColor);
-            }
 
         }
 
