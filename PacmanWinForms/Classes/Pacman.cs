@@ -61,7 +61,7 @@ namespace PacmanWinForms
         
 
         public Point Point = new Point();
-        public Direction pacmanDirection = Direction.STOP;
+        //public Direction pacmanDirection = Direction.STOP;
         private Direction pacmanNextDirection = Direction.STOP;
         Task PacmanRunner;
         private int _delay = 70;
@@ -115,7 +115,7 @@ namespace PacmanWinForms
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
             roadList = ScaleLists.RoadList();
-            pacman = new Pacman(new Point(26, 39), pacmanDirection);
+            pacman = new Pacman(new Point(26, 39), Direction.STOP);
             directionsInit();
             State = GameState.GAMEOVER;
         }
@@ -145,7 +145,7 @@ namespace PacmanWinForms
                     //List<Point> commonPoints = roadList.Where(u => u == sp).ToList();
                     //if(commonPoints.Count != 0) Debug.WriteLine("Passed:  " + sp.ToString());
                     //else Debug.WriteLine("Rejected:  " + sp.ToString());
-                    pacman = pacmanMove(pacman.Point, pacmanDirection);
+                    pacman = pacmanMove(pacman.Point, pacman.Direction);
                     board.DrawPacMan(pacman.Point, Color.Yellow, pacman.Direction);
                     PacmanRunner.Wait(_delay);
 
@@ -171,9 +171,9 @@ namespace PacmanWinForms
 
                 if (conflictCheck && direction == pacmanNextDirection)
                 {
-                    pacmanDirection = pacmanNextDirection;
+                    pacman.Direction = pacmanNextDirection;
                     pacmanNextDirection = Direction.STOP;
-                    return new Pacman(nextP, pacmanNextDirection);
+                    return new Pacman(nextP, pacman.Direction);
                 }
                 else if (conflictCheck && direction == d)
                 {
@@ -200,8 +200,6 @@ namespace PacmanWinForms
 
             if (collisionCheck(nextPoint(pacman.Point, d)))
             {
-                pacmanDirection = d;
-                //pacmanNextDirection = Direction.STOP;
                 pacman.Direction = d;
                 Debug.WriteLine("Passed : " + d);
             }
