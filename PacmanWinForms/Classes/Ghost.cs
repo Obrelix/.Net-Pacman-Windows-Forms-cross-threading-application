@@ -221,11 +221,11 @@ namespace PacmanWinForms
             }
             else if (AIFlag && gState != GhostState.EATEN)
             {
-                ghostRunner.Wait(_delay + 10);
+                ghostRunner.Wait(_delay + 15);
             }
             else
             {
-                ghostRunner.Wait(35);
+                ghostRunner.Wait(45);
             }
         }
 

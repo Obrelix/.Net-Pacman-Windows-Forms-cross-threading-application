@@ -140,10 +140,10 @@ namespace PacmanWinForms
                 {
                     this.Point = pacman.Point;
                     board.ClearPacMan(pacman.Point);
-                    Point sp = scalePoint(pacman.Point);
-                    List<Point> commonPoints = roadList.Where(u => u == sp).ToList();
-                    if(commonPoints.Count != 0) Debug.WriteLine("Passed:  " + sp.ToString());
-                    else Debug.WriteLine("Rejected:  " + sp.ToString());
+                    //Point sp = scalePoint(pacman.Point);
+                    //List<Point> commonPoints = roadList.Where(u => u == sp).ToList();
+                    //if(commonPoints.Count != 0) Debug.WriteLine("Passed:  " + sp.ToString());
+                    //else Debug.WriteLine("Rejected:  " + sp.ToString());
                     pacman = pacmanMove(pacman.Point, pacmanDirection);
                     board.DrawPacMan(pacman.Point, Color.Yellow, pacman.Direction);
                     PacmanRunner.Wait(_delay);

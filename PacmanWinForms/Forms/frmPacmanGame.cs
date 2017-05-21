@@ -40,6 +40,8 @@ namespace PacmanWinForms
             else if (e.KeyCode == Keys.Up) { game.setDirection(Direction.UP); }
             else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
             else if (e.KeyCode == Keys.F1) { game.cheat(); }
+            else if (e.KeyCode == Keys.D1) { game.coinInserted(); }
+            else if (e.KeyCode == Keys.Enter) {if(game.State == GameState.GAMEOVER) game.Reset(); }
             else if (e.KeyCode == Keys.Subtract)
             {
                 game.PacmanDelay += 5;
@@ -65,13 +67,14 @@ namespace PacmanWinForms
 
         private void posSizeInit()
         {
+            lblInfo.Location = new Point((pnlBoard.Width - lblInfo.Width) / 2, (pnlBoard.Height - lblInfo.Height) / 2);
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
-            pnlSc.Location = new Point(pnlLvl.Location.X -78 - 50, 0); 
-            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 20);
-            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height + 20);
-            lblHScoreValue.Location = new Point((pnlSc.Width - lblHScoreValue.Width) / 2, lblLVL.Height + 20);
-            pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 0);
+            //pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
+            //pnlSc.Location = new Point(pnlLvl.Location.X -78 - 50, 0); 
+            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height+2);
+            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 2);
+            lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 2);
+            pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 30);
         }
 
         
@@ -95,7 +98,6 @@ namespace PacmanWinForms
         {
             if (game == null) return;
             game.RePaint();
-            game.Continue();
         }
 
         private void frmPacmanGame_Deactivate(object sender, EventArgs e)
@@ -112,9 +114,21 @@ namespace PacmanWinForms
 
         private void tmrClock_Tick(object sender, EventArgs e)
         {
-            
 
-            
+            lblInfo.Location = new Point((pnlBoard.Width - lblInfo.Width) / 2, (pnlBoard.Height - lblInfo.Height) / 2);
+            lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height) / 2 + lblInfo.Height);
+            switch (game.State)
+            {
+                case GameState.GAMEOVER:
+                    lblInfoDetails.Text = "Press ( Enter ) to play again!"; lblInfoDetails.Visible = true;
+                    lblInfo.Text = "Game Over"; lblInfo.Visible = true; break;
+                case GameState.GAMEPAUSE:
+                    lblInfoDetails.Text = "Press ( p / SpaceBar ) to continue!"; lblInfoDetails.Visible = true;
+                    lblInfo.Text = "Game Paused"; lblInfo.Visible = true; break;
+                case GameState.GAMERUN:
+                    lblInfoDetails.Visible = false; lblInfo.Visible = false; break;
+
+            }
         }
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
@@ -148,7 +162,7 @@ namespace PacmanWinForms
             this.lblScore.Text = score;
             lblDelay.Text = "Pacman Delay : " + delay + " ms";
             lblLVLValue.Text = lvl;
-            lblHScoreValue.Text = lives;
+            lblLivesValue.Text = lives;
             lblGhostDelay.Text = "Ghost Delay : " + ghostDelay + " ms";
             posSizeInit();
         }
@@ -160,6 +174,30 @@ namespace PacmanWinForms
             if (game == null) return;
             game.Run();
             game.State = GameState.GAMEPAUSE;
+        }
+
+        private void mnuHelp_Click(object sender, EventArgs e)
+        {
+            frmHelp form = new frmHelp();
+            form.Show();
+        }
+
+        private void mnuAbout_Click(object sender, EventArgs e)
+        {
+            frmAbout form = new frmAbout();
+            form.Show();
+        }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            if (game == null) return;
+            game.State = GameState.GAMEPAUSE;
+            game.Reset();
+        }
+
+        private void mnuGame_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

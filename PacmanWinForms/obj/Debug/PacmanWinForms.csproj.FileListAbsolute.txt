@@ -25,3 +25,5 @@ C:\Users\Obrelix\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.csp
 C:\Users\Obrelix\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmPacmanGame.resources
 C:\Users\Obrelix\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.Properties.Resources.resources
 C:\Users\Obrelix\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.csproj.GenerateResource.Cache
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmHelp.resources
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmAbout.resources
