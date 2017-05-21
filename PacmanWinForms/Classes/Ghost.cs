@@ -208,24 +208,24 @@ namespace PacmanWinForms
             }
         }
 
+
         private void changeWait()
         {
             if (gState == GhostState.NORMAL && !AIFlag)
             {
-                ghostRunner.Wait(_delay + 5);
+                ghostRunner.Wait(_delay);
             }
             else if (gState == GhostState.BONUS || gState == GhostState.BONUSEND)
             {
-                int tempDelay = _delay + 50;
-                ghostRunner.Wait(tempDelay);
+                ghostRunner.Wait(_delay + 60);
             }
             else if (AIFlag && gState != GhostState.EATEN)
             {
-                ghostRunner.Wait(_delay + 15);
+                ghostRunner.Wait(_delay + 10);
             }
             else
             {
-                ghostRunner.Wait(45);
+                ghostRunner.Wait(40);
             }
         }
 

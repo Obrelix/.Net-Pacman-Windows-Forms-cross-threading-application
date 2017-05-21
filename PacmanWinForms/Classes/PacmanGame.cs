@@ -42,7 +42,7 @@ namespace PacmanWinForms
         NORMAL = 0,
         BONUS = 1,
         EATEN = 2,
-        BONUSEND = 4
+        BONUSEND = 3
     }
 
     public class PacmanGame
@@ -184,12 +184,12 @@ namespace PacmanWinForms
             boxDoorList = PointLists.boxDoorPointList();
             bonusList = PointLists.bonusPointList();
             roadList = PointLists.roadPointList();
-
+            fruit.fruitState = FruitState.EATEN;
             State = GameState.GAMEOVER;
             AIFlagInit();
             score = 0;
             PacmanDelay = 70;
-            GhostDelay = 80;
+            GhostDelay = 75;
         }
 
         private void AIFlagInit()
@@ -223,13 +223,12 @@ namespace PacmanWinForms
             wallRunner.Start();
             Clock = new Task(runClock);
             Clock.Start();
+
             RedGhost.Run();
             BlueGhost.Run();
             YellowGhost.Run();
             PinkGhost.Run();
             Pacman.Run();
-            fruit.Run();
-            fruit.fruitState = FruitState.EATEN;
         }
 
         public void RePaint()
@@ -301,6 +300,23 @@ namespace PacmanWinForms
             return lives;
 
         }
+
+        private void sendMsg()
+        {
+            switch (State)
+            {
+                case GameState.GAMEPAUSE:
+                    board.PrintMessage(true, "Game Paused", "Press ( p / SpaceBar ) to continue!");
+                    break;
+                case GameState.GAMEOVER:
+                    board.PrintMessage(true, "Game Over", "Press ( Enter ) to play again!");
+                    break;
+                case GameState.GAMERUN:
+                    board.PrintMessage(false, "", "");
+                    break;
+            }
+        }
+
         private void addLives()
         {
            
@@ -350,6 +366,8 @@ namespace PacmanWinForms
             {
                 try
                 {
+                    resetPrintables();
+                    sendMsg();
                     fruitApear();
                     changeGhostState();
                     bonusStateChange();
@@ -358,7 +376,6 @@ namespace PacmanWinForms
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
         }
-
 
         private void changeGhostState()
         {
@@ -399,8 +416,6 @@ namespace PacmanWinForms
                 yellowCounter = 0;
             }
         }
-
-       
         
         private void bonusStateChange()
         {
@@ -443,17 +458,32 @@ namespace PacmanWinForms
             }
         }
 
+        private int fruitPicIndex = 1;
         private void fruitApear()
         {
-            if(fruitCounter < 1200 && State == GameState.GAMERUN)
+            if(fruitCounter < 600 && State == GameState.GAMERUN)
             {
                 fruitCounter++;
             }
-            else if(State == GameState.GAMERUN)
+            else if(fruitCounter >= 600 && fruitCounter < 601 && State == GameState.GAMERUN)
+            {
+                fruit.Run(fruitPicIndex);
+                fruitCounter++;
+                fruit.fruitState = FruitState.NORMAL;
+                fruitPicIndex++;
+            }
+            else if (fruitCounter >= 601 && fruitCounter < 800 && State == GameState.GAMERUN)
+            {
+                fruitCounter++;
+            }
+            else if (fruitCounter >= 800 && State == GameState.GAMERUN)
             {
                 fruitCounter = 0;
-                fruit.reset();
+                fruit.fruitState = FruitState.EATEN;
+                board.CleanFruit(fruit.Point, 1);
+                fruit.State = GameState.GAMEOVER;
             }
+            fruitPicIndex = (fruitPicIndex < 5) ? fruitPicIndex : 1;
         }
 
         private void eatDots(Point[] core)
@@ -467,6 +497,8 @@ namespace PacmanWinForms
                     {
                         dotList.RemoveAt(i);
                         score += 20 * Level/2;
+                       // board.PrintBonus(Pacman.Point, 20 * Level / 2, 1);
+
                         //Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
                         //SoundPlayer player = new SoundPlayer(s);
                         //player.Play();
@@ -526,6 +558,7 @@ namespace PacmanWinForms
                 if (lives == 0)
                 {
                     State = GameState.GAMEOVER;
+                    sendMsg();
                 }
             }
         }
@@ -551,20 +584,25 @@ namespace PacmanWinForms
             List<Point> commonPoints = Pacman.core().Intersect(fruit.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0)
             {
-                score += 500;
+                score += 500 * Level;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Cherry);
+                board.PrintBonus(fruit.Point, 500 * Level, 5); printCounter = 0;
                 fruit.fruitState = FruitState.EATEN;
-                board.CleanFruit(fruit.Point);
+                board.CleanFruit(fruit.Point, 1);
             }
         }
 
+        private int ghostEatenCounter = 1;
         private GhostColor eatGhost()
         {
+            ghostEatenCounter = (Bonus) ? ghostEatenCounter : 1;
             eatenScore = (!Bonus || eatenScore > 1600) ? 200 : eatenScore;
             List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0 && Bonus && RedGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
+                ghostEatenCounter++;
+                board.PrintBonus(Pacman.Point, eatenScore, ghostEatenCounter); printCounter = 0;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
@@ -579,6 +617,8 @@ namespace PacmanWinForms
             if (commonPoints.Count != 0 && Bonus && BlueGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
+                ghostEatenCounter++;
+                board.PrintBonus(Pacman.Point, eatenScore, ghostEatenCounter); printCounter = 0;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
@@ -593,6 +633,8 @@ namespace PacmanWinForms
             if (commonPoints.Count != 0 && Bonus && YellowGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
+                ghostEatenCounter++;
+                board.PrintBonus(Pacman.Point, eatenScore, ghostEatenCounter); printCounter = 0;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
@@ -607,6 +649,8 @@ namespace PacmanWinForms
             if (commonPoints.Count != 0 && Bonus && PinkGhost.gState != GhostState.EATEN)
             {
                 score += eatenScore;
+                ghostEatenCounter++;
+                board.PrintBonus(Pacman.Point, eatenScore, ghostEatenCounter); printCounter = 0;
                 eatenScore += eatenScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Ghost);
                 State = GameState.GAMEPAUSE;
@@ -617,6 +661,19 @@ namespace PacmanWinForms
             }
 
             return GhostColor.NULL;
+        }
+
+        private int printCounter = 0;
+
+        private void resetPrintables()
+        {
+            printCounter = (printCounter> 100) ? 100 :printCounter;
+            if(printCounter > 40)
+            {
+                board.CleanBonus(new Point(), 0, 10);
+            }
+            printCounter++;
+
         }
 
         bool wait = true, reset = false;
@@ -649,11 +706,13 @@ namespace PacmanWinForms
             AIClockCounter = 0;
             BonusEndSprite = true; addLive = true; addLive2 = true; addLive3 = true;
             eatenScore = 200; Level = 1; score = 0; lives = 3;
-            GhostDelay = 80; PacmanDelay = 70;
+            GhostDelay = 75; PacmanDelay = 70;
             AIFlagInit();
-            //RedGhost.reset(); BlueGhost.reset(); PinkGhost.reset(); YellowGhost.reset(); Pacman.reset();
+            fruit.fruitState = FruitState.EATEN;
+            board.CleanFruit(fruit.Point, 1);
             Bonus = false;
         }
+
         private void ChangeLevel()
         {
             //PacmanDelay -= 3;
@@ -669,6 +728,7 @@ namespace PacmanWinForms
             Bonus = false;
             Level++;
         }
+
         public async void WaitSomeTime(int time)
         {
             await Task.Delay(time);

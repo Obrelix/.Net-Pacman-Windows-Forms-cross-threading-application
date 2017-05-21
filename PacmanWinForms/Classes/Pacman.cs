@@ -124,6 +124,7 @@ namespace PacmanWinForms
         {
             board.ClearPacMan(pacman.Point);
             pacman = new Pacman(new Point(26, 39), Direction.STOP);
+            pacmanNextDirection = Direction.STOP;
         }
 
         public Point scalePoint(Point P)

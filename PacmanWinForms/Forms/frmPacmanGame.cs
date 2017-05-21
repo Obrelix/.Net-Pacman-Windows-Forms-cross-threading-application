@@ -67,10 +67,10 @@ namespace PacmanWinForms
 
         private void posSizeInit()
         {
-            lblInfo.Location = new Point((pnlBoard.Width - lblInfo.Width) / 2, (pnlBoard.Height - lblInfo.Height) / 2);
+            //lblInfoTxt.Location = new Point((pnlBoard.Width - lblInfoTxt.Width) / 2, (pnlBoard.Height - lblInfoTxt.Height - lblInfoDetails.Height) );
+            //lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height) );
+
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            //pnlHighScore.Location = new Point(pnlLvl.Location.X + 78 +50, 0);
-            //pnlSc.Location = new Point(pnlLvl.Location.X -78 - 50, 0); 
             lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height+2);
             lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 2);
             lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 2);
@@ -115,20 +115,20 @@ namespace PacmanWinForms
         private void tmrClock_Tick(object sender, EventArgs e)
         {
 
-            lblInfo.Location = new Point((pnlBoard.Width - lblInfo.Width) / 2, (pnlBoard.Height - lblInfo.Height) / 2);
-            lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height) / 2 + lblInfo.Height);
-            switch (game.State)
-            {
-                case GameState.GAMEOVER:
-                    lblInfoDetails.Text = "Press ( Enter ) to play again!"; lblInfoDetails.Visible = true;
-                    lblInfo.Text = "Game Over"; lblInfo.Visible = true; break;
-                case GameState.GAMEPAUSE:
-                    lblInfoDetails.Text = "Press ( p / SpaceBar ) to continue!"; lblInfoDetails.Visible = true;
-                    lblInfo.Text = "Game Paused"; lblInfo.Visible = true; break;
-                case GameState.GAMERUN:
-                    lblInfoDetails.Visible = false; lblInfo.Visible = false; break;
+            //lblInfoTxt.Location = new Point((pnlBoard.Width - lblInfoTxt.Width) / 2, (pnlBoard.Height - lblInfoTxt.Height - lblInfoDetails.Height));
+            //lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height));
+            //switch (game.State)
+            //{
+            //    case GameState.GAMEOVER:
+            //        lblInfoDetails.Text = "Press ( Enter ) to play again!"; lblInfoDetails.Visible = true;
+            //        lblInfoTxt.Text = "Game Over"; lblInfoTxt.Visible = true; break;
+            //    case GameState.GAMEPAUSE:
+            //        lblInfoDetails.Text = "Press ( p / SpaceBar ) to continue!"; lblInfoDetails.Visible = true;
+            //        lblInfoTxt.Text = "Game Paused"; lblInfoTxt.Visible = true; break;
+            //    case GameState.GAMERUN:
+            //        lblInfoDetails.Visible = false; lblInfoTxt.Visible = false; break;
 
-            }
+            //}
         }
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)

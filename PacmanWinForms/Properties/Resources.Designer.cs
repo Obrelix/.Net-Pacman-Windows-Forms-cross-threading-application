@@ -63,6 +63,16 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Apple {
+            get {
+                object obj = ResourceManager.GetObject("Apple", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlueGhost {
             get {
                 object obj = ResourceManager.GetObject("BlueGhost", resourceCulture);
@@ -246,6 +256,16 @@ namespace PacmanWinForms.Properties {
         internal static System.Drawing.Bitmap maze2 {
             get {
                 object obj = ResourceManager.GetObject("maze2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap orange {
+            get {
+                object obj = ResourceManager.GetObject("orange", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -537,6 +557,16 @@ namespace PacmanWinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream Sound_Effect__6_ {
             get {
                 return ResourceManager.GetStream("Sound_Effect__6_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Strawberry {
+            get {
+                object obj = ResourceManager.GetObject("Strawberry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

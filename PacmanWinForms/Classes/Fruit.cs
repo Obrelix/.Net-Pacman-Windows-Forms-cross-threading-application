@@ -76,7 +76,7 @@ namespace PacmanWinForms
         List<Point> boxDoorList = new List<Point>();
 
         private Direction[] directions = new Direction[4];
-
+        private int fruitIndex = 1;
         private frmPacmanGame parentForm;
         private PacmanBoard board;
         public FruitState fruitState;
@@ -102,15 +102,16 @@ namespace PacmanWinForms
 
         public Point[] core()
         {
-            if(fruitState == FruitState.EATEN) return fruit.core(new Point(-20, -20));
+            if(fruitState == FruitState.EATEN) return fruit.core(new Point(-100, -100));
             return fruit.core(fruit.Point);
         }
 
 
-        public void Run()
+        public void Run(int fruitIndex)
         {
             State = GameState.GAMERUN;
             fruitRunner = new Task(runfruit);
+            this.fruitIndex = fruitIndex;
             fruitRunner.Start();
         }
 
@@ -144,8 +145,8 @@ namespace PacmanWinForms
 
                     this.Point = fruit.Point;
                     fruit = fruitMove(fruit.Point, fruit.Direction);
-                    if (fruitState != FruitState.EATEN) board.DrawFruit(fruit.Point);
-                    fruitRunner.Wait(200);
+                    if (fruitState != FruitState.EATEN) board.DrawFruit(fruit.Point, fruitIndex);
+                    fruitRunner.Wait(250);
                 }
 
                 catch (Exception ex) { MessageBox.Show(ex.Message); }

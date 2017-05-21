@@ -4,8 +4,8 @@ using System.Drawing;
 using System;
 using PacmanWinForms;
 
-public delegate void GhostPaint(Point point, Direction D, GhostColor color, bool sprite1, GhostState state);
-public delegate void FruitPaint(Point point);
+
+
 namespace PacmanWinForms
 {
     public class PacmanBoard
@@ -14,21 +14,33 @@ namespace PacmanWinForms
         public int Cols;
         public Color BgColor;
 
-        private Panel pnl;
-        private Graphics g;
         public static float cellHeight;
         public static float cellWidth;
         public static float modelCellHeight;
         public static float modelCellWidth;
         private int state = 1;
-        //PictureBox[] picsGhosts = new PictureBox[4];
 
-        PictureBox picRedGhost;
-        PictureBox picBlueGhost;
-        PictureBox picPinkGhost;
-        PictureBox picYellowGhost;
+        private delegate void GhostPaint(Point point, Direction D, GhostColor color, bool sprite1, GhostState state);
+        private delegate void FruitPaint(Point point, int picIndex);
+        private delegate void MessagePaint(bool visible, string message1, string message2);
+        private delegate void BonusScorePaint(Point p, int points, int lblIndex);
 
-        PictureBox picFruit;
+        private Panel pnl;
+        private Graphics g;
+
+        private PictureBox picRedGhost;
+        private PictureBox picBlueGhost;
+        private PictureBox picPinkGhost;
+        private PictureBox picYellowGhost;
+        private PictureBox picFruit;
+        private Label lblInfo;
+        private Label lblInfoMsg;
+
+        private Label lblBonus1;
+        private Label lblBonus2;
+        private Label lblBonus3;
+        private Label lblBonus4;
+        private Label lblBonus5;
 
         public PacmanBoard(Panel pnl, int rows = 62, int cols = 56, Color? bgColor = null)
         {
@@ -37,6 +49,8 @@ namespace PacmanWinForms
             this.Cols = cols;
             this.BgColor = bgColor ?? Color.Black;
             this.pnl = pnl;
+
+
             //Resize();
         }
 
@@ -57,9 +71,7 @@ namespace PacmanWinForms
                 g.Clear(BgColor);
             }
         }
-
         
-
         public void DrawRect(Point p, Color col)
         {
             Brush b = new SolidBrush(col);
@@ -88,6 +100,7 @@ namespace PacmanWinForms
                 g.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
             }
         }
+
         public void DrawBonus(Point p, Color col, int bonusState)
         {
             float dotWidth; 
@@ -123,37 +136,198 @@ namespace PacmanWinForms
             }
         }
 
+        public void PrintMessage(bool visible, string msg1, string msg2)
+        {
+            pnl.Invoke(new MessagePaint(messageApears), visible, msg1, msg2);
+        }
+
+        public void PrintBonus(Point p, int score, int lblIndex)
+        {
+            pnl.Invoke(new BonusScorePaint(bonusPrint), p, score, lblIndex);
+        } 
 
         public void GhostMove(Point P, Direction D, GhostColor color, bool sprite1, GhostState state)
         {
             pnl.Invoke(new GhostPaint(changePic), P, D, color, sprite1, state);
         }
 
-        public void DrawFruit(Point P)
+        public void DrawFruit(Point P, int index)
         {
-            pnl.Invoke(new FruitPaint(changeFruitPos), P);
+            pnl.Invoke(new FruitPaint(changeFruitPos), P, index);
         }
 
-        public void CleanFruit(Point P)
+        public void CleanFruit(Point P, int index)
         {
-            pnl.Invoke(new FruitPaint(CleanFruitPos), P);
+            pnl.Invoke(new FruitPaint(CleanFruitPos), P, index);
         }
-        private void CleanFruitPos(Point P)
+
+        private void CleanFruitPos(Point P, int index)
         {
             if (picFruit != null) pnl.Controls.Remove(picFruit);
 
         }
-        private void changeFruitPos(Point P)
+
+        public void CleanBonus(Point P, int score, int lblIndex)
+        {
+            pnl.Invoke(new BonusScorePaint(cleanBonus), P, score, lblIndex);
+        }
+
+        private void cleanBonus(Point P, int score, int lblIndex)
+        {
+            switch (lblIndex)
+            {
+                case 1:
+                    if (lblBonus1 != null) pnl.Controls.Remove(lblBonus1);
+                    break;
+                case 2:
+                    if (lblBonus2 != null) pnl.Controls.Remove(lblBonus2);
+                    break;
+                case 3:
+                    if (lblBonus3 != null) pnl.Controls.Remove(lblBonus3);
+                    break;
+                case 4:
+                    if (lblBonus4 != null) pnl.Controls.Remove(lblBonus4);
+                    break;
+                case 5:
+                    if (lblBonus5 != null) pnl.Controls.Remove(lblBonus5);
+                    break;
+                default:
+                    if (lblBonus1 != null) pnl.Controls.Remove(lblBonus1);
+                    if (lblBonus2 != null) pnl.Controls.Remove(lblBonus2);
+                    if (lblBonus3 != null) pnl.Controls.Remove(lblBonus3);
+                    if (lblBonus4 != null) pnl.Controls.Remove(lblBonus4);
+                    if (lblBonus5 != null) pnl.Controls.Remove(lblBonus5);
+                    break;
+            }
+        }
+
+        private void bonusPrint(Point P, int score, int lblIndex)
+        {
+
+            Label lblTemp = new Label();
+            lblTemp.AutoSize = true;
+            lblTemp.Font = new Font("Courier New", 13F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(161)));
+            lblTemp.BackColor = Color.Transparent;
+            lblTemp.ForeColor = Color.MediumSeaGreen;
+            lblTemp.Location = new Point((int)(P.X * cellWidth ), (int)((P.Y -1) * cellHeight));
+            lblTemp.Size = new Size((int)(4 * cellWidth) - 13, (int)(4 * cellHeight) - 13);
+            lblTemp.Text = score.ToString();
+
+            switch (lblIndex)
+            {
+                case 1:
+                    if (lblBonus1 != null) pnl.Controls.Remove(lblBonus1);
+                    lblTemp.ForeColor = Color.MediumSeaGreen;
+                    lblBonus1 = lblTemp;
+                    pnl.Controls.Add(lblBonus1);
+                    break;
+                case 2:
+                    if (lblBonus2 != null) pnl.Controls.Remove(lblBonus2);
+                    lblTemp.ForeColor = Color.Lime;
+                    lblBonus2 = lblTemp;
+                    pnl.Controls.Add(lblBonus2);
+                    break;
+                case 3:
+                    if (lblBonus3 != null) pnl.Controls.Remove(lblBonus3);
+                    lblTemp.ForeColor = Color.Chartreuse; 
+                    lblBonus3 = lblTemp;
+                    pnl.Controls.Add(lblBonus3);
+                    break;
+                case 4:
+                    if (lblBonus4 != null) pnl.Controls.Remove(lblBonus4);
+                    lblTemp.ForeColor = Color.DarkTurquoise;
+                    lblBonus4 = lblTemp;
+                    pnl.Controls.Add(lblBonus4);
+                    break;
+                case 5:
+                    if (lblBonus5 != null) pnl.Controls.Remove(lblBonus5);
+                    lblTemp.ForeColor = Color.DeepPink;
+                    lblBonus5 = lblTemp;
+                    pnl.Controls.Add(lblBonus5);
+                    break;
+                default:
+                    if (lblBonus1 != null) pnl.Controls.Remove(lblBonus1);
+                    lblTemp.ForeColor = Color.Aqua;
+                    lblBonus1 = lblTemp;
+                    pnl.Controls.Add(lblBonus1);
+                    break;
+            }
+            
+        }
+        
+        private void messageApears(bool visible, string msg1, string msg2)
+        {
+            if (lblInfo != null) pnl.Controls.Remove(lblInfo);
+            if (lblInfoMsg != null) pnl.Controls.Remove(lblInfoMsg);
+
+            lblInfo = new Label();
+            lblInfoMsg = new Label();
+
+            lblInfo.Text = msg1;
+
+            lblInfoMsg.Text = msg2;
+
+            lblInfo.AutoSize = true;
+            lblInfo.Font = new Font("Courier New", 18F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(161)));
+            lblInfo.BackColor = Color.Transparent;
+            lblInfo.ForeColor = Color.Red;
+            lblInfo.Location = new Point((pnl.Width / 2) - 80, (pnl.Height - lblInfo.Height) / 2 + 30) ;
+            lblInfo.Size = new Size();
+            lblInfo.Visible = visible;
+
+            lblInfoMsg.AutoSize = true;
+            lblInfoMsg.Font = new Font("Courier New", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(161)));
+            lblInfoMsg.BackColor = Color.Transparent;
+            lblInfoMsg.ForeColor = Color.Red;
+            lblInfoMsg.Size = new Size(150, 20);
+            lblInfoMsg.Location = new Point((pnl.Width ) / 2 - 175, (pnl.Height) / 2 + 40);
+            lblInfoMsg.Visible = visible;
+
+           
+
+            if (visible)
+            {
+                pnl.Controls.Add(lblInfoMsg);
+                pnl.Controls.Add(lblInfo);
+            }
+            else
+            {
+
+                pnl.Controls.Remove(lblInfo);
+                pnl.Controls.Remove(lblInfoMsg);
+            }
+
+        }
+
+        private void changeFruitPos(Point P, int index)
         {
             if (picFruit != null) pnl.Controls.Remove(picFruit);
             picFruit = new PictureBox();
             picFruit.BackgroundImageLayout = ImageLayout.Stretch;
             picFruit.Location = new Point((int)(P.X * cellWidth + 11), (int)(P.Y * cellHeight + 11));
             picFruit.Size = new Size((int)(4 * cellWidth) - 13, (int)(4 * cellHeight) - 13);
-            picFruit.BackgroundImage = Properties.Resources.Cherry;
+            switch (index)
+            {
+                case 1:
+                    picFruit.BackgroundImage = Properties.Resources.Cherry;
+                    break;
+                case 2:
+                    picFruit.BackgroundImage = Properties.Resources.Strawberry;
+                    break;
+                case 3:
+                    picFruit.BackgroundImage = Properties.Resources.orange;
+                    break;
+                case 4:
+                    picFruit.BackgroundImage = Properties.Resources.Apple;
+                    break;
+                default:
+                    picFruit.BackgroundImage = Properties.Resources.Strawberry;
+                    break;
+            }
             pnl.Controls.Add(picFruit);
 
         }
+
         private Bitmap findImage(Direction D, GhostColor color, bool sprite1, GhostState state)
         {
             if (state == GhostState.BONUSEND)
@@ -295,8 +469,7 @@ namespace PacmanWinForms
             }
 
         }
-
-
+        
         public void DrawPacMan(int x, int y, Color color, Direction dir)
         {
             Brush b = new SolidBrush(color);
@@ -309,8 +482,7 @@ namespace PacmanWinForms
 
             }
         }
-
-
+        
         private void calculateAngles(Direction dir, out int startAngle, out int sweepAngle)
         {
             int stAngle, swAngle ;
