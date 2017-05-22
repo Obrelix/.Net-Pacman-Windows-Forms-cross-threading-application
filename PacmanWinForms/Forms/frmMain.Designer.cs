@@ -42,6 +42,10 @@
             "Hard"}, -1, System.Drawing.Color.Red, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlSettings = new System.Windows.Forms.Panel();
+            this.nmrPacmanDelay = new System.Windows.Forms.NumericUpDown();
+            this.nmrGhostDelay = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.lstvAlgorithm = new System.Windows.Forms.ListView();
             this.lstvDifficulty = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,15 +55,11 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.nmrGhostDelay = new System.Windows.Forms.NumericUpDown();
-            this.nmrPacmanDelay = new System.Windows.Forms.NumericUpDown();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlSettings.SuspendLayout();
-            this.mnuGame.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrGhostDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrPacmanDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrGhostDelay)).BeginInit();
+            this.mnuGame.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlSettings
@@ -81,6 +81,60 @@
             this.pnlSettings.Name = "pnlSettings";
             this.pnlSettings.Size = new System.Drawing.Size(325, 228);
             this.pnlSettings.TabIndex = 0;
+            // 
+            // nmrPacmanDelay
+            // 
+            this.nmrPacmanDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.nmrPacmanDelay.Location = new System.Drawing.Point(176, 176);
+            this.nmrPacmanDelay.Name = "nmrPacmanDelay";
+            this.nmrPacmanDelay.Size = new System.Drawing.Size(54, 20);
+            this.nmrPacmanDelay.TabIndex = 9;
+            this.nmrPacmanDelay.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            // 
+            // nmrGhostDelay
+            // 
+            this.nmrGhostDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.nmrGhostDelay.Location = new System.Drawing.Point(176, 137);
+            this.nmrGhostDelay.Name = "nmrGhostDelay";
+            this.nmrGhostDelay.Size = new System.Drawing.Size(54, 20);
+            this.nmrGhostDelay.TabIndex = 8;
+            this.nmrGhostDelay.Value = new decimal(new int[] {
+            85,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Black;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label4.ForeColor = System.Drawing.Color.Wheat;
+            this.label4.Location = new System.Drawing.Point(48, 139);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(102, 19);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Ghost\'s Delay:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Black;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label3.ForeColor = System.Drawing.Color.Wheat;
+            this.label3.Location = new System.Drawing.Point(48, 177);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(115, 19);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Pacman\'s Delay:";
             // 
             // lstvAlgorithm
             // 
@@ -203,7 +257,7 @@
             this.mnuHelp.BackColor = System.Drawing.Color.White;
             this.mnuHelp.ForeColor = System.Drawing.Color.Black;
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(152, 22);
+            this.mnuHelp.Size = new System.Drawing.Size(107, 22);
             this.mnuHelp.Text = "&Help";
             this.mnuHelp.Click += new System.EventHandler(this.mnuHelp_Click);
             // 
@@ -212,63 +266,9 @@
             this.mnuAbout.BackColor = System.Drawing.Color.White;
             this.mnuAbout.ForeColor = System.Drawing.Color.Black;
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(107, 22);
             this.mnuAbout.Text = "&About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Black;
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label3.ForeColor = System.Drawing.Color.Wheat;
-            this.label3.Location = new System.Drawing.Point(48, 177);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 19);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Pacman\'s Delay:";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Black;
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label4.ForeColor = System.Drawing.Color.Wheat;
-            this.label4.Location = new System.Drawing.Point(48, 139);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(102, 19);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Ghost\'s Delay:";
-            // 
-            // nmrGhostDelay
-            // 
-            this.nmrGhostDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nmrGhostDelay.Location = new System.Drawing.Point(176, 137);
-            this.nmrGhostDelay.Name = "nmrGhostDelay";
-            this.nmrGhostDelay.Size = new System.Drawing.Size(54, 20);
-            this.nmrGhostDelay.TabIndex = 8;
-            this.nmrGhostDelay.Value = new decimal(new int[] {
-            75,
-            0,
-            0,
-            0});
-            // 
-            // nmrPacmanDelay
-            // 
-            this.nmrPacmanDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nmrPacmanDelay.Location = new System.Drawing.Point(176, 176);
-            this.nmrPacmanDelay.Name = "nmrPacmanDelay";
-            this.nmrPacmanDelay.Size = new System.Drawing.Size(54, 20);
-            this.nmrPacmanDelay.TabIndex = 9;
-            this.nmrPacmanDelay.Value = new decimal(new int[] {
-            70,
-            0,
-            0,
-            0});
             // 
             // settingsToolStripMenuItem
             // 
@@ -301,10 +301,10 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.pnlSettings.ResumeLayout(false);
             this.pnlSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrPacmanDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrGhostDelay)).EndInit();
             this.mnuGame.ResumeLayout(false);
             this.mnuGame.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrGhostDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrPacmanDelay)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

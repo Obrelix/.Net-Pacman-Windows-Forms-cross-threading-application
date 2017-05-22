@@ -445,7 +445,7 @@ namespace PacmanWinForms
                 case GhostColor.RED:
                     if (picRedGhost != null) pnl.Controls.Remove(picRedGhost);
                     picRedGhost = new PictureBox();
-                    picRedGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picRedGhost.BackgroundImageLayout = ImageLayout.Zoom;
                     picRedGhost.Location = new Point((int)(P.X * cellWidth + 4 ), (int)(P.Y * cellHeight +4));
                     picRedGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picRedGhost.BackgroundImage = findImage(D, color, sprite1, state);
@@ -454,7 +454,7 @@ namespace PacmanWinForms
                 case GhostColor.BLUE:
                     if (picBlueGhost != null) pnl.Controls.Remove(picBlueGhost);
                     picBlueGhost = new PictureBox();
-                    picBlueGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picBlueGhost.BackgroundImageLayout = ImageLayout.Zoom;
                     picBlueGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picBlueGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picBlueGhost.BackgroundImage = findImage(D, color, sprite1, state);
@@ -463,7 +463,7 @@ namespace PacmanWinForms
                 case GhostColor.PINK:
                     if (picPinkGhost != null) pnl.Controls.Remove(picPinkGhost);
                     picPinkGhost = new PictureBox();
-                    picPinkGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picPinkGhost.BackgroundImageLayout = ImageLayout.Zoom;
                     picPinkGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picPinkGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picPinkGhost.BackgroundImage = findImage(D, color, sprite1, state);
@@ -472,7 +472,7 @@ namespace PacmanWinForms
                 case GhostColor.YELLOW:
                     if (picYellowGhost != null) pnl.Controls.Remove(picYellowGhost);
                     picYellowGhost = new PictureBox();
-                    picYellowGhost.BackgroundImageLayout = ImageLayout.Stretch;
+                    picYellowGhost.BackgroundImageLayout = ImageLayout.Zoom;
                     picYellowGhost.Location = new Point((int)(P.X * cellWidth + 4), (int)(P.Y * cellHeight + 4));
                     picYellowGhost.Size = new Size((int)(4 * cellWidth) - 6, (int)(4 * cellHeight) - 6);
                     picYellowGhost.BackgroundImage = findImage(D, color, sprite1, state);

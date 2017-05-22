@@ -32,6 +32,8 @@ namespace PacmanWinForms
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
             game = new PacmanGame(this, pnlBoard, difficulty, algorithm, pacmanDelay, ghostDelay);
+            //this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
+            this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
             posSizeInit();
         }
 
@@ -70,11 +72,14 @@ namespace PacmanWinForms
 
         private void posSizeInit()
         {
-            pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height+2);
-            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 2);
-            lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 2);
-            pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 30);
+            //pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
+            lblLScore.Location = new Point((pnlSc.Width - lblLScore.Width)/2, 0);
+            lblLVL.Location = new Point((pnlLvl.Width - lblLVL.Width) / 2, 0);
+            lblLives.Location = new Point((pnlHighScore.Width - lblLives.Width) / 2, 0);
+            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 7);
+            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 7);
+            lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 7);
+            pnlDisplay.Location = new Point((panel1.Width - pnlDisplay.Width) / 2, panel1.Height -2);
         }
 
         public void frmClose()
@@ -129,7 +134,7 @@ namespace PacmanWinForms
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
-            this.Width = (int)(0.90625 * this.Height);
+            this.Width = (int)(0.75 * this.Height);
            // this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
@@ -170,8 +175,6 @@ namespace PacmanWinForms
         {
             if (game == null) return;
             game.Run();
-            //this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
-            this.Height = Screen.PrimaryScreen.Bounds.Height -40;
         }
 
         private void mnuHelp_Click(object sender, EventArgs e)

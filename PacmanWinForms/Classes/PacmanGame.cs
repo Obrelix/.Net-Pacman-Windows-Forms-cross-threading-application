@@ -343,8 +343,8 @@ namespace PacmanWinForms
         private string convertLives(int l)
         {
             string lives = string.Empty;
-            for (int i = 0; i < l; i++) lives += "❤";
-            return lives;
+            for (int i = 0; i < l; i++)  lives += "❤"; //lives += "ᗧ";
+                return lives;
 
         }
 
@@ -383,7 +383,7 @@ namespace PacmanWinForms
                 addLive3 = false;
             }
 
-
+            lives = (lives > 8) ? 8 : lives;
         }
 
         public void coinInserted()
@@ -517,7 +517,6 @@ namespace PacmanWinForms
                 fruit.Run(fruitPicIndex);
                 fruitCounter++;
                 fruit.fruitState = FruitState.NORMAL;
-                fruitPicIndex++;
             }
             else if (fruitCounter >= 601 && fruitCounter < 800 && State == GameState.GAMERUN)
             {
@@ -526,7 +525,7 @@ namespace PacmanWinForms
             else if (fruitCounter >= 800 && State == GameState.GAMERUN)
             {
                 fruitCounter = 0;
-                if(fruit.fruitState != FruitState.EATEN) fruitPicIndex--;
+                if(fruit.fruitState == FruitState.EATEN) fruitPicIndex++;
                 fruit.fruitState = FruitState.EATEN;
                 board.CleanFruit(fruit.Point, 1);
                 fruit.Point = new Point(26, 39);
@@ -737,7 +736,7 @@ namespace PacmanWinForms
         private void resetPrintables()
         {
             printCounter = (printCounter> 100) ? 100 :printCounter;
-            if(printCounter > 40)
+            if(printCounter > 25)
             {
                 board.CleanBonus(new Point(), 0, 10);
             }
