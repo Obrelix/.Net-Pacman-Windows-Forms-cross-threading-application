@@ -8,15 +8,14 @@ using System.Media;
 using System.IO;
 using System.Security.Cryptography;
 
-public delegate void Communicate(Task t, Point P);
-public delegate void CheatCode();
 namespace PacmanWinForms
 {
     public enum GameState : byte
     {
         GAMEOVER = 0,
         GAMEPAUSE = 1,
-        GAMERUN = 2
+        GAMERUN = 2,
+        GAMEWAIT = 3
     }
 
     public enum Direction : Int16
@@ -127,6 +126,7 @@ namespace PacmanWinForms
         public Task wallRunner;
         public Task Clock;
 
+        private int difficulty, algorithm, stockPacmanDelay, stockGhostDelay; 
         private GameState _state = GameState.GAMEOVER;
         private int _ghostDelay = 90;
         private int _delay = 90;
@@ -161,16 +161,20 @@ namespace PacmanWinForms
         private List<Point> bonusList = new List<Point>();
         private List<Point> roadList = new List<Point>();
 
-        public PacmanGame(frmPacmanGame frm, Panel p)
+        public PacmanGame(frmPacmanGame frm, Panel p, int difficulty, int algorithm, int pacmanDelay, int ghostDelay)
         {
             parentForm = frm;
             board = new PacmanBoard(p);
             Pacman = new PacmanRun(parentForm, board);
-            RedGhost = new GhostRun(parentForm, board, GhostColor.RED);
-            BlueGhost = new GhostRun(parentForm, board, GhostColor.BLUE);
-            PinkGhost = new GhostRun(parentForm, board, GhostColor.PINK);
-            YellowGhost = new GhostRun(parentForm, board, GhostColor.YELLOW);
+            RedGhost = new GhostRun(parentForm, board, GhostColor.RED, algorithm);
+            BlueGhost = new GhostRun(parentForm, board, GhostColor.BLUE, algorithm);
+            PinkGhost = new GhostRun(parentForm, board, GhostColor.PINK, algorithm);
+            YellowGhost = new GhostRun(parentForm, board, GhostColor.YELLOW, algorithm);
             fruit = new FruitRun(parentForm, board);
+            this.difficulty = difficulty;
+            this.algorithm = algorithm;
+            stockGhostDelay = ghostDelay;
+            stockPacmanDelay = pacmanDelay;
             this.Init();
             RePaint();
         }
@@ -188,13 +192,62 @@ namespace PacmanWinForms
             State = GameState.GAMEOVER;
             AIFlagInit();
             score = 0;
-            PacmanDelay = 70;
-            GhostDelay = 75;
+            PacmanDelay = stockPacmanDelay;
+            GhostDelay = stockGhostDelay;
         }
 
         private void AIFlagInit()
         {
-            int randomInitValue, random;
+            int random1, random2, random3;
+            switch (difficulty)
+            {
+                case 1:
+                    random1 = randomGhostAI();
+                    random2 = randomGhostAI();
+                    while(random1 == random2)
+                    {
+                        random2 = randomGhostAI();
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i != random1 && i != random2) AIFlagArray[i] = false;
+                        else AIFlagArray[i] = true;
+                    }
+                    break;
+                case 2:
+                    random1 = randomGhostAI();
+                    random2 = randomGhostAI();
+                    random3 = randomGhostAI();
+                    while (random1 == random2)
+                    {
+                        random2 = randomGhostAI();
+                    }
+                    while (random2 == random3)
+                    {
+                        random3 = randomGhostAI();
+                        if(random3 == random1)random3 = randomGhostAI();
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i != random1 && i != random2 && i != random3) AIFlagArray[i] = false;
+                        else AIFlagArray[i] = true;
+                    }
+                    break;
+                default:
+                    random1 = randomGhostAI();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i != random1) AIFlagArray[i] = false;
+                        else AIFlagArray[i] = true;
+                    }
+                    break;
+            }
+
+        }
+
+        private int randomGhostAI()
+        {
+            int randomInitValue;
             using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
             {
                 byte[] rno = new byte[5];
@@ -202,16 +255,8 @@ namespace PacmanWinForms
                 randomInitValue = BitConverter.ToInt32(rno, 0);
             }
             Random rnd = new Random(randomInitValue);
-            random = rnd.Next(0, 4);
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (i != random) AIFlagArray[i] = false;
-                else AIFlagArray[i] = true;
-            }
-
+            return rnd.Next(0, 4);
         }
-
 
         public void Run()
         {
@@ -229,6 +274,9 @@ namespace PacmanWinForms
             YellowGhost.Run();
             PinkGhost.Run();
             Pacman.Run();
+            State = GameState.GAMEWAIT;
+            parentForm.playSound(Properties.Resources.Pacman_Opening_Song);
+            setGameRun(6000);
         }
 
         public void RePaint()
@@ -262,11 +310,10 @@ namespace PacmanWinForms
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
         }
-
-
+        
         private void ghostSetTargets()
         {
-            if(AIClockCounter < 500)
+            if(AIClockCounter < 400)
             {
                 if (RedGhost.gState == GhostState.EATEN) RedGhost.setTarget(new Point(27, 29), true);
                 else RedGhost.setTarget(Pacman.Point, false);
@@ -277,7 +324,7 @@ namespace PacmanWinForms
                 if (YellowGhost.gState == GhostState.EATEN) YellowGhost.setTarget(new Point(27, 29), true);
                 else YellowGhost.setTarget(Pacman.Point, false);
             }
-            else if(AIClockCounter >= 500)
+            else if(AIClockCounter >= 400)
             {
                 if (RedGhost.gState == GhostState.EATEN) RedGhost.setTarget(new Point(27, 29), true);
                 else RedGhost.setTarget(Pacman.Point, AIFlagArray[0]);
@@ -288,7 +335,7 @@ namespace PacmanWinForms
                 if (YellowGhost.gState == GhostState.EATEN) YellowGhost.setTarget(new Point(27, 29), true);
                 else YellowGhost.setTarget(Pacman.Point, AIFlagArray[3]);
             }
-            if (AIClockCounter % 1500 == 0) AIFlagInit();
+            if (AIClockCounter % 1000 == 0) AIFlagInit();
             if(State == GameState.GAMERUN)AIClockCounter++;
            
         }
@@ -309,7 +356,7 @@ namespace PacmanWinForms
                     board.PrintMessage(true, "Game Paused", "Press ( p / SpaceBar ) to continue!");
                     break;
                 case GameState.GAMEOVER:
-                    board.PrintMessage(true, "Game Over", "Press ( Enter ) to play again!");
+                    board.PrintMessage(true, " Game Over", "");
                     break;
                 case GameState.GAMERUN:
                     board.PrintMessage(false, "", "");
@@ -383,7 +430,7 @@ namespace PacmanWinForms
             {
                 redCounter++;
             }
-            else if (redCounter >= 45)
+            else if (redCounter >= 45 && !Bonus)
             {
                 setGhostState(GhostColor.RED, GhostState.NORMAL );
                 redCounter = 0;
@@ -392,7 +439,7 @@ namespace PacmanWinForms
             {
                 blueCounter++;
             }
-            else if (blueCounter >= 45)
+            else if (blueCounter >= 45 && !Bonus)
             {
                 setGhostState(GhostColor.BLUE, GhostState.NORMAL);
                 blueCounter = 0;
@@ -401,7 +448,7 @@ namespace PacmanWinForms
             {
                 pinkCounter++;
             }
-            else if (pinkCounter >= 45)
+            else if (pinkCounter >= 45 && !Bonus)
             {
                 setGhostState(GhostColor.PINK, GhostState.NORMAL);
                 pinkCounter = 0;
@@ -410,7 +457,7 @@ namespace PacmanWinForms
             {
                 yellowCounter++;
             }
-            else if (yellowCounter >= 45)
+            else if (yellowCounter >= 45 && !Bonus)
             {
                 setGhostState(GhostColor.YELLOW, GhostState.NORMAL);
                 yellowCounter = 0;
@@ -479,11 +526,13 @@ namespace PacmanWinForms
             else if (fruitCounter >= 800 && State == GameState.GAMERUN)
             {
                 fruitCounter = 0;
+                if(fruit.fruitState != FruitState.EATEN) fruitPicIndex--;
                 fruit.fruitState = FruitState.EATEN;
                 board.CleanFruit(fruit.Point, 1);
+                fruit.Point = new Point(26, 39);
                 fruit.State = GameState.GAMEOVER;
             }
-            fruitPicIndex = (fruitPicIndex < 5) ? fruitPicIndex : 1;
+            fruitPicIndex = (fruitPicIndex < 9) ? fruitPicIndex : 1;
         }
 
         private void eatDots(Point[] core)
@@ -496,7 +545,7 @@ namespace PacmanWinForms
                     if (corePoint.X == dotList[i].X && corePoint.Y == dotList[i].Y)
                     {
                         dotList.RemoveAt(i);
-                        score += 20 * Level/2;
+                        score += 10 ;
                        // board.PrintBonus(Pacman.Point, 20 * Level / 2, 1);
 
                         //Stream s = Properties.Resources.Pacman_Waka_Waka_Cut;
@@ -518,7 +567,7 @@ namespace PacmanWinForms
                     if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
                     {
                         bonusList.RemoveAt(i);
-                        score += 100 * Level/2;
+                        score += 50;
                         AIFlagInit();
                         setGhostState(GhostColor.BLUE, GhostState.BONUS);
                         setGhostState(GhostColor.RED, GhostState.BONUS);
@@ -539,12 +588,12 @@ namespace PacmanWinForms
 
             List<Point> commonPoints = Pacman.core().Intersect(mergedList.Select(u => u)).ToList();
 
-            if ((commonPoints.Count != 0 && !Bonus ) || lives == 0)
+            if (((commonPoints.Count != 0 && !Bonus)))
             {
-                State = GameState.GAMEPAUSE;
+                State = GameState.GAMEWAIT;
                 parentForm.playSound(Properties.Resources.Pacman_Dies);
                 AIFlagInit();
-                WaitSomeTime(1000);
+                WaitSomeTime(1500);
                 while (wait) { }
                 wait = true;
                 RedGhost.reset();
@@ -555,11 +604,16 @@ namespace PacmanWinForms
                 Bonus = false;
                 lives--;
                 AIClockCounter = 0;
-                if (lives == 0)
-                {
-                    State = GameState.GAMEOVER;
-                    sendMsg();
-                }
+                setGameRun(1500);
+            }
+            if (lives == 0)
+            {
+                State = GameState.GAMEOVER;
+                sendMsg();
+                WaitSomeTime(3000);
+                while (wait) { }
+                wait = true;
+                parentForm.frmClose();
             }
         }
 
@@ -568,14 +622,15 @@ namespace PacmanWinForms
             if (dotList.Count == 0 && bonusList.Count == 0)
             {
                 parentForm.playSound(Properties.Resources.Pacman_Intermission);
-                State = GameState.GAMEPAUSE;
-                WaitSomeTime(5000);
+                State = GameState.GAMEWAIT;
+                WaitSomeTime(2500);
                 while (wait) { }
                 wait = true;
                 dotList = PointLists.dotPointList();
                 bonusList = PointLists.bonusPointList();
                 ChangeLevel();
                 AIClockCounter = 0;
+                setGameRun(2000);
             }
         }
 
@@ -584,11 +639,25 @@ namespace PacmanWinForms
             List<Point> commonPoints = Pacman.core().Intersect(fruit.core().Select(u => u)).ToList();
             if (commonPoints.Count != 0)
             {
-                score += 500 * Level;
+                int fruitScore = 0;
+                switch (fruitPicIndex)
+                {
+                    case 1: fruitScore = 100; break;
+                    case 2: fruitScore = 300; break;
+                    case 3: fruitScore = 500; break;
+                    case 4: fruitScore = 700; break;
+                    case 5: fruitScore = 1000; break;
+                    case 6: fruitScore = 2000; break;
+                    case 7: fruitScore = 3000; break;
+                    case 8: fruitScore = 5000; break;
+                    default: fruitScore = 5000; break;
+                }
+                score += fruitScore;
                 parentForm.playSound(Properties.Resources.Pacman_Eating_Cherry);
-                board.PrintBonus(fruit.Point, 500 * Level, 5); printCounter = 0;
+                board.PrintBonus(fruit.Point, fruitScore, 5); printCounter = 0;
                 fruit.fruitState = FruitState.EATEN;
                 board.CleanFruit(fruit.Point, 1);
+                fruit.Point = new Point(26, 39);
             }
         }
 
@@ -598,7 +667,7 @@ namespace PacmanWinForms
             ghostEatenCounter = (Bonus) ? ghostEatenCounter : 1;
             eatenScore = (!Bonus || eatenScore > 1600) ? 200 : eatenScore;
             List<Point> commonPoints = Pacman.core().Intersect(RedGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus && RedGhost.gState != GhostState.EATEN)
+            if (commonPoints.Count != 0 && Bonus && RedGhost.gState != GhostState.EATEN )
             {
                 score += eatenScore;
                 ghostEatenCounter++;
@@ -614,7 +683,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(BlueGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus && BlueGhost.gState != GhostState.EATEN)
+            if (commonPoints.Count != 0 && Bonus && BlueGhost.gState != GhostState.EATEN )
             {
                 score += eatenScore;
                 ghostEatenCounter++;
@@ -630,7 +699,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(YellowGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus && YellowGhost.gState != GhostState.EATEN)
+            if (commonPoints.Count != 0 && Bonus && YellowGhost.gState != GhostState.EATEN )
             {
                 score += eatenScore;
                 ghostEatenCounter++;
@@ -646,7 +715,7 @@ namespace PacmanWinForms
 
             commonPoints.Clear();
             commonPoints = Pacman.core().Intersect(PinkGhost.core().Select(u => u)).ToList();
-            if (commonPoints.Count != 0 && Bonus && PinkGhost.gState != GhostState.EATEN)
+            if (commonPoints.Count != 0 && Bonus && PinkGhost.gState != GhostState.EATEN )
             {
                 score += eatenScore;
                 ghostEatenCounter++;
@@ -699,18 +768,20 @@ namespace PacmanWinForms
             RePaint();
             Run();
             reset = true;
-            State = GameState.GAMEPAUSE;
+            State = GameState.GAMEWAIT;
             bonusStateCounter = 1; bonusCounter = 0;
             fruitCounter = 0; AIClockCounter = 0;
             redCounter = 0; blueCounter = 0; pinkCounter = 0; yellowCounter = 0;
             AIClockCounter = 0;
             BonusEndSprite = true; addLive = true; addLive2 = true; addLive3 = true;
             eatenScore = 200; Level = 1; score = 0; lives = 3;
-            GhostDelay = 75; PacmanDelay = 70;
+            GhostDelay = stockGhostDelay; PacmanDelay = stockPacmanDelay;
             AIFlagInit();
             fruit.fruitState = FruitState.EATEN;
             board.CleanFruit(fruit.Point, 1);
             Bonus = false;
+            parentForm.playSound(Properties.Resources.Pacman_Opening_Song);
+            setGameRun(6000);
         }
 
         private void ChangeLevel()
@@ -718,7 +789,6 @@ namespace PacmanWinForms
             //PacmanDelay -= 3;
             GhostDelay -= 2;
             AIFlagInit();
-            State = GameState.GAMEPAUSE;
             RedGhost.reset();
             BlueGhost.reset();
             PinkGhost.reset();
@@ -733,6 +803,11 @@ namespace PacmanWinForms
         {
             await Task.Delay(time);
             wait = false;
+        }
+        private async void setGameRun(int time)
+        {
+            await Task.Delay(time);
+            State = GameState.GAMERUN;
         }
 
         public void setGhostState(GhostColor color, GhostState state)

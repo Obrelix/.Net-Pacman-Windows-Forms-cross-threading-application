@@ -15,25 +15,28 @@ namespace PacmanWinForms
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-
-        public frmPacmanGame()
+        private int difficulty, algorithm, pacmanDelay, ghostDelay;
+        private frmMain parentForm;
+        public frmPacmanGame(frmMain pForm, int diff, int alg, int pacmanDelay, int ghostDelay)
         {
             InitializeComponent();
+            parentForm = pForm;
+            difficulty = diff;
+            algorithm = alg;
+            this.pacmanDelay = pacmanDelay;
+            this.ghostDelay = ghostDelay;
         }
         
 
+
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
-            game = new PacmanGame(this, pnlBoard);
-            playSound(Properties.Resources.Pacman_Opening_Song);
+            game = new PacmanGame(this, pnlBoard, difficulty, algorithm, pacmanDelay, ghostDelay);
             posSizeInit();
-            game.State = GameState.GAMEPAUSE;
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
         {
-            //game.RePaint();
-            //game.KeyDown(e);
             if (game == null) return;
             if (e.KeyCode == Keys.Left) { game.setDirection(Direction.LEFT); }
             else if (e.KeyCode == Keys.Right) { game.setDirection(Direction.RIGHT); }
@@ -67,9 +70,6 @@ namespace PacmanWinForms
 
         private void posSizeInit()
         {
-            //lblInfoTxt.Location = new Point((pnlBoard.Width - lblInfoTxt.Width) / 2, (pnlBoard.Height - lblInfoTxt.Height - lblInfoDetails.Height) );
-            //lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height) );
-
             pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
             lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height+2);
             lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 2);
@@ -77,7 +77,16 @@ namespace PacmanWinForms
             pnlDisplay.Location = new Point((this.ClientRectangle.Width - pnlDisplay.Width) / 2, 30);
         }
 
-        
+        public void frmClose()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(frmClose), new object[] {  });
+                return;
+            }
+            this.Close();
+            parentForm.Show();
+        }
 
         private async void frmPacmanGame_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -91,6 +100,7 @@ namespace PacmanWinForms
                 e.Cancel = true;
                 await game.Runner;
                 this.Close();
+                parentForm.Show();
             }
         }
 
@@ -115,25 +125,12 @@ namespace PacmanWinForms
         private void tmrClock_Tick(object sender, EventArgs e)
         {
 
-            //lblInfoTxt.Location = new Point((pnlBoard.Width - lblInfoTxt.Width) / 2, (pnlBoard.Height - lblInfoTxt.Height - lblInfoDetails.Height));
-            //lblInfoDetails.Location = new Point((pnlBoard.Width - lblInfoDetails.Width) / 2, (pnlBoard.Height - lblInfoDetails.Height));
-            //switch (game.State)
-            //{
-            //    case GameState.GAMEOVER:
-            //        lblInfoDetails.Text = "Press ( Enter ) to play again!"; lblInfoDetails.Visible = true;
-            //        lblInfoTxt.Text = "Game Over"; lblInfoTxt.Visible = true; break;
-            //    case GameState.GAMEPAUSE:
-            //        lblInfoDetails.Text = "Press ( p / SpaceBar ) to continue!"; lblInfoDetails.Visible = true;
-            //        lblInfoTxt.Text = "Game Paused"; lblInfoTxt.Visible = true; break;
-            //    case GameState.GAMERUN:
-            //        lblInfoDetails.Visible = false; lblInfoTxt.Visible = false; break;
-
-            //}
         }
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
-            this.Height = (int)(1.25 * this.Width);
+            this.Width = (int)(0.90625 * this.Height);
+           // this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
             posSizeInit();
@@ -173,7 +170,8 @@ namespace PacmanWinForms
         {
             if (game == null) return;
             game.Run();
-            game.State = GameState.GAMEPAUSE;
+            //this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
+            this.Height = Screen.PrimaryScreen.Bounds.Height -40;
         }
 
         private void mnuHelp_Click(object sender, EventArgs e)
@@ -191,7 +189,6 @@ namespace PacmanWinForms
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             if (game == null) return;
-            game.State = GameState.GAMEPAUSE;
             game.Reset();
         }
 

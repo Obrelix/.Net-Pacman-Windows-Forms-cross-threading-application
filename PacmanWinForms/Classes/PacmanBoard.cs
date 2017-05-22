@@ -303,7 +303,7 @@ namespace PacmanWinForms
         {
             if (picFruit != null) pnl.Controls.Remove(picFruit);
             picFruit = new PictureBox();
-            picFruit.BackgroundImageLayout = ImageLayout.Stretch;
+            picFruit.BackgroundImageLayout = ImageLayout.Zoom;
             picFruit.Location = new Point((int)(P.X * cellWidth + 11), (int)(P.Y * cellHeight + 11));
             picFruit.Size = new Size((int)(4 * cellWidth) - 13, (int)(4 * cellHeight) - 13);
             switch (index)
@@ -319,6 +319,18 @@ namespace PacmanWinForms
                     break;
                 case 4:
                     picFruit.BackgroundImage = Properties.Resources.Apple;
+                    break;
+                case 5:
+                    picFruit.BackgroundImage = Properties.Resources.Melon;
+                    break;
+                case 6:
+                    picFruit.BackgroundImage = Properties.Resources.Galaxian_Boss;
+                    break;
+                case 7:
+                    picFruit.BackgroundImage = Properties.Resources.Bell;
+                    break;
+                case 8:
+                    picFruit.BackgroundImage = Properties.Resources.Key;
                     break;
                 default:
                     picFruit.BackgroundImage = Properties.Resources.Strawberry;

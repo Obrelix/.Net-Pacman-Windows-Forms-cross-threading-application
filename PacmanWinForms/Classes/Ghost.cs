@@ -69,6 +69,7 @@ namespace PacmanWinForms
         public GhostState gState { get; set; }
         public bool eatenFlag { get; set; }
         public GameState State = GameState.GAMEOVER;
+        public int algorithm = 0;
 
         private List<Point> scaleList = new List<Point>();
         private List<Point> wallList = new List<Point>();
@@ -91,11 +92,12 @@ namespace PacmanWinForms
 
 
 
-        public GhostRun(frmPacmanGame frm, PacmanBoard b, GhostColor color)
+        public GhostRun(frmPacmanGame frm, PacmanBoard b, GhostColor color, int algorithm)
         {
             this.color = color;
             parentForm = frm;
             board = b;
+            this.algorithm = algorithm;
             this.Init();
         }
 
@@ -208,7 +210,6 @@ namespace PacmanWinForms
             }
         }
 
-
         private void changeWait()
         {
             if (gState == GhostState.NORMAL && !AIFlag)
@@ -271,9 +272,35 @@ namespace PacmanWinForms
 
                 if (scaleP != scaleTargetPoint)
                 {
-                    Direction aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
-                    map.map[scaleTargetPoint.X, scaleTargetPoint.Y], curDir);
-                    map.Reset();
+                    Direction aiDirection;
+                    switch (algorithm)
+                    {
+                        case 0:
+                            aiDirection = aStar.Run(map.map[scaleP.X, scaleP.Y],
+                                                        map.map[scaleTargetPoint.X, scaleTargetPoint.Y], 
+                                                        curDir);
+                            map.Reset();
+                            break;
+                        case 1:
+                            aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                                                     map.map[scaleTargetPoint.X, scaleTargetPoint.Y],
+                                                     curDir);
+                            map.Reset();
+                            break;
+                        case 2:
+                            aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                                                     map.map[scaleTargetPoint.X, scaleTargetPoint.Y],
+                                                     curDir);
+                            map.Reset();
+                            break;
+                        default:
+                            aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                                                     map.map[scaleTargetPoint.X, scaleTargetPoint.Y],
+                                                     curDir);
+                            map.Reset();
+                            break;
+                    }
+                    
                     if (checkForConflict(nextPoint(P, aiDirection), P))
                     {
                         dList.Add(aiDirection);

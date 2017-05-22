@@ -60,6 +60,12 @@
     <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="PathFindingAlgorithms\AStar.cs" />
     <Compile Include="PathFindingAlgorithms\BestFirst.cs" />
     <Compile Include="PathFindingAlgorithms\BreadthFirst.cs" />
@@ -82,6 +88,9 @@
     <Compile Include="PathFindingAlgorithms\SearchAlgorithm.cs" />
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPacmanGame.resx">
       <DependentUpon>frmPacmanGame.cs</DependentUpon>
@@ -294,6 +303,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Apple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wiki-background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Galaxian Boss.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Melon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bell.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

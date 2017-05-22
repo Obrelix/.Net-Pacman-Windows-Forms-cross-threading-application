@@ -73,6 +73,16 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Bell {
+            get {
+                object obj = ResourceManager.GetObject("Bell", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlueGhost {
             get {
                 object obj = ResourceManager.GetObject("BlueGhost", resourceCulture);
@@ -253,9 +263,39 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Galaxian_Boss {
+            get {
+                object obj = ResourceManager.GetObject("Galaxian_Boss", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Key {
+            get {
+                object obj = ResourceManager.GetObject("Key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap maze2 {
             get {
                 object obj = ResourceManager.GetObject("maze2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Melon {
+            get {
+                object obj = ResourceManager.GetObject("Melon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -566,6 +606,16 @@ namespace PacmanWinForms.Properties {
         internal static System.Drawing.Bitmap Strawberry {
             get {
                 object obj = ResourceManager.GetObject("Strawberry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wiki_background {
+            get {
+                object obj = ResourceManager.GetObject("Wiki_background", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
