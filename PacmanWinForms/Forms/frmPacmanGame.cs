@@ -73,13 +73,13 @@ namespace PacmanWinForms
         private void posSizeInit()
         {
             //pnlLvl.Location = new Point((pnlDisplay.Width - pnlLvl.Width) / 2, 0);
-            lblLScore.Location = new Point((pnlSc.Width - lblLScore.Width)/2, 0);
-            lblLVL.Location = new Point((pnlLvl.Width - lblLVL.Width) / 2, 0);
-            lblLives.Location = new Point((pnlHighScore.Width - lblLives.Width) / 2, 0);
-            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 7);
-            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 7);
-            lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 7);
-            pnlDisplay.Location = new Point((panel1.Width - pnlDisplay.Width) / 2, panel1.Height -2);
+            lblLScore.Location = new Point((pnlSc.Width - lblLScore.Width)/2, 1);
+            lblLVL.Location = new Point((pnlLvl.Width - lblLVL.Width) / 2, 1);
+            lblLives.Location = new Point((pnlHighScore.Width - lblLives.Width) / 2, 1);
+            lblScore.Location = new Point((pnlSc.Width - lblScore.Width) / 2, lblLVL.Height + 5);
+            lblLVLValue.Location = new Point((pnlSc.Width - lblLVLValue.Width) / 2, lblLVL.Height+ 5);
+            lblLivesValue.Location = new Point((pnlSc.Width - lblLivesValue.Width) / 2, lblLVL.Height+ 5);
+            pnlDisplay.Location = new Point((panel1.Width - pnlDisplay.Width) / 2, panel1.Height -1);
         }
 
         public void frmClose()

@@ -141,7 +141,7 @@ namespace PacmanWinForms
 
         private bool addLive = true, addLive2 = true, addLive3 = true;
         private int eatenScore = 200;
-
+        private Point bonusEatenPoint = new Point();
         private  frmPacmanGame parentForm;
         private  PacmanBoard board;
 
@@ -198,7 +198,7 @@ namespace PacmanWinForms
 
         private void AIFlagInit()
         {
-            int random1, random2, random3;
+            int random1, random2;
             switch (difficulty)
             {
                 case 1:
@@ -216,20 +216,17 @@ namespace PacmanWinForms
                     break;
                 case 2:
                     random1 = randomGhostAI();
-                    random2 = randomGhostAI();
-                    random3 = randomGhostAI();
-                    while (random1 == random2)
-                    {
-                        random2 = randomGhostAI();
-                    }
-                    while (random2 == random3)
-                    {
-                        random3 = randomGhostAI();
-                        if(random3 == random1)random3 = randomGhostAI();
-                    }
                     for (int i = 0; i < 4; i++)
                     {
-                        if (i != random1 && i != random2 && i != random3) AIFlagArray[i] = false;
+                        if (i == random1) AIFlagArray[i] = false;
+                        else AIFlagArray[i] = true;
+                    }
+                    break;
+                case 3:
+                    random1 = randomGhostAI();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i == random1) AIFlagArray[i] = false;
                         else AIFlagArray[i] = true;
                     }
                     break;
@@ -293,9 +290,9 @@ namespace PacmanWinForms
                 try
                 {
                     checkReset();
+                    eatBonus(Pacman.core());
                     ghostSetTargets();
                     eatDots(Pacman.core());
-                    eatBonus(Pacman.core());
                     addLives();
                     bonusClear();
                     bonusPaint(bonusStateCounter);
@@ -315,27 +312,20 @@ namespace PacmanWinForms
         {
             if(AIClockCounter < 400)
             {
-                if (RedGhost.gState == GhostState.EATEN) RedGhost.setTarget(new Point(27, 29), true);
-                else RedGhost.setTarget(Pacman.Point, false);
-                if (BlueGhost.gState == GhostState.EATEN) BlueGhost.setTarget(new Point(27, 29), true);
-                else BlueGhost.setTarget(Pacman.Point, false);
-                if (PinkGhost.gState == GhostState.EATEN) PinkGhost.setTarget(new Point(27, 29), true);
-                else PinkGhost.setTarget(Pacman.Point, false);
-                if (YellowGhost.gState == GhostState.EATEN) YellowGhost.setTarget(new Point(27, 29), true);
-                else YellowGhost.setTarget(Pacman.Point, false);
+                RedGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
+                BlueGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
+                PinkGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
+                YellowGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
             }
             else if(AIClockCounter >= 400)
             {
-                if (RedGhost.gState == GhostState.EATEN) RedGhost.setTarget(new Point(27, 29), true);
-                else RedGhost.setTarget(Pacman.Point, AIFlagArray[0]);
-                if (BlueGhost.gState == GhostState.EATEN) BlueGhost.setTarget(new Point(27, 29), true);
-                else BlueGhost.setTarget(Pacman.Point, AIFlagArray[1]);
-                if (PinkGhost.gState == GhostState.EATEN) PinkGhost.setTarget(new Point(27, 29), true);
-                else PinkGhost.setTarget(Pacman.Point, AIFlagArray[2]);
-                if (YellowGhost.gState == GhostState.EATEN) YellowGhost.setTarget(new Point(27, 29), true);
-                else YellowGhost.setTarget(Pacman.Point, AIFlagArray[3]);
+                RedGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[0], false);
+                BlueGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[1], false);
+                PinkGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[2], false);
+                YellowGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[3], false);
+                
             }
-            if (AIClockCounter % 1000 == 0) AIFlagInit();
+            if (AIClockCounter % 800 == 0) AIFlagInit();
             if(State == GameState.GAMERUN)AIClockCounter++;
            
         }
@@ -468,32 +458,32 @@ namespace PacmanWinForms
         {
             bonusStateCounter = (bonusStateCounter > 4) ? 1 : bonusStateCounter;
             bonusStateCounter++;
-            if (Bonus && bonusCounter < 70 && this.State == GameState.GAMERUN)
+            if (Bonus && bonusCounter < 50 && this.State == GameState.GAMERUN)
             {
                 bonusCounter++;
                 
             }
-            else if (Bonus && bonusCounter >= 70 && bonusCounter < 100)
+            else if (Bonus && bonusCounter >= 50 && bonusCounter < 70)
             {
                 if (BonusEndSprite)
                 {
-                    if (BlueGhost.gState != GhostState.EATEN && !BlueGhost.eatenFlag) setGhostState(GhostColor.BLUE, GhostState.BONUSEND);
-                    if (RedGhost.gState != GhostState.EATEN && !RedGhost.eatenFlag) setGhostState(GhostColor.RED, GhostState.BONUSEND);
-                    if (PinkGhost.gState != GhostState.EATEN && !PinkGhost.eatenFlag) setGhostState(GhostColor.PINK, GhostState.BONUSEND);
-                    if (YellowGhost.gState != GhostState.EATEN && ! YellowGhost.eatenFlag) setGhostState(GhostColor.YELLOW, GhostState.BONUSEND);
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.BONUSEND);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.BONUSEND);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.BONUSEND);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.BONUSEND);
                     BonusEndSprite = false;
                 }
                 else
                 {
-                    if (BlueGhost.gState != GhostState.EATEN && !BlueGhost.eatenFlag) setGhostState(GhostColor.BLUE, GhostState.BONUS);
-                    if (RedGhost.gState != GhostState.EATEN && !RedGhost.eatenFlag) setGhostState(GhostColor.RED, GhostState.BONUS);
-                    if (PinkGhost.gState != GhostState.EATEN && !PinkGhost.eatenFlag) setGhostState(GhostColor.PINK, GhostState.BONUS);
-                    if (YellowGhost.gState != GhostState.EATEN && !YellowGhost.eatenFlag) setGhostState(GhostColor.YELLOW, GhostState.BONUS);
+                    if (BlueGhost.gState != GhostState.EATEN) setGhostState(GhostColor.BLUE, GhostState.BONUS);
+                    if (RedGhost.gState != GhostState.EATEN) setGhostState(GhostColor.RED, GhostState.BONUS);
+                    if (PinkGhost.gState != GhostState.EATEN) setGhostState(GhostColor.PINK, GhostState.BONUS);
+                    if (YellowGhost.gState != GhostState.EATEN) setGhostState(GhostColor.YELLOW, GhostState.BONUS);
                     BonusEndSprite = true;
                 }
                 bonusCounter++;
             }
-            else if(Bonus && bonusCounter >= 100)
+            else if(Bonus && bonusCounter >= 70)
             {
                 bonusCounter = 0;
                 Bonus = false;
@@ -565,6 +555,7 @@ namespace PacmanWinForms
                 {
                     if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
                     {
+                        bonusEatenPoint = new Point(bonusList[i].X, bonusList[i].Y);
                         bonusList.RemoveAt(i);
                         score += 50;
                         AIFlagInit();
@@ -798,11 +789,12 @@ namespace PacmanWinForms
             Level++;
         }
 
-        public async void WaitSomeTime(int time)
+        private async void WaitSomeTime(int time)
         {
             await Task.Delay(time);
             wait = false;
         }
+
         private async void setGameRun(int time)
         {
             await Task.Delay(time);

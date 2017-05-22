@@ -75,6 +75,7 @@ namespace PacmanWinForms
         private List<Point> wallList = new List<Point>();
         private List<Point> boxDoorList = new List<Point>();
         private List<Point> boxList = new List<Point>();
+        private List<Point> bonusList = new List<Point>();
 
         private int _delay = 70;
         private Ghost ghost;
@@ -132,8 +133,8 @@ namespace PacmanWinForms
         {
             boxDoorList = PointLists.boxDoorPointList();
             wallList = PointLists.banPointList();
-            wallList.OrderBy(p => p.X).ThenBy(p => p.Y);
             boxList = PointLists.boxPointList();
+            bonusList = PointLists.bonusPointList();
             scaleList = ScaleLists.WallList();
             directionsInit();
             gState = GhostState.NORMAL;
@@ -153,7 +154,6 @@ namespace PacmanWinForms
                     ghost = new Ghost(new Point(22, 28), Direction.UP);
                     break;
             }
-
             map = new Map(scaleList);
             aStar = new AStar(map);
             bestFirst = new BestFirst(map);
@@ -218,7 +218,7 @@ namespace PacmanWinForms
             }
             else if (gState == GhostState.BONUS || gState == GhostState.BONUSEND)
             {
-                ghostRunner.Wait(_delay + 60);
+                ghostRunner.Wait(_delay + 40);
             }
             else if (AIFlag && gState != GhostState.EATEN)
             {
@@ -238,22 +238,12 @@ namespace PacmanWinForms
             {
                 return Ghost;
             }
-
-            int randomInitValue, i;
-            using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
-            {
-                byte[] rno = new byte[5];
-                rg.GetBytes(rno);
-                randomInitValue = BitConverter.ToInt32(rno, 0);
-            }
-            Random rnd = new Random(randomInitValue);
-
+            
             List<Direction> nextPossibleDir = possibleDirections(StartPoint, d);
 
             if (nextPossibleDir.Count != 0)
             {
-                i = rnd.Next(0, nextPossibleDir.Count);
-                d = nextPossibleDir[i];
+                d = nextPossibleDir[getRandomNumber(0, nextPossibleDir.Count)];
             }
             Ghost = new Ghost(nextPoint(StartPoint, d), d);
 
@@ -261,11 +251,12 @@ namespace PacmanWinForms
 
         }
 
+
         private List<Direction> possibleDirections(Point P, Direction curDir)
         {
             List<Direction> dList = new List<Direction>();
 
-            if (AIFlag || gState == GhostState.EATEN)
+            if (AIFlag)
             {
                 Point scaleP = scalePoint(ghost.Point);
                 Point scaleTargetPoint = scalePoint(target);
@@ -288,13 +279,13 @@ namespace PacmanWinForms
                             map.Reset();
                             break;
                         case 2:
-                            aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                            aiDirection = breadthFirst.Run(map.map[scaleP.X, scaleP.Y],
                                                      map.map[scaleTargetPoint.X, scaleTargetPoint.Y],
                                                      curDir);
                             map.Reset();
                             break;
                         default:
-                            aiDirection = bestFirst.Run(map.map[scaleP.X, scaleP.Y],
+                            aiDirection = aStar.Run(map.map[scaleP.X, scaleP.Y],
                                                      map.map[scaleTargetPoint.X, scaleTargetPoint.Y],
                                                      curDir);
                             map.Reset();
@@ -320,21 +311,104 @@ namespace PacmanWinForms
             return dList;
         }
 
-        public void setTarget(Point P, bool flag)
+        public void setTarget(PacmanRun pacman, Point blinkyPoint, Point bonusPoint, bool Difficulty, bool originalAI)
         {
-            if (flag)
-            {
-                bool outOfB = outOfBox(ghost.Point);
-                if (outOfB && gState == GhostState.NORMAL) AIFlag = true;
-                else if (outOfB && gState == GhostState.EATEN) AIFlag = true;
-                else  AIFlag = false;
-                target = P;
-            }
-            else
+            bool outOfB = outOfBox(ghost.Point);
+
+            //if (originalAI)
+            //{
+            //    switch (color)
+            //    {
+            //        case GhostColor.RED:
+            //            break;
+            //        case GhostColor.YELLOW:
+            //            break;
+            //        case GhostColor.BLUE:
+            //            break;
+            //        case GhostColor.PINK:
+            //            break;
+            //    }
+
+            //}
+            //else
+
+            if (!Difficulty && gState == GhostState.NORMAL)
             {
                 AIFlag = false;
             }
+            else AIFlag = true;
 
+            switch (gState)
+            {
+                case GhostState.NORMAL:
+                    target = pacman.Point;
+                    break;
+                case GhostState.EATEN:
+                    target = new Point(27, 29);
+                    break;
+                case GhostState.BONUS:
+                case GhostState.BONUSEND:
+                    if (isNear(ghost.Point, pacman.Point) && (bonusPoint == bonusList[1] || bonusPoint == bonusList[0]))
+                        target = new Point(27, 5);
+                    else if (isNear(ghost.Point, pacman.Point) && (bonusPoint == bonusList[2] || bonusPoint == bonusList[3]))
+                        target = new Point(27, 57);
+                    else
+                    {
+                        AIFlag = false;
+
+                    }
+                    break;
+            }
+
+           
+        }
+
+        private bool isNear(Point root, Point target)
+        {
+            return (Math.Abs(root.X - target.X) < 10) && (Math.Abs(root.Y - target.Y) < 10);
+        }
+
+        private Point findOtherBonusPoint(Point bonusPoint)
+        {
+
+            if(bonusPoint == bonusList[0])
+            {
+                //if(!isNear(ghost.Point, bonusList[3]))
+                    return bonusList[3];
+                //else return bonusList[2];
+            }
+            else if (bonusPoint == bonusList[1])
+            {
+                //if (!isNear(ghost.Point, bonusList[2]))
+                    return bonusList[2];
+                //else return bonusList[3];
+            }
+            else if (bonusPoint == bonusList[2])
+            {
+                //if (!isNear(ghost.Point, bonusList[1]))
+                    return bonusList[1];
+                //else return bonusList[0];
+            }
+            else 
+            {
+                //if (!isNear(ghost.Point, bonusList[0]))
+                    return bonusList[0];
+                //else return bonusList[1];
+            }
+
+        }
+
+        private int getRandomNumber(int start, int end)
+        {
+            int randomInitValue;
+            using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
+            {
+                byte[] rno = new byte[5];
+                rg.GetBytes(rno);
+                randomInitValue = BitConverter.ToInt32(rno, 0);
+            }
+            Random rnd = new Random(randomInitValue);
+            return rnd.Next(start, end);
         }
 
         private bool outOfBox(Point P)

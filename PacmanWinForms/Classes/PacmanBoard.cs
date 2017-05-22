@@ -132,7 +132,7 @@ namespace PacmanWinForms
         {
             lock (this)
             {
-                g.FillEllipse(new SolidBrush(Color.Black), p.X * cellWidth - cellWidth, p.Y * cellHeight - cellHeight, 2 * cellWidth, 2 * cellHeight);
+                g.FillRectangle(new SolidBrush(Color.Black), p.X * cellWidth - (float)1.5*cellWidth + 5, p.Y * cellHeight - (float)1.5 * cellHeight +5, 3 * cellWidth -10, 3 * cellHeight -10);
             }
         }
 

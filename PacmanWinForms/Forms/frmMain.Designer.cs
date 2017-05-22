@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "A Star"}, -1, System.Drawing.Color.Gold, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "A Star"}, -1, System.Drawing.Color.Gold, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Best First"}, -1, System.Drawing.Color.PaleGreen, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "Best First"}, -1, System.Drawing.Color.PaleGreen, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Breadth First"}, -1, System.Drawing.Color.Aqua, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "Breadth First"}, -1, System.Drawing.Color.Aqua, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Easy"}, -1, System.Drawing.Color.RoyalBlue, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "Easy"}, -1, System.Drawing.Color.RoyalBlue, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Normal"}, -1, System.Drawing.Color.Green, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "Normal"}, -1, System.Drawing.Color.Green, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Hard"}, -1, System.Drawing.Color.Red, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            "Hard"}, -1, System.Drawing.Color.Red, System.Drawing.Color.Black, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Original AI"}, -1, System.Drawing.Color.Gold, System.Drawing.Color.Empty, new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161))));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlSettings = new System.Windows.Forms.Panel();
             this.nmrPacmanDelay = new System.Windows.Forms.NumericUpDown();
@@ -67,7 +69,7 @@
             this.pnlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlSettings.BackColor = System.Drawing.Color.Transparent;
+            this.pnlSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.pnlSettings.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlSettings.Controls.Add(this.nmrPacmanDelay);
             this.pnlSettings.Controls.Add(this.nmrGhostDelay);
@@ -77,15 +79,15 @@
             this.pnlSettings.Controls.Add(this.lstvDifficulty);
             this.pnlSettings.Controls.Add(this.label2);
             this.pnlSettings.Controls.Add(this.label1);
-            this.pnlSettings.Location = new System.Drawing.Point(69, 37);
+            this.pnlSettings.Location = new System.Drawing.Point(99, 37);
             this.pnlSettings.Name = "pnlSettings";
-            this.pnlSettings.Size = new System.Drawing.Size(325, 228);
+            this.pnlSettings.Size = new System.Drawing.Size(256, 228);
             this.pnlSettings.TabIndex = 0;
             // 
             // nmrPacmanDelay
             // 
             this.nmrPacmanDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nmrPacmanDelay.Location = new System.Drawing.Point(176, 176);
+            this.nmrPacmanDelay.Location = new System.Drawing.Point(146, 186);
             this.nmrPacmanDelay.Name = "nmrPacmanDelay";
             this.nmrPacmanDelay.Size = new System.Drawing.Size(54, 20);
             this.nmrPacmanDelay.TabIndex = 9;
@@ -98,7 +100,7 @@
             // nmrGhostDelay
             // 
             this.nmrGhostDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nmrGhostDelay.Location = new System.Drawing.Point(176, 137);
+            this.nmrGhostDelay.Location = new System.Drawing.Point(146, 147);
             this.nmrGhostDelay.Name = "nmrGhostDelay";
             this.nmrGhostDelay.Size = new System.Drawing.Size(54, 20);
             this.nmrGhostDelay.TabIndex = 8;
@@ -113,10 +115,10 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Black;
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label4.ForeColor = System.Drawing.Color.Wheat;
-            this.label4.Location = new System.Drawing.Point(48, 139);
+            this.label4.ForeColor = System.Drawing.Color.Silver;
+            this.label4.Location = new System.Drawing.Point(18, 149);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(102, 19);
             this.label4.TabIndex = 7;
@@ -127,10 +129,10 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Black;
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label3.ForeColor = System.Drawing.Color.Wheat;
-            this.label3.Location = new System.Drawing.Point(48, 177);
+            this.label3.ForeColor = System.Drawing.Color.Silver;
+            this.label3.Location = new System.Drawing.Point(18, 187);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 19);
             this.label3.TabIndex = 6;
@@ -150,11 +152,10 @@
             listViewItem1,
             listViewItem2,
             listViewItem3});
-            this.lstvAlgorithm.Location = new System.Drawing.Point(176, 74);
+            this.lstvAlgorithm.Location = new System.Drawing.Point(144, 72);
             this.lstvAlgorithm.MultiSelect = false;
             this.lstvAlgorithm.Name = "lstvAlgorithm";
-            this.lstvAlgorithm.Scrollable = false;
-            this.lstvAlgorithm.Size = new System.Drawing.Size(95, 57);
+            this.lstvAlgorithm.Size = new System.Drawing.Size(94, 63);
             this.lstvAlgorithm.TabIndex = 5;
             this.lstvAlgorithm.UseCompatibleStateImageBehavior = false;
             this.lstvAlgorithm.View = System.Windows.Forms.View.SmallIcon;
@@ -175,14 +176,14 @@
             this.lstvDifficulty.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem4,
             listViewItem5,
-            listViewItem6});
-            this.lstvDifficulty.Location = new System.Drawing.Point(176, 11);
+            listViewItem6,
+            listViewItem7});
+            this.lstvDifficulty.Location = new System.Drawing.Point(144, 13);
             this.lstvDifficulty.MultiSelect = false;
             this.lstvDifficulty.Name = "lstvDifficulty";
             this.lstvDifficulty.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lstvDifficulty.Scrollable = false;
             this.lstvDifficulty.ShowGroups = false;
-            this.lstvDifficulty.Size = new System.Drawing.Size(54, 57);
+            this.lstvDifficulty.Size = new System.Drawing.Size(94, 53);
             this.lstvDifficulty.TabIndex = 4;
             this.lstvDifficulty.UseCompatibleStateImageBehavior = false;
             this.lstvDifficulty.View = System.Windows.Forms.View.SmallIcon;
@@ -192,28 +193,30 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Black;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label2.ForeColor = System.Drawing.Color.Wheat;
-            this.label2.Location = new System.Drawing.Point(48, 85);
+            this.label2.ForeColor = System.Drawing.Color.Silver;
+            this.label2.Location = new System.Drawing.Point(18, 86);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 36);
+            this.label2.Size = new System.Drawing.Size(121, 36);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Ghost\'s Tracking\r\nAlgorithm :";
+            this.label2.Text = "Ghost\'s Tracking \r\nAlgorithm\r\n";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Black;
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label1.ForeColor = System.Drawing.Color.Wheat;
-            this.label1.Location = new System.Drawing.Point(49, 28);
+            this.label1.ForeColor = System.Drawing.Color.Silver;
+            this.label1.Location = new System.Drawing.Point(18, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 19);
+            this.label1.Size = new System.Drawing.Size(115, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Game Difficulty :";
+            this.label1.Text = "Choose Difficulty";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnStart
             // 
@@ -281,6 +284,7 @@
             // 
             // frmMain
             // 
+            this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
