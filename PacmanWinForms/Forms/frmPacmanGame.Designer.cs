@@ -51,6 +51,7 @@
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBoardInfo = new System.Windows.Forms.Panel();
+            this.mnuHighScores = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -269,7 +270,8 @@
             this.menuToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuHelp,
-            this.mnuAbout});
+            this.mnuAbout,
+            this.mnuHighScores});
             this.menuToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
@@ -280,7 +282,7 @@
             this.mnuHelp.BackColor = System.Drawing.Color.White;
             this.mnuHelp.ForeColor = System.Drawing.Color.Black;
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(107, 22);
+            this.mnuHelp.Size = new System.Drawing.Size(152, 22);
             this.mnuHelp.Text = "&Help";
             // 
             // mnuAbout
@@ -288,7 +290,7 @@
             this.mnuAbout.BackColor = System.Drawing.Color.White;
             this.mnuAbout.ForeColor = System.Drawing.Color.Black;
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(107, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
             this.mnuAbout.Text = "&About";
             // 
             // pnlBoardInfo
@@ -299,6 +301,13 @@
             this.pnlBoardInfo.Name = "pnlBoardInfo";
             this.pnlBoardInfo.Size = new System.Drawing.Size(522, 50);
             this.pnlBoardInfo.TabIndex = 3;
+            // 
+            // mnuHighScores
+            // 
+            this.mnuHighScores.Name = "mnuHighScores";
+            this.mnuHighScores.Size = new System.Drawing.Size(152, 22);
+            this.mnuHighScores.Text = "&High-Scores";
+            this.mnuHighScores.Click += new System.EventHandler(this.mnuHighScores_Click);
             // 
             // frmPacmanGame
             // 
@@ -366,6 +375,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private System.Windows.Forms.Panel pnlBoardInfo;
+        private System.Windows.Forms.ToolStripMenuItem mnuHighScores;
     }
 }
 

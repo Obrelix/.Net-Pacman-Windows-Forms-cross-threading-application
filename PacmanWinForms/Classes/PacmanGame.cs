@@ -110,7 +110,7 @@ namespace PacmanWinForms
         private int redCounter = 0, blueCounter = 0, pinkCounter = 0, yellowCounter = 0;
 
         private bool addLive = true, addLive2 = true, addLive3 = true;
-        private int eatenScore = 200;
+        private int eatenScore = 200, highScore;
         private Point bonusEatenPoint = new Point();
         private  frmPacmanGame parentForm;
         private  PacmanBoard board;
@@ -133,7 +133,7 @@ namespace PacmanWinForms
         private List<Point> bonusList = new List<Point>();
         private List<Point> roadList = new List<Point>();
 
-        public PacmanGame(frmPacmanGame frm, Panel p, Panel pInfo, int difficulty, int algorithm, int pacmanDelay, int ghostDelay)
+        public PacmanGame(frmPacmanGame frm, Panel p, Panel pInfo, int difficulty, int algorithm, int pacmanDelay, int ghostDelay, int highScore)
         {
             parentForm = frm;
             board = new PacmanBoard(p);
@@ -153,7 +153,9 @@ namespace PacmanWinForms
             this.algorithm = algorithm;
             stockGhostDelay = ghostDelay;
             stockPacmanDelay = pacmanDelay;
+            this.highScore = highScore;
             this.Init();
+            
             RePaint();
         }
 
@@ -288,7 +290,9 @@ namespace PacmanWinForms
                     checkForLose();
                     eatGhost();
                     eatFruit();
-                    parentForm.Write(score.ToString(), Level.ToString(), convertLives(lives), Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
+                    if (score >= highScore) highScore = score;
+                    parentForm.Write(score.ToString(), Level.ToString(), highScore.ToString(), 
+                        Pacman.Point.ToString(), PacmanDelay.ToString(), GhostDelay.ToString());
                     Runner.Wait(10);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.ToString()); }
@@ -363,8 +367,6 @@ namespace PacmanWinForms
                 addLive3 = false;
             }
         }
-
-
         
 
         public void coinInserted()
@@ -523,9 +525,7 @@ namespace PacmanWinForms
             }
             fruitPicIndex = (fruitPicIndex < 9) ? fruitPicIndex : 1;
         }
-
-        private bool dotSoundFlag = true;
-
+        
         private void eatDots(Point[] core)
         {
             
@@ -550,7 +550,6 @@ namespace PacmanWinForms
             }
         }
         
-
         private void eatBonus(Point[] core)
         {
             for (int i = 0; i <= bonusList.Count - 1; i++)
@@ -574,8 +573,7 @@ namespace PacmanWinForms
                 }
             }
         }
-
-
+        
         private void checkForLose()
         {
             List<Point> mergedList = new List<Point>();
@@ -602,9 +600,11 @@ namespace PacmanWinForms
                 YellowGhost.reset();
                 if (lives <= 0)
                 {
-                    WaitSomeTime(2000);
+
+                    WaitSomeTime(1000);
                     while (wait) { }
                     wait = true;
+                    if(score> HighScoreList.min() || HighScoreList.hsList.Count<10)parentForm.AddHighScore(score);
                     //Reset();
                     //parentForm.frmClose();
                 }

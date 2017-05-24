@@ -28,3 +28,6 @@ C:\Users\Obrelix\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.csp
 C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmHelp.resources
 C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmAbout.resources
 C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmMain.resources
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\bin\Debug\Newtonsoft.Json.dll
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\bin\Debug\Newtonsoft.Json.xml
+C:\Users\tataki\Source\Repos\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmScores.resources

@@ -15,12 +15,12 @@ namespace PacmanWinForms
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-        private int difficulty, algorithm, pacmanDelay, ghostDelay, pacmanlives;
+        private int difficulty, algorithm, pacmanDelay, ghostDelay, pacmanlives, highScore;
         private frmMain parentForm;
         PacmanBoard board;
         private Sounds samplePlayer;
 
-        public frmPacmanGame(frmMain pForm, int diff, int alg, int pacmanDelay, int ghostDelay)
+        public frmPacmanGame(frmMain pForm, int diff, int alg, int pacmanDelay, int ghostDelay, int highScore)
         {
             InitializeComponent();
             parentForm = pForm;
@@ -28,6 +28,7 @@ namespace PacmanWinForms
             algorithm = alg;
             this.pacmanDelay = pacmanDelay;
             this.ghostDelay = ghostDelay;
+            this.highScore = highScore;
             samplePlayer = new Sounds();
 
         }
@@ -36,7 +37,7 @@ namespace PacmanWinForms
 
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
-            game = new PacmanGame(this, pnlBoard, pnlBoardInfo, difficulty, algorithm, pacmanDelay, ghostDelay);
+            game = new PacmanGame(this, pnlBoard, pnlBoardInfo, difficulty, algorithm, pacmanDelay, ghostDelay, highScore);
             board = new PacmanBoard(pnlBoard);
             //this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
             this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
@@ -169,7 +170,6 @@ namespace PacmanWinForms
                     break;
             }
         }
-
         public void Write(string score, string lvl, string lives, string position, string delay, string ghostDelay  )
         {
             if (InvokeRequired)
@@ -182,12 +182,31 @@ namespace PacmanWinForms
             lblDelay.Text = "Pacman Delay : " + delay + " ms";
             lblLVLValue.Text = lvl;
             lblGhostDelay.Text = "Ghost Delay : " + ghostDelay + " ms";
-            pacmanlives = lives.Length;
+            lblLivesValue.Text = lives;
             posSizeInit();
 
             //addPacman(lives.Length);
         }
-        
+
+        public void AddHighScore(int score)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int>(AddHighScore), new object[] { score });
+                return;
+            }
+            frmScores form = new frmScores();
+            form.Show();
+            form.parseScore(score);
+        }
+
+        private void mnuHighScores_Click(object sender, EventArgs e)
+        {
+
+            frmScores form = new frmScores();
+            form.Show();
+            form.parseScore((Convert.ToInt32(lblScore.Text)));
+        }
 
         private void frmPacmanGame_Shown(object sender, EventArgs e)
         {

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,15 @@ namespace PacmanWinForms
     public partial class frmMain : Form
     {
         int difficulty = 0, algorith = 1, pacmanDelay = 70, ghostDelay = 75;
+        static string savePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Pacman";
+        static string saveFile = savePath + "\\highScores.json";
+        
         public frmMain()
         {
             InitializeComponent();
+            GTools.loadHighScores(savePath, saveFile);
+           // HighScoreList.add(new HighScores("Obre", 1000));
+
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -24,17 +32,18 @@ namespace PacmanWinForms
             if (lstvAlgorithm.SelectedItems.Count > 0) algorith = lstvAlgorithm.SelectedItems[0].Index;
             pacmanDelay =(int)nmrPacmanDelay.Value;
             ghostDelay = (int)nmrGhostDelay.Value;
-            frmPacmanGame form = new frmPacmanGame(this, difficulty, algorith, pacmanDelay, ghostDelay);
+            this.Hide();
+            frmPacmanGame form = new frmPacmanGame(this, difficulty, algorith, pacmanDelay, ghostDelay, HighScoreList.max());
             form.StartPosition = FormStartPosition.CenterScreen;
             form.Height = Screen.PrimaryScreen.Bounds.Height;
             form.Show();
-            this.Hide();
         }
 
         public void frmShow()
         {
             this.Show();
         }
+
 
         private void mnuHelp_Click(object sender, EventArgs e)
         {
@@ -47,6 +56,18 @@ namespace PacmanWinForms
             frmAbout form = new frmAbout();
             form.Show();
         }
+
+        private void mnuHighScores_Click(object sender, EventArgs e)
+        {
+            frmScores form = new frmScores();
+            form.Show();
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GTools.saveHighScores(saveFile);
+        }
+
         bool flag = true;
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
