@@ -28,10 +28,10 @@ namespace PacmanWinForms
         public static void add(HighScores item)
         {
             int min =(hsList.Count>0) ? hsList.Min(r => r.score) : 0;
-            if(item.score > min || hsList.Count < 20)
+            if(item.score > min || hsList.Count < 10)
             {
+                if (hsList.Count > 9) hsList.RemoveAt(hsList.Count - 1);
                 hsList.Add(item);
-                if(hsList.Count> 10) hsList.RemoveAt(hsList.Count - 1);
             }
             hsList = hsList.OrderByDescending(p => p.score).ToList();
         }
@@ -116,7 +116,7 @@ namespace PacmanWinForms
         {
             try
             {
-                string contentsToWriteToFile = JsonConvert.SerializeObject(HighScoreList.hsList.ToArray(), Newtonsoft.Json.Formatting.Indented);
+                string contentsToWriteToFile = JsonConvert.SerializeObject(HighScoreList.hsList.ToArray(), Formatting.Indented);
 
                 System.IO.File.WriteAllText(saveFile, contentsToWriteToFile);
 

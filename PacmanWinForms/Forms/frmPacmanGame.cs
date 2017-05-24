@@ -197,7 +197,7 @@ namespace PacmanWinForms
             }
             frmScores form = new frmScores();
             form.Show();
-            form.parseScore(score);
+            //form.parseScore(score);
         }
 
         private void mnuHighScores_Click(object sender, EventArgs e)

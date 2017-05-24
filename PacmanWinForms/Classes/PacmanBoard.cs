@@ -321,6 +321,7 @@ namespace PacmanWinForms
             if (picF6 != null) pnlInfo.Controls.Remove(picF6);
             if (picF7 != null) pnlInfo.Controls.Remove(picF7);
             if (picF8 != null) pnlInfo.Controls.Remove(picF8);
+            pnlInfoPicCounter = 1;
         }
 
         private PictureBox picF1, picF2, picF3, picF4, picF5, picF6, picF7, picF8;

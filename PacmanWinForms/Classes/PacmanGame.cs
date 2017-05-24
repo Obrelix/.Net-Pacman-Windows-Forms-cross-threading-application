@@ -344,6 +344,7 @@ namespace PacmanWinForms
                     break;
                 case GameState.GAMEWAIT:
                     if(lives<=0) board.PrintMessage(true, " Game Over", "   Press  ( Enter )  to continue!");
+                    else board.PrintMessage(false, "", "");
                     break;
             }
         }
