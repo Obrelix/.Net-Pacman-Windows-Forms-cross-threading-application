@@ -24,9 +24,13 @@ namespace PacmanWinForms
         private delegate void FruitPaint(Point point, int picIndex);
         private delegate void MessagePaint(bool visible, string message1, string message2);
         private delegate void BonusScorePaint(Point p, int points, int lblIndex);
+        private delegate void PacManPrint(int x, int y, Color color, Direction dir);
+
+        private delegate void addFruits(Panel p, int index);
+
 
         private Panel pnl;
-        private Graphics g;
+        private Graphics g1;
 
         private PictureBox picRedGhost;
         private PictureBox picBlueGhost;
@@ -50,17 +54,16 @@ namespace PacmanWinForms
             this.BgColor = bgColor ?? Color.Black;
             this.pnl = pnl;
 
-
             //Resize();
         }
 
         public void Resize()
         {
+            g1 = pnl.CreateGraphics();
             cellHeight = pnl.Height / (float)Rows;
             cellWidth = pnl.Width / (float)Cols;
             modelCellHeight = pnl.Height / (float)31;
             modelCellWidth = pnl.Width / (float)28;
-            g = pnl.CreateGraphics();
 
         }
 
@@ -68,7 +71,7 @@ namespace PacmanWinForms
         {
             lock (this)
             {
-                g.Clear(BgColor);
+                g1.Clear(BgColor);
             }
         }
         
@@ -77,7 +80,7 @@ namespace PacmanWinForms
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight , cellWidth, cellHeight);
+                g1.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight , cellWidth, cellHeight);
             }
         }
 
@@ -86,7 +89,7 @@ namespace PacmanWinForms
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight + cellHeight/4, cellWidth, cellHeight/2);
+                g1.FillRectangle(b, p.X * cellWidth, p.Y * cellHeight + cellHeight/4, cellWidth, cellHeight/2);
             }
         }
 
@@ -97,7 +100,7 @@ namespace PacmanWinForms
             Brush b = new SolidBrush(col);
             lock (this)
             {
-                g.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
+                g1.FillRectangle(b, p.X * cellWidth - dotWidth/2, p.Y * cellHeight - dotHeight/2, dotWidth, dotHeight);
             }
         }
 
@@ -116,7 +119,7 @@ namespace PacmanWinForms
             }
             else if (bonusState == 3)
             {
-                dotWidth = (float)2 * cellWidth; dotHeight = (float)2 * cellHeight;
+                dotWidth = (float)1.6 * cellWidth; dotHeight = (float)1.6 * cellHeight;
             }
             else
             {
@@ -124,7 +127,7 @@ namespace PacmanWinForms
             }
             lock (this)
             {
-                g.FillEllipse(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
+                g1.FillEllipse(b, p.X * cellWidth - dotWidth / 2, p.Y * cellHeight - dotHeight / 2, dotWidth, dotHeight);
             }
         }
 
@@ -132,7 +135,7 @@ namespace PacmanWinForms
         {
             lock (this)
             {
-                g.FillRectangle(new SolidBrush(Color.Black), p.X * cellWidth - (float)1.5*cellWidth + 5, p.Y * cellHeight - (float)1.5 * cellHeight +5, 3 * cellWidth -10, 3 * cellHeight -10);
+                g1.FillRectangle(new SolidBrush(Color.Black), p.X * cellWidth - (float)1.5*cellWidth + 5, p.Y * cellHeight - (float)1.5 * cellHeight +5, 3 * cellWidth -10, 3 * cellHeight -10);
             }
         }
 
@@ -299,44 +302,124 @@ namespace PacmanWinForms
 
         }
 
+        public void addFruit(Panel pnlInfo, int picIndex)
+        {
+            pnlInfo.Invoke(new addFruits(addFruitToPanel), pnlInfo, picIndex);
+        }
+
+        public void removeFruit(Panel pnlInfo, int picIndex)
+        {
+            pnlInfo.Invoke(new addFruits(cleanFruitFromPane), pnlInfo, picIndex);
+        }
+        private void cleanFruitFromPane(Panel pnlInfo, int picIndex)
+        {
+            if (picF1 != null) pnlInfo.Controls.Remove(picF1);
+            if (picF2 != null) pnlInfo.Controls.Remove(picF2);
+            if (picF3 != null) pnlInfo.Controls.Remove(picF3);
+            if (picF4 != null) pnlInfo.Controls.Remove(picF4);
+            if (picF5 != null) pnlInfo.Controls.Remove(picF5);
+            if (picF6 != null) pnlInfo.Controls.Remove(picF6);
+            if (picF7 != null) pnlInfo.Controls.Remove(picF7);
+            if (picF8 != null) pnlInfo.Controls.Remove(picF8);
+        }
+
+        private PictureBox picF1, picF2, picF3, picF4, picF5, picF6, picF7, picF8;
+        private int pnlInfoPicCounter = 1, picF1Index, picF2Index, picF3Index
+            , picF4Index, picF5Index, picF6Index, picF7Index, picF8Index;
+        bool incrementFlag = true;
+        private void addFruitToPanel(Panel pnlInfo, int picIndex)
+        {
+            switch (pnlInfoPicCounter)
+            {
+                case 1:
+                    picF1Index = picIndex;
+                    if (picF1 != null) pnlInfo.Controls.Remove(picF1);
+                    picF1 = getFruitPictureBox(new Point(52, 0), picF1Index);
+                    pnlInfo.Controls.Add(picF1);
+                    incrementFlag = true;
+                    break;
+                case 2:
+                    picF2Index = picIndex;
+                    if (picF2 != null) pnlInfo.Controls.Remove(picF2);
+                    picF2 = getFruitPictureBox(new Point(48, 0), picF2Index);
+                    pnlInfo.Controls.Add(picF2);
+                    break;
+                case 3:
+                    picF3Index = picIndex;
+                    if (picF3 != null) pnlInfo.Controls.Remove(picF3);
+                    picF3 = getFruitPictureBox(new Point(44, 0), picF3Index);
+                    pnlInfo.Controls.Add(picF3);
+                    break;
+                case 4:
+                    picF4Index = picIndex;
+                    if (picF4 != null) pnlInfo.Controls.Remove(picF4);
+                    picF4 = getFruitPictureBox(new Point(40, 0), picF4Index);
+                    pnlInfo.Controls.Add(picF4);
+                    break;
+                case 5:
+                    picF5Index = picIndex;
+                    if (picF5 != null) pnlInfo.Controls.Remove(picF5);
+                    picF5 = getFruitPictureBox(new Point(36, 0), picF5Index);
+                    pnlInfo.Controls.Add(picF5);
+                    break;
+                case 6:
+                    picF6Index = picIndex;
+                    if (picF6 != null) pnlInfo.Controls.Remove(picF6);
+                    picF6 = getFruitPictureBox(new Point(32, 0), picF6Index);
+                    pnlInfo.Controls.Add(picF6);
+                    break;
+                case 7:
+                    picF7Index = picIndex;
+                    if (picF7 != null) pnlInfo.Controls.Remove(picF7);
+                    picF7 = getFruitPictureBox(new Point(28, 0), picF7Index);
+                    pnlInfo.Controls.Add(picF7);
+                    break;
+                case 8:
+                    picF8Index = picIndex;
+                    if (picF8 != null) pnlInfo.Controls.Remove(picF8);
+                    picF8 = getFruitPictureBox(new Point(24, 0), picF8Index);
+                    pnlInfo.Controls.Add(picF8);
+                    incrementFlag = false;
+                    break;
+            }
+            if (incrementFlag) pnlInfoPicCounter++;
+            else pnlInfoPicCounter--;
+
+        }
+
         private void changeFruitPos(Point P, int index)
         {
             if (picFruit != null) pnl.Controls.Remove(picFruit);
-            picFruit = new PictureBox();
+            picFruit = getFruitPictureBox(P,index);
+            pnl.Controls.Add(picFruit);
+            
+
+        }
+
+        private Bitmap getFruitPic(int index)
+        {
+            switch (index)
+            {
+                case 1: return Properties.Resources.Cherry;
+                case 2: return Properties.Resources.Strawberry;
+                case 3: return Properties.Resources.orange;
+                case 4: return Properties.Resources.Apple;
+                case 5: return Properties.Resources.Melon;
+                case 6: return Properties.Resources.Galaxian_Boss;
+                case 7: return Properties.Resources.Bell;
+                case 8: return Properties.Resources.Key;
+                default: return Properties.Resources.Strawberry;
+            }
+        }
+
+        public PictureBox getFruitPictureBox(Point P, int index)
+        {
+            PictureBox picFruit = new PictureBox();
             picFruit.BackgroundImageLayout = ImageLayout.Zoom;
             picFruit.Location = new Point((int)(P.X * cellWidth + 11), (int)(P.Y * cellHeight + 11));
             picFruit.Size = new Size((int)(4 * cellWidth) - 13, (int)(4 * cellHeight) - 13);
-            switch (index)
-            {
-                case 1:
-                    picFruit.BackgroundImage = Properties.Resources.Cherry;
-                    break;
-                case 2:
-                    picFruit.BackgroundImage = Properties.Resources.Strawberry;
-                    break;
-                case 3:
-                    picFruit.BackgroundImage = Properties.Resources.orange;
-                    break;
-                case 4:
-                    picFruit.BackgroundImage = Properties.Resources.Apple;
-                    break;
-                case 5:
-                    picFruit.BackgroundImage = Properties.Resources.Melon;
-                    break;
-                case 6:
-                    picFruit.BackgroundImage = Properties.Resources.Galaxian_Boss;
-                    break;
-                case 7:
-                    picFruit.BackgroundImage = Properties.Resources.Bell;
-                    break;
-                case 8:
-                    picFruit.BackgroundImage = Properties.Resources.Key;
-                    break;
-                default:
-                    picFruit.BackgroundImage = Properties.Resources.Strawberry;
-                    break;
-            }
-            pnl.Controls.Add(picFruit);
+            picFruit.BackgroundImage = getFruitPic(index);
+            return picFruit;
 
         }
 
@@ -490,11 +573,41 @@ namespace PacmanWinForms
             calculateAngles(dir, out startAngle, out sweepAngle);
             lock (this)
             {
-                g.FillPie(b, rect, startAngle, sweepAngle);
+                g1.FillPie(b, rect, startAngle, sweepAngle);
 
             }
         }
-        
+
+        public void pacmanPrint(int x, int y, Color color, Direction dir, Panel p)
+        {
+            Brush b = new SolidBrush(color);
+            Brush bb = new SolidBrush(Color.Black);
+            Rectangle rect = new Rectangle((int)(x * cellWidth + 4), (int)(y * cellHeight + 4), (int)(cellWidth * 4 - 8), (int)(cellHeight * 4 - 8));
+            lock (this)
+            {
+                p.CreateGraphics().FillEllipse(bb, x * cellWidth, y * cellHeight, cellWidth * 4, cellHeight * 4);
+                p.CreateGraphics().FillPie(b, rect, 25, 310);
+
+            }
+        }
+        public void addPacmanToPanel(int lives, Panel p)
+        {
+            int margin = 0;
+            for (int i = 0; i < 7; i++)
+            {
+                pacmanPrint(1 + margin, 0, Color.Black, Direction.STOP, p);
+                margin += 4;
+            }
+            margin = 0;
+            for (int i = 0; i < lives; i++)
+            {
+                pacmanPrint(1 + margin, 0, Color.Yellow, Direction.RIGHT, p);
+                margin += 4;
+            }
+        }
+
+
+
         private void calculateAngles(Direction dir, out int startAngle, out int sweepAngle)
         {
             int stAngle, swAngle ;
@@ -554,7 +667,7 @@ namespace PacmanWinForms
             Brush b = new SolidBrush(BgColor);
             lock (this)
             {
-                g.FillEllipse(b, p.X * cellWidth, p.Y * cellHeight, cellWidth * 4, cellHeight * 4);
+                g1.FillEllipse(b, p.X * cellWidth, p.Y * cellHeight, cellWidth * 4, cellHeight * 4);
             }
         }
 

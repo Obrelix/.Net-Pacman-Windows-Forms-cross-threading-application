@@ -15,8 +15,11 @@ namespace PacmanWinForms
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-        private int difficulty, algorithm, pacmanDelay, ghostDelay;
+        private int difficulty, algorithm, pacmanDelay, ghostDelay, pacmanlives;
         private frmMain parentForm;
+        PacmanBoard board;
+        private Sounds samplePlayer;
+
         public frmPacmanGame(frmMain pForm, int diff, int alg, int pacmanDelay, int ghostDelay)
         {
             InitializeComponent();
@@ -25,16 +28,20 @@ namespace PacmanWinForms
             algorithm = alg;
             this.pacmanDelay = pacmanDelay;
             this.ghostDelay = ghostDelay;
+            samplePlayer = new Sounds();
+
         }
         
 
 
         private void frmPacmanGame_Load(object sender, EventArgs e)
         {
-            game = new PacmanGame(this, pnlBoard, difficulty, algorithm, pacmanDelay, ghostDelay);
+            game = new PacmanGame(this, pnlBoard, pnlBoardInfo, difficulty, algorithm, pacmanDelay, ghostDelay);
+            board = new PacmanBoard(pnlBoard);
             //this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
             this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
             posSizeInit();
+            //samplePlayer.playBackground(1, false);
         }
 
         private void frmPacmanGame_KeyDown(object sender, KeyEventArgs e)
@@ -46,7 +53,8 @@ namespace PacmanWinForms
             else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
             else if (e.KeyCode == Keys.F1) { game.cheat(); }
             else if (e.KeyCode == Keys.D1) { game.coinInserted(); }
-            else if (e.KeyCode == Keys.Enter) {if(game.State == GameState.GAMEOVER) game.Reset(); }
+            else if (e.KeyCode == Keys.D2) { game.cheatFruit(true); }
+            else if (e.KeyCode == Keys.Enter) {game.Reset(); }
             else if (e.KeyCode == Keys.Subtract)
             {
                 game.PacmanDelay += 5;
@@ -105,6 +113,7 @@ namespace PacmanWinForms
                 e.Cancel = true;
                 await game.Runner;
                 this.Close();
+                samplePlayer.playBackground(1, true);
                 parentForm.Show();
             }
         }
@@ -134,22 +143,31 @@ namespace PacmanWinForms
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
-            this.Width = (int)(0.75 * this.Height);
+            this.Width = (int)(0.721 * this.Height);
            // this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
             posSizeInit();
         }
 
-        public void playSound(Stream s)
+        public void playSound( Stream s = null, SoundNames soundName = 0)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<Stream>(playSound), new object[] { s });
+                Invoke(new Action<Stream, SoundNames >(playSound), new object[] { s, soundName });
                 return;
             }
-            SoundPlayer player = new SoundPlayer(s);
-            player.Play();
+            switch (soundName)
+            {
+                case SoundNames.Waka:
+                    samplePlayer.playWaka(false);
+                    break;
+                default:
+
+                    SoundPlayer player = new SoundPlayer(s);
+                    player.Play();
+                    break;
+            }
         }
 
         public void Write(string score, string lvl, string lives, string position, string delay, string ghostDelay  )
@@ -159,20 +177,21 @@ namespace PacmanWinForms
                 Invoke(new Action<string, string, string, string, string, string>(Write), new object[] { score, lvl, lives, position, delay, ghostDelay });
                 return;
             }
-
             this.lblPosition.Text ="Coors : " + position ;
             this.lblScore.Text = score;
             lblDelay.Text = "Pacman Delay : " + delay + " ms";
             lblLVLValue.Text = lvl;
-            lblLivesValue.Text = lives;
             lblGhostDelay.Text = "Ghost Delay : " + ghostDelay + " ms";
+            pacmanlives = lives.Length;
             posSizeInit();
+
+            //addPacman(lives.Length);
         }
         
 
-
         private void frmPacmanGame_Shown(object sender, EventArgs e)
         {
+            samplePlayer.playBackground(1, false);
             if (game == null) return;
             game.Run();
         }

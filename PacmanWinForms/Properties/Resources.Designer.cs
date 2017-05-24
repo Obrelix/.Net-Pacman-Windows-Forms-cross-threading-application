@@ -61,6 +61,33 @@ namespace PacmanWinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _01 {
+            get {
+                return ResourceManager.GetStream("_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _06 {
+            get {
+                return ResourceManager.GetStream("_06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _07 {
+            get {
+                return ResourceManager.GetStream("_07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Apple {
@@ -231,6 +258,15 @@ namespace PacmanWinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream dot12 {
+            get {
+                return ResourceManager.GetStream("dot12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap eyesDown {
@@ -381,33 +417,6 @@ namespace PacmanWinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream Pacman_Opening_Song {
             get {
                 return ResourceManager.GetStream("Pacman_Opening_Song", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Pacman_Siren {
-            get {
-                return ResourceManager.GetStream("Pacman_Siren", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Pacman_Waka_Waka {
-            get {
-                return ResourceManager.GetStream("Pacman_Waka_Waka", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Pacman_Waka_Waka_Cut {
-            get {
-                return ResourceManager.GetStream("Pacman_Waka_Waka_Cut", resourceCulture);
             }
         }
         
@@ -604,9 +613,18 @@ namespace PacmanWinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Sound_Effect__6_ {
+        internal static System.IO.UnmanagedMemoryStream siren {
             get {
-                return ResourceManager.GetStream("Sound_Effect__6_", resourceCulture);
+                return ResourceManager.GetStream("siren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream siren2 {
+            get {
+                return ResourceManager.GetStream("siren2", resourceCulture);
             }
         }
         

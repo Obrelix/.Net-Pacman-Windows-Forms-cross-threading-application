@@ -50,6 +50,7 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlBoardInfo = new System.Windows.Forms.Panel();
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -65,7 +66,7 @@
             this.lblPosition.AutoSize = true;
             this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblPosition.ForeColor = System.Drawing.Color.White;
-            this.lblPosition.Location = new System.Drawing.Point(208, 565);
+            this.lblPosition.Location = new System.Drawing.Point(208, 571);
             this.lblPosition.Name = "lblPosition";
             this.lblPosition.Size = new System.Drawing.Size(11, 12);
             this.lblPosition.TabIndex = 1;
@@ -131,11 +132,11 @@
             this.lblLives.BackColor = System.Drawing.Color.Black;
             this.lblLives.Font = new System.Drawing.Font("Courier New", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblLives.ForeColor = System.Drawing.Color.White;
-            this.lblLives.Location = new System.Drawing.Point(43, 4);
+            this.lblLives.Location = new System.Drawing.Point(22, 4);
             this.lblLives.Name = "lblLives";
-            this.lblLives.Size = new System.Drawing.Size(65, 22);
+            this.lblLives.Size = new System.Drawing.Size(109, 22);
             this.lblLives.TabIndex = 6;
-            this.lblLives.Text = "Lives";
+            this.lblLives.Text = "HighScore";
             // 
             // lblLivesValue
             // 
@@ -143,13 +144,14 @@
             this.lblLivesValue.AutoSize = true;
             this.lblLivesValue.BackColor = System.Drawing.Color.Black;
             this.lblLivesValue.Font = new System.Drawing.Font("Courier New", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblLivesValue.ForeColor = System.Drawing.Color.Red;
-            this.lblLivesValue.Location = new System.Drawing.Point(66, 24);
+            this.lblLivesValue.ForeColor = System.Drawing.Color.White;
+            this.lblLivesValue.Location = new System.Drawing.Point(17, 24);
             this.lblLivesValue.Name = "lblLivesValue";
             this.lblLivesValue.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblLivesValue.Size = new System.Drawing.Size(21, 22);
+            this.lblLivesValue.Size = new System.Drawing.Size(120, 22);
             this.lblLivesValue.TabIndex = 7;
-            this.lblLivesValue.Text = "3";
+            this.lblLivesValue.Text = "999 999 99";
+            this.lblLivesValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlBoard
             // 
@@ -160,9 +162,9 @@
             this.pnlBoard.Controls.Add(this.lblPosition);
             this.pnlBoard.Controls.Add(this.lblGhostDelay);
             this.pnlBoard.Controls.Add(this.lblDelay);
-            this.pnlBoard.Location = new System.Drawing.Point(9, 117);
+            this.pnlBoard.Location = new System.Drawing.Point(9, 92);
             this.pnlBoard.Name = "pnlBoard";
-            this.pnlBoard.Size = new System.Drawing.Size(522, 576);
+            this.pnlBoard.Size = new System.Drawing.Size(522, 589);
             this.pnlBoard.TabIndex = 0;
             // 
             // lblGhostDelay
@@ -171,7 +173,7 @@
             this.lblGhostDelay.AutoSize = true;
             this.lblGhostDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblGhostDelay.ForeColor = System.Drawing.Color.White;
-            this.lblGhostDelay.Location = new System.Drawing.Point(408, 565);
+            this.lblGhostDelay.Location = new System.Drawing.Point(408, 571);
             this.lblGhostDelay.Name = "lblGhostDelay";
             this.lblGhostDelay.Size = new System.Drawing.Size(11, 12);
             this.lblGhostDelay.TabIndex = 15;
@@ -183,7 +185,7 @@
             this.lblDelay.AutoSize = true;
             this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblDelay.ForeColor = System.Drawing.Color.White;
-            this.lblDelay.Location = new System.Drawing.Point(10, 565);
+            this.lblDelay.Location = new System.Drawing.Point(10, 571);
             this.lblDelay.Name = "lblDelay";
             this.lblDelay.Size = new System.Drawing.Size(11, 12);
             this.lblDelay.TabIndex = 14;
@@ -195,7 +197,7 @@
             this.pnlDisplay.Controls.Add(this.pnlHighScore);
             this.pnlDisplay.Controls.Add(this.pnlLvl);
             this.pnlDisplay.Controls.Add(this.pnlSc);
-            this.pnlDisplay.Location = new System.Drawing.Point(35, 68);
+            this.pnlDisplay.Location = new System.Drawing.Point(35, 48);
             this.pnlDisplay.Name = "pnlDisplay";
             this.pnlDisplay.Size = new System.Drawing.Size(450, 45);
             this.pnlDisplay.TabIndex = 0;
@@ -247,7 +249,7 @@
             this.panel1.Controls.Add(this.mnuGame);
             this.panel1.Location = new System.Drawing.Point(0, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(539, 72);
+            this.panel1.Size = new System.Drawing.Size(539, 45);
             this.panel1.TabIndex = 2;
             // 
             // mnuGame
@@ -278,7 +280,7 @@
             this.mnuHelp.BackColor = System.Drawing.Color.White;
             this.mnuHelp.ForeColor = System.Drawing.Color.Black;
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(152, 22);
+            this.mnuHelp.Size = new System.Drawing.Size(107, 22);
             this.mnuHelp.Text = "&Help";
             // 
             // mnuAbout
@@ -286,8 +288,17 @@
             this.mnuAbout.BackColor = System.Drawing.Color.White;
             this.mnuAbout.ForeColor = System.Drawing.Color.Black;
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(107, 22);
             this.mnuAbout.Text = "&About";
+            // 
+            // pnlBoardInfo
+            // 
+            this.pnlBoardInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlBoardInfo.Location = new System.Drawing.Point(9, 677);
+            this.pnlBoardInfo.Name = "pnlBoardInfo";
+            this.pnlBoardInfo.Size = new System.Drawing.Size(522, 50);
+            this.pnlBoardInfo.TabIndex = 3;
             // 
             // frmPacmanGame
             // 
@@ -295,7 +306,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(539, 702);
+            this.ClientSize = new System.Drawing.Size(539, 732);
+            this.Controls.Add(this.pnlBoardInfo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlDisplay);
             this.Controls.Add(this.pnlBoard);
@@ -353,6 +365,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
+        private System.Windows.Forms.Panel pnlBoardInfo;
     }
 }
 
