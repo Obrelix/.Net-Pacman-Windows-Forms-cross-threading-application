@@ -304,13 +304,37 @@ namespace PacmanWinForms
             foreach (Direction d in directions)
             {
                 //if (checkForConflict(nextPoint(P, d), P) && d != curDir &&  Math.Abs(d - curDir) != 2) dList.Add(d);
-                if (checkForConflict(nextPoint(P, d), P) && Math.Abs(d - curDir) != 2) dList.Add(d);
+                bool conflictCheck = checkForConflict(nextPoint(P, d), P);
+                if (conflictCheck && Math.Abs(d - curDir) != 2 && !fear) dList.Add(d);
+                else if (conflictCheck && fear) //&& !tempList.Any(dirs => dirs == d))
+                {
+                    if(!avoidDirections(P, target).Any(dirs => dirs == d)) dList.Add(d);
+
+                }
 
             }
-           
+            if(dList.Count == 0)
+            {
+                foreach(Direction d in directions)
+                {
+                    bool conflictCheck = checkForConflict(nextPoint(P, d), P);
+                    if (conflictCheck) dList.Add(d);
+                }
+            }
             return dList;
         }
 
+        private List<Direction> avoidDirections(Point root, Point target)
+        {
+            List<Direction> d = new List<Direction>();
+            if (root.X - target.X > 0) d.Add(Direction.LEFT);
+            else if (root.X - target.X < 0) d.Add(Direction.RIGHT);
+            if (root.Y - target.Y > 0) d.Add(Direction.UP);
+            else if (root.Y - target.Y < 0) d.Add(Direction.DOWN);
+            return d;
+        }
+
+        private bool fear = false;
         public void setTarget(PacmanRun pacman, Point blinkyPoint, Point bonusPoint, bool Difficulty, bool originalAI)
         {
             bool outOfB = outOfBox(ghost.Point);
@@ -342,20 +366,24 @@ namespace PacmanWinForms
             {
                 case GhostState.NORMAL:
                     target = pacman.Point;
+                    fear = false;
                     break;
                 case GhostState.EATEN:
                     target = new Point(27, 29);
+                    fear = false;
                     break;
                 case GhostState.BONUS:
                 case GhostState.BONUSEND:
-                    if (isNear(ghost.Point, pacman.Point) && (bonusPoint == bonusList[1] || bonusPoint == bonusList[0]))
-                        target = new Point(27, 5);
-                    else if (isNear(ghost.Point, pacman.Point) && (bonusPoint == bonusList[2] || bonusPoint == bonusList[3]))
-                        target = new Point(27, 57);
+                    if (isNear(ghost.Point, pacman.Point))
+                    {
+                        fear = true;
+                        AIFlag = false;
+                        target = pacman.Point;
+                    }
                     else
                     {
                         AIFlag = false;
-
+                        fear = false;
                     }
                     break;
             }
@@ -363,9 +391,10 @@ namespace PacmanWinForms
            
         }
 
+
         private bool isNear(Point root, Point target)
         {
-            return (Math.Abs(root.X - target.X) < 10) && (Math.Abs(root.Y - target.Y) < 10);
+            return (Math.Abs(root.X - target.X) < 8) && (Math.Abs(root.Y - target.Y) < 8);
         }
 
         private Point findOtherBonusPoint(Point bonusPoint)

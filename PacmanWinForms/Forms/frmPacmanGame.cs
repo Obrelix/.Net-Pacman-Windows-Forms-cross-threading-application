@@ -197,7 +197,7 @@ namespace PacmanWinForms
             }
             frmScores form = new frmScores();
             form.Show();
-            //form.parseScore(score);
+            form.parseScore(score);
         }
 
         private void mnuHighScores_Click(object sender, EventArgs e)
@@ -205,7 +205,7 @@ namespace PacmanWinForms
 
             frmScores form = new frmScores();
             form.Show();
-            form.parseScore((Convert.ToInt32(lblScore.Text)));
+            //form.parseScore((Convert.ToInt32(lblScore.Text)));
         }
 
         private void frmPacmanGame_Shown(object sender, EventArgs e)
