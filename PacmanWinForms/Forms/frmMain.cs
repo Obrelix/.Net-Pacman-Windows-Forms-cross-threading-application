@@ -92,7 +92,7 @@ namespace PacmanWinForms
             pnlSettings.Visible = false;
             btnStart.Location = new Point((this.ClientRectangle.Width - btnStart.Width) / 2, 
                 (this.ClientRectangle.Height - btnStart.Height) / 2);
-            lstvDifficulty.Items[1].Selected = true;
+            lstvDifficulty.Items[3].Selected = true;
             lstvAlgorithm.Items[0].Selected = true;
         }
     }

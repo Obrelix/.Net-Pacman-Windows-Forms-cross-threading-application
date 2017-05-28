@@ -148,7 +148,6 @@ namespace PacmanWinForms
                     pacman = pacmanMove(pacman.Point, pacman.Direction);
                     board.DrawPacMan(pacman.Point, Color.Yellow, pacman.Direction);
                     PacmanRunner.Wait(_delay);
-
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }

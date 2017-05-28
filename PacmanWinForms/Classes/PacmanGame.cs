@@ -109,9 +109,8 @@ namespace PacmanWinForms
         private int fruitCounter = 0 , AIClockCounter = 0;
         private int redCounter = 0, blueCounter = 0, pinkCounter = 0, yellowCounter = 0;
 
-        private bool addLive = true, addLive2 = true, addLive3 = true;
+        private bool addLive = true, addLive2 = true, addLive3 = true, originalAI = false;
         private int eatenScore = 200, highScore;
-        private Point bonusEatenPoint = new Point();
         private  frmPacmanGame parentForm;
         private  PacmanBoard board;
         private Panel pnlInfo;
@@ -187,6 +186,15 @@ namespace PacmanWinForms
             int random1, random2;
             switch (difficulty)
             {
+
+                case 0:
+                    random1 = randomGhostAI();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i == random1) AIFlagArray[i] = true;
+                        else AIFlagArray[i] = false;
+                    }
+                    break;
                 case 1:
                     random1 = randomGhostAI();
                     random2 = randomGhostAI();
@@ -209,12 +217,11 @@ namespace PacmanWinForms
                     }
                     break;
                 case 3:
-                    random1 = randomGhostAI();
                     for (int i = 0; i < 4; i++)
                     {
-                        if (i == random1) AIFlagArray[i] = false;
-                        else AIFlagArray[i] = true;
+                        AIFlagArray[i] = true;
                     }
+                    originalAI = true;
                     break;
                 default:
                     random1 = randomGhostAI();
@@ -303,21 +310,21 @@ namespace PacmanWinForms
         {
             if(AIClockCounter < 400)
             {
-                RedGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
-                BlueGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
-                PinkGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
-                YellowGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, false, false);
+                RedGhost.setTarget(Pacman, RedGhost.Point,  false, false);
+                BlueGhost.setTarget(Pacman, RedGhost.Point, false, false);
+                PinkGhost.setTarget(Pacman, RedGhost.Point, false, false);
+                YellowGhost.setTarget(Pacman, RedGhost.Point, false, false);
             }
-            else if(AIClockCounter >= 400)
+            else if(AIClockCounter >= 400 )
             {
-                RedGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[0], false);
-                BlueGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[1], false);
-                PinkGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[2], false);
-                YellowGhost.setTarget(Pacman, RedGhost.Point, bonusEatenPoint, AIFlagArray[3], false);
+                RedGhost.setTarget(Pacman, RedGhost.Point, AIFlagArray[0], originalAI);
+                BlueGhost.setTarget(Pacman, RedGhost.Point, AIFlagArray[1], originalAI);
+                PinkGhost.setTarget(Pacman, RedGhost.Point, AIFlagArray[2], originalAI);
+                YellowGhost.setTarget(Pacman, RedGhost.Point, AIFlagArray[3], originalAI);
                 
             }
             if (AIClockCounter % 800 == 0) AIFlagInit();
-            if(State == GameState.GAMERUN)AIClockCounter++;
+            if (State == GameState.GAMERUN) AIClockCounter++;
            
         }
 
@@ -559,7 +566,6 @@ namespace PacmanWinForms
                 {
                     if (corePoint.X == bonusList[i].X && corePoint.Y == bonusList[i].Y)
                     {
-                        bonusEatenPoint = new Point(bonusList[i].X, bonusList[i].Y);
                         bonusList.RemoveAt(i);
                         score += 50;
                         AIFlagInit();
@@ -628,7 +634,7 @@ namespace PacmanWinForms
                 wait = true;
                 dotList = PointLists.dotPointList();
                 bonusList = PointLists.bonusPointList();
-                ChangeLevel();
+                nextLevel();
                 AIClockCounter = 0;
                 setGameRun(2000);
             }
@@ -757,7 +763,7 @@ namespace PacmanWinForms
         public void cheat()
         {
             reset = true;
-            ChangeLevel();
+            nextLevel();
         }
 
         private void checkReset()
@@ -798,10 +804,10 @@ namespace PacmanWinForms
             setGameRun(6000);
         }
 
-        private void ChangeLevel()
+        private void nextLevel()
         {
             //PacmanDelay -= 3;
-            GhostDelay -= 2;
+            GhostDelay -= 1;
             AIFlagInit();
             RedGhost.reset();
             BlueGhost.reset();

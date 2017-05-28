@@ -57,8 +57,8 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHighScores = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmrPacmanDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrGhostDelay)).BeginInit();
@@ -93,7 +93,7 @@
             this.nmrPacmanDelay.Size = new System.Drawing.Size(54, 20);
             this.nmrPacmanDelay.TabIndex = 9;
             this.nmrPacmanDelay.Value = new decimal(new int[] {
-            80,
+            68,
             0,
             0,
             0});
@@ -106,7 +106,7 @@
             this.nmrGhostDelay.Size = new System.Drawing.Size(54, 20);
             this.nmrGhostDelay.TabIndex = 8;
             this.nmrGhostDelay.Value = new decimal(new int[] {
-            85,
+            78,
             0,
             0,
             0});
@@ -262,7 +262,7 @@
             this.mnuHelp.BackColor = System.Drawing.Color.White;
             this.mnuHelp.ForeColor = System.Drawing.Color.Black;
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(152, 22);
+            this.mnuHelp.Size = new System.Drawing.Size(139, 22);
             this.mnuHelp.Text = "&Help";
             this.mnuHelp.Click += new System.EventHandler(this.mnuHelp_Click);
             // 
@@ -271,9 +271,16 @@
             this.mnuAbout.BackColor = System.Drawing.Color.White;
             this.mnuAbout.ForeColor = System.Drawing.Color.Black;
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(139, 22);
             this.mnuAbout.Text = "&About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
+            // 
+            // mnuHighScores
+            // 
+            this.mnuHighScores.Name = "mnuHighScores";
+            this.mnuHighScores.Size = new System.Drawing.Size(139, 22);
+            this.mnuHighScores.Text = "&High-Scores";
+            this.mnuHighScores.Click += new System.EventHandler(this.mnuHighScores_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -283,13 +290,6 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // mnuHighScores
-            // 
-            this.mnuHighScores.Name = "mnuHighScores";
-            this.mnuHighScores.Size = new System.Drawing.Size(152, 22);
-            this.mnuHighScores.Text = "&High-Scores";
-            this.mnuHighScores.Click += new System.EventHandler(this.mnuHighScores_Click);
             // 
             // frmMain
             // 

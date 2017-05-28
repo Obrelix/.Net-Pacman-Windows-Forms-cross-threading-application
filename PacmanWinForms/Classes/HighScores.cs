@@ -38,12 +38,14 @@ namespace PacmanWinForms
 
         public static int min()
         {
-            return hsList.Min(r => r.score);
+            if (hsList.Count > 0) return hsList.Min(r => r.score);
+            else return 0;
         }
 
         public static int max()
         {
-            return hsList.Max(r => r.score);
+            if (hsList.Count > 0) return hsList.Max(r => r.score);
+            else return 0;
         }
 
         public static void remove(HighScores item)
