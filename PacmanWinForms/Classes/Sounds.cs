@@ -31,7 +31,7 @@ namespace PacmanWinForms
         private uint CurrVol;
         private int volume;
 
-        MediaPlayer p1, p2, BG, wakawaka, eatGhostEffect, eatGhostEffectBG, dies, fruit, live, win, bonus;
+        MediaPlayer BG, wakawaka, p1, p2;//, eatGhostEffect, eatGhostEffectBG, dies, fruit, live, win, bonus;
 
         public PlaySample receiveSound;
 

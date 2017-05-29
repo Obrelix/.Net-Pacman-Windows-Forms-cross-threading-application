@@ -14,9 +14,13 @@ namespace PacmanWinForms
     {
         public int score { get; set; }
         public string Name { get; set; }
-        public HighScores(string name , int score)
+        public int coinsAdded { get; set; }
+        public Difficulty difficulty { get; set; }
+        public HighScores(string Name , int score, int coinsAdded, Difficulty dif)
         {
-            this.Name = name;
+            this.coinsAdded = coinsAdded;
+            difficulty = dif;
+            this.Name = Name;
             this.score = score;
         }
     }

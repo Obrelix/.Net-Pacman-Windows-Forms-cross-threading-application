@@ -50,8 +50,8 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlBoardInfo = new System.Windows.Forms.Panel();
             this.mnuHighScores = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlBoardInfo = new System.Windows.Forms.Panel();
             this.pnlBoard.SuspendLayout();
             this.pnlDisplay.SuspendLayout();
             this.pnlHighScore.SuspendLayout();
@@ -284,6 +284,7 @@
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.Size = new System.Drawing.Size(152, 22);
             this.mnuHelp.Text = "&Help";
+            this.mnuHelp.Click += new System.EventHandler(this.mnuHelp_Click_1);
             // 
             // mnuAbout
             // 
@@ -292,6 +293,14 @@
             this.mnuAbout.Name = "mnuAbout";
             this.mnuAbout.Size = new System.Drawing.Size(152, 22);
             this.mnuAbout.Text = "&About";
+            this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click_1);
+            // 
+            // mnuHighScores
+            // 
+            this.mnuHighScores.Name = "mnuHighScores";
+            this.mnuHighScores.Size = new System.Drawing.Size(152, 22);
+            this.mnuHighScores.Text = "&High-Scores";
+            this.mnuHighScores.Click += new System.EventHandler(this.mnuHighScores_Click);
             // 
             // pnlBoardInfo
             // 
@@ -301,13 +310,6 @@
             this.pnlBoardInfo.Name = "pnlBoardInfo";
             this.pnlBoardInfo.Size = new System.Drawing.Size(522, 50);
             this.pnlBoardInfo.TabIndex = 3;
-            // 
-            // mnuHighScores
-            // 
-            this.mnuHighScores.Name = "mnuHighScores";
-            this.mnuHighScores.Size = new System.Drawing.Size(152, 22);
-            this.mnuHighScores.Text = "&High-Scores";
-            this.mnuHighScores.Click += new System.EventHandler(this.mnuHighScores_Click);
             // 
             // frmPacmanGame
             // 

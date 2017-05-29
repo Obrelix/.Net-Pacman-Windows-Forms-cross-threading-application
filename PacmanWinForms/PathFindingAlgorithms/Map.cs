@@ -59,16 +59,33 @@ namespace PacmanWinForms
         public List<Node> GetNeighbours(Node node){
 			//Get unvisited immediate neighbours
 			List<Node> neighbours = new List<Node>();
-			TryAdd(neighbours, node.Location.X-1, node.Location.Y  );
-			TryAdd(neighbours, node.Location.X,   node.Location.Y-1);
-			TryAdd(neighbours, node.Location.X,   node.Location.Y+1);
-			TryAdd(neighbours, node.Location.X+1, node.Location.Y  );
-			return neighbours;
+            if (node.Location.X == 0 && node.Location.Y == 14)
+            {
+                TryAdd(neighbours, 27, node.Location.Y);
+                TryAdd(neighbours, node.Location.X, node.Location.Y - 1);
+                TryAdd(neighbours, node.Location.X, node.Location.Y + 1);
+                TryAdd(neighbours, node.Location.X + 1, node.Location.Y);
+            }
+            else if (node.Location.X == 27 && node.Location.Y == 14)
+            {
+                TryAdd(neighbours, node.Location.X - 1, node.Location.Y);
+                TryAdd(neighbours, node.Location.X, node.Location.Y - 1);
+                TryAdd(neighbours, node.Location.X, node.Location.Y + 1);
+                TryAdd(neighbours, 0, node.Location.Y);
+            }
+            else
+            {
+                TryAdd(neighbours, node.Location.X - 1, node.Location.Y);
+                TryAdd(neighbours, node.Location.X, node.Location.Y - 1);
+                TryAdd(neighbours, node.Location.X, node.Location.Y + 1);
+                TryAdd(neighbours, node.Location.X + 1, node.Location.Y);
+            }
+            return neighbours;
 		}
 
-		private void TryAdd(List<Node> neighbours, float x, float y){
+		private void TryAdd(List<Node> neighbours, int x, int y){
 			try{
-				Node neighbour = map[(int) x, (int) y];
+				Node neighbour = map[ x,  y];
 				if(neighbour.State == 1){
 					neighbours.Add(neighbour);
 				}

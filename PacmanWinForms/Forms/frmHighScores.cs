@@ -14,7 +14,8 @@ namespace PacmanWinForms
     {
 
         DataTable dtDriveFiles;
-        private int curScore;
+        private int curScore, coinsAdded;
+        Difficulty difficulty;
 
         public frmScores()
         {
@@ -35,23 +36,35 @@ namespace PacmanWinForms
 
         }
 
-        public void parseScore(int curScore)
+        public void parseScore(int curScore, Difficulty dif, int coinsAdded)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<int>(parseScore), new object[] { curScore });
+                Invoke(new Action<int, Difficulty, int>(parseScore), new object[] { curScore, dif, coinsAdded});
                 return;
             }
             txtName.Enabled = true;
             btnAdd.Enabled = true;
             txtName.Focus();
+            difficulty = dif;
+            this.coinsAdded = coinsAdded;
             this.curScore = curScore;
             lblScore.Text = curScore.ToString();
+            lblCoins.Text = coinsAdded.ToString();
+            lblDifficulty.Text = difficulty.ToString();
+            lblLocationInit();
+        }
+
+        private void lblLocationInit()
+        {
+            lblScore.Location = new Point((pnlScore.Width - lblScore.Width) / 2, 26);
+            lblCoins.Location = new Point((pnlCoin.Width - lblCoins.Width) / 2, 26);
+            lblDifficulty.Location = new Point((pnlDiff.Width - lblDifficulty.Width) / 2, 26);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            HighScoreList.add(new HighScores(txtName.Text, curScore));
+            HighScoreList.add(new HighScores(txtName.Text, curScore, coinsAdded, difficulty));
             txtName.Enabled = false;
             btnAdd.Enabled = false;
             dgvInit();
@@ -60,7 +73,7 @@ namespace PacmanWinForms
 
         private void frmScores_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(btnAdd.Enabled) HighScoreList.add(new HighScores(txtName.Text, curScore));
+            if(btnAdd.Enabled) HighScoreList.add(new HighScores(txtName.Text, curScore, coinsAdded, difficulty));
             GTools.saveHighScores(GTools.saveFile);
         }
     }

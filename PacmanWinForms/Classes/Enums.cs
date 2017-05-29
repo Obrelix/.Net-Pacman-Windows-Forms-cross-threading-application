@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace PacmanWinForms
 {
+    public enum Difficulty : byte
+    {
+        Easy = 0,
+        Normal = 1,
+        Hard = 2,
+        Original_AI = 3
+    }
     public enum GameState : byte
     {
         GAMEOVER = 0,

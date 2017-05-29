@@ -15,10 +15,11 @@ namespace PacmanWinForms
     public partial class frmPacmanGame : Form
     {
         PacmanGame game = null;
-        private int difficulty, algorithm, pacmanDelay, ghostDelay, pacmanlives, highScore;
+        private int difficulty, algorithm, pacmanDelay, ghostDelay, highScore;
         private frmMain parentForm;
         PacmanBoard board;
         private Sounds samplePlayer;
+        private bool cheatEnabled = false;
 
         public frmPacmanGame(frmMain pForm, int diff, int alg, int pacmanDelay, int ghostDelay, int highScore)
         {
@@ -52,10 +53,22 @@ namespace PacmanWinForms
             else if (e.KeyCode == Keys.Right) { game.setDirection(Direction.RIGHT); }
             else if (e.KeyCode == Keys.Up) { game.setDirection(Direction.UP); }
             else if (e.KeyCode == Keys.Down) { game.setDirection(Direction.DOWN); }
-            else if (e.KeyCode == Keys.F1) { game.cheat(); }
-            else if (e.KeyCode == Keys.D1) { game.coinInserted(); }
-            else if (e.KeyCode == Keys.D2) { game.cheatFruit(true); }
-            else if (e.KeyCode == Keys.Enter) {game.Reset(); }
+            else if (e.KeyCode == Keys.F12) { cheatEnabled = true; }
+            else if (e.KeyCode == Keys.F1) {if(cheatEnabled) game.cheat(); }
+            else if (e.KeyCode == Keys.D1) { game.coinInserted(true); }
+            else if (e.KeyCode == Keys.D2) {if (cheatEnabled) game.cheatFruit(true); }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                if(game.State == GameState.GAMERUN)
+                {
+                    game.State = GameState.GAMEPAUSE;
+                   bool result = (MessageBox.Show("Do You want to reset the game?",
+                       "Reset?",
+                       MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
+                    if(result) game.Reset();
+                }
+                else game.Reset();
+            }
             else if (e.KeyCode == Keys.Subtract)
             {
                 game.PacmanDelay += 5;
@@ -144,7 +157,7 @@ namespace PacmanWinForms
 
         private void frmPacmanGame_Resize(object sender, EventArgs e)
         {
-            this.Width = (int)(0.721 * this.Height);
+            this.Width = (int)(0.75 * this.Height);
            // this.Height = (int)(1.25 * this.Width);
             if (game == null) return;
             game.RePaint();
@@ -188,16 +201,16 @@ namespace PacmanWinForms
             //addPacman(lives.Length);
         }
 
-        public void AddHighScore(int score)
+        public void AddHighScore(int score, int coins, Difficulty dif)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<int>(AddHighScore), new object[] { score });
+                Invoke(new Action<int, int, Difficulty>(AddHighScore), new object[] { score, coins, dif });
                 return;
             }
             frmScores form = new frmScores();
             form.Show();
-            form.parseScore(score);
+            form.parseScore(score, dif, coins);
         }
 
         private void mnuHighScores_Click(object sender, EventArgs e)
@@ -215,18 +228,20 @@ namespace PacmanWinForms
             game.Run();
         }
 
-        private void mnuHelp_Click(object sender, EventArgs e)
+        private void mnuAbout_Click_1(object sender, EventArgs e)
+        {
+            frmAbout form = new frmAbout();
+            form.Show();
+
+        }
+
+        private void mnuHelp_Click_1(object sender, EventArgs e)
         {
             frmHelp form = new frmHelp();
             form.Show();
         }
-
-        private void mnuAbout_Click(object sender, EventArgs e)
-        {
-            frmAbout form = new frmAbout();
-            form.Show();
-        }
-
+        
+        
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             if (game == null) return;

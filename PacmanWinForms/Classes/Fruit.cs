@@ -77,12 +77,14 @@ namespace PacmanWinForms
 
         private Direction[] directions = new Direction[4];
         private int fruitIndex = 1;
+        private int stage = 1;
         private frmPacmanGame parentForm;
         private PacmanBoard board;
         public FruitState fruitState;
 
-        public FruitRun(frmPacmanGame frm, PacmanBoard b)
+        public FruitRun(frmPacmanGame frm, PacmanBoard b, int stage)
         {
+            this.stage = stage;
             parentForm = frm;
             board = b;
             this.Init();
@@ -107,9 +109,13 @@ namespace PacmanWinForms
         }
 
 
-        public void Run(int fruitIndex)
+        public void Run(int fruitIndex, int stage)
         {
+            this.stage = stage;
             State = GameState.GAMERUN;
+            wallList = PointLists.WallList(stage);
+            fruitState = FruitState.NORMAL;
+            fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33), Direction.LEFT);
             fruitRunner = new Task(runfruit);
             this.fruitIndex = fruitIndex;
             fruitRunner.Start();
@@ -118,18 +124,20 @@ namespace PacmanWinForms
         private void Init()
         {
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.banPointList();
+            wallList = PointLists.WallList(stage);
             directionsInit();
             fruitState = FruitState.NORMAL;
-            fruit = fruit = new Fruit(new Point(26, 39), Direction.UP);
+            fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33 ), Direction.LEFT);
             State = GameState.GAMEOVER;
         }
 
-        public void reset()
+        public void reset(int stage)
         {
 
+            boxDoorList = PointLists.boxDoorPointList();
+            wallList = PointLists.WallList(stage);
             fruitState = FruitState.NORMAL;
-            fruit = new Fruit(new Point(26, 39), Direction.LEFT);
+            fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33), Direction.LEFT);
         }
 
         public void setTarget()
@@ -138,14 +146,14 @@ namespace PacmanWinForms
         }
         private void runfruit()
         {
-            while (State != GameState.GAMEOVER)
+            while (State != GameState.GAMEOVER && fruitState != FruitState.EATEN)
             {
                 try
                 {
 
                     this.Point = fruit.Point;
                     fruit = fruitMove(fruit.Point, fruit.Direction);
-                    if (fruitState != FruitState.EATEN) board.DrawFruit(fruit.Point, fruitIndex);
+                    board.DrawFruit(fruit.Point, fruitIndex);
                     fruitRunner.Wait(250);
                 }
 
@@ -212,6 +220,14 @@ namespace PacmanWinForms
         private Point nextPoint(Point P, Direction D)
         {
             Point nextP = new Point();
+            if (stage == 2)
+            {
+                Point leftTunel = new Point(-1, 27);
+                Point rightTunel = new Point(56, 27);
+
+                if (P == leftTunel && D != Direction.RIGHT) return rightTunel;
+                if (P == rightTunel && D != Direction.LEFT) return leftTunel;
+            }
             nextP = P;
             switch (D)
             {

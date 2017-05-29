@@ -69,18 +69,19 @@ namespace PacmanWinForms
         Pacman pacman;
 
         public GameState State = GameState.GAMEOVER;
-
+        private int stage = 1;
         List<Point> wallList = new List<Point>();
         List<Point> boxDoorList = new List<Point>();
-        List<Point> roadList = new List<Point>();
+        //List<Point> roadList = new List<Point>();
         private Direction[] directions = new Direction[4];
         private frmPacmanGame parentForm;
         private PacmanBoard board;
 
-        public PacmanRun(frmPacmanGame frm, PacmanBoard b)
+        public PacmanRun(frmPacmanGame frm, PacmanBoard b, int stage)
         {
             parentForm = frm; 
             board = b;
+            this.stage = stage;
             this.Init();
         }
 
@@ -113,17 +114,38 @@ namespace PacmanWinForms
         private void Init()
         {
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.banPointList();
-            roadList = ScaleLists.RoadList();
-            pacman = new Pacman(new Point(26, 39), Direction.STOP);
+            wallList = PointLists.WallList(stage); 
+            switch (stage)
+            {
+                case 1:
+                    pacman = new Pacman(new Point(26, 39), Direction.STOP);
+                    break;
+                case 2:
+                    pacman = new Pacman(new Point(26, 45), Direction.STOP);
+                    break;
+                default:
+                    break;
+            }
             directionsInit();
             State = GameState.GAMEOVER;
         }
 
-        public void reset()
+        public void reset(int stage)
         {
+            this.stage = stage;
             board.ClearPacMan(pacman.Point);
-            pacman = new Pacman(new Point(26, 39), Direction.STOP);
+            wallList = PointLists.WallList(stage);
+            switch (stage)
+            {
+                case 1:
+                    pacman = new Pacman(new Point(26, 39), Direction.STOP);
+                    break;
+                case 2:
+                    pacman = new Pacman(new Point(26, 45), Direction.STOP);
+                    break;
+                default:
+                    break;
+            }
             pacmanNextDirection = Direction.STOP;
         }
 
@@ -212,6 +234,12 @@ namespace PacmanWinForms
         private Point nextPoint(Point P, Direction D)
         {
             Point nextP = new Point();
+            Point leftTunel = new Point(-2, 27);
+            Point rightTunel = new Point(57, 27);
+
+            if (P == leftTunel && D == Direction.LEFT) return rightTunel;
+            if (P == rightTunel && D == Direction.RIGHT) return leftTunel;
+
             nextP = P;
             switch (D)
             {
@@ -231,7 +259,7 @@ namespace PacmanWinForms
 
                     break;
             }
-            return nextP;
+                return nextP;
         }
 
 

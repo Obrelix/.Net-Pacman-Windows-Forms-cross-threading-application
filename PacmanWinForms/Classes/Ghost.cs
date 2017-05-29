@@ -68,6 +68,7 @@ namespace PacmanWinForms
         Task ghostRunner;
         public GhostState gState { get; set; }
         public bool eatenFlag { get; set; }
+
         public GameState State = GameState.GAMEOVER;
         public int algorithm = 0;
 
@@ -77,6 +78,7 @@ namespace PacmanWinForms
         private List<Point> boxList = new List<Point>();
         private List<Point> bonusList = new List<Point>();
 
+        private int stage = 1;
         private int _delay = 70;
         private Ghost ghost;
         private Point target;
@@ -85,6 +87,8 @@ namespace PacmanWinForms
         private frmPacmanGame parentForm;
         private PacmanBoard board;
         private GhostColor color;
+        private bool fear = false;
+        private bool sprite1 = true;
 
         private Map map;
         private AStar aStar;
@@ -93,12 +97,13 @@ namespace PacmanWinForms
 
 
 
-        public GhostRun(frmPacmanGame frm, PacmanBoard b, GhostColor color, int algorithm)
+        public GhostRun(frmPacmanGame frm, PacmanBoard b, GhostColor color, int algorithm, int stage)
         {
             this.color = color;
             parentForm = frm;
             board = b;
             this.algorithm = algorithm;
+            this.stage = stage;
             this.Init();
         }
 
@@ -132,10 +137,9 @@ namespace PacmanWinForms
         private void Init()
         {
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.banPointList();
             boxList = PointLists.boxPointList();
-            bonusList = PointLists.bonusPointList();
-            scaleList = ScaleLists.WallList();
+            wallList = PointLists.WallList(stage);
+            scaleList = MazeList.WallList(stage);
             directionsInit();
             gState = GhostState.NORMAL;
             target = new Point();
@@ -161,9 +165,15 @@ namespace PacmanWinForms
             State = GameState.GAMEOVER;
         }
 
-        public void reset()
+        public void reset(int stage)
         {
+            wallList = PointLists.WallList(stage);
+            scaleList = MazeList.WallList(stage);
             gState = GhostState.NORMAL;
+            map = new Map(scaleList);
+            aStar = new AStar(map);
+            bestFirst = new BestFirst(map);
+            breadthFirst = new BreadthFirst(map);
             switch (color)
             {
                 case GhostColor.BLUE:
@@ -190,7 +200,6 @@ namespace PacmanWinForms
         }
 
 
-        bool sprite1 = true;
         private void runghost()
         {
             while (State != GameState.GAMEOVER)
@@ -258,8 +267,15 @@ namespace PacmanWinForms
 
             if (AIFlag)
             {
-                Point scaleP = scalePoint(ghost.Point);
-                Point scaleTargetPoint = scalePoint(target);
+                Point scaleP, scaleTargetPoint, tempPoint;
+                    tempPoint = ghost.Point;
+                    if (tempPoint.X < 1 && tempPoint.Y == 27) tempPoint = new Point(52, 27);
+                    if (tempPoint.X > 52 && tempPoint.Y == 27) tempPoint = new Point(1, 27);
+                    scaleP = scalePoint(tempPoint);
+                    tempPoint = target;
+                    if (target.X < 1 && target.Y == 27) tempPoint = new Point(52, 27);
+                    if (target.X > 52 && target.Y == 27) tempPoint = new Point(1, 27);
+                    scaleTargetPoint = scalePoint(tempPoint);
 
                 if (scaleP != scaleTargetPoint)
                 {
@@ -334,124 +350,94 @@ namespace PacmanWinForms
             return d;
         }
 
-        private bool fear = false;
         public void setTarget(PacmanRun pacman, Point blinkyPoint, bool ready, bool originalAI)
         {
             bool outOfB = outOfBox(ghost.Point);
 
-            if (originalAI && ready)
+            switch (gState)
             {
-                switch (color)
-                {
+                case GhostState.NORMAL:
+                    if (originalAI && ready)
+                        switch (color)
+                        {
+                            case GhostColor.PINK:
+                                algorithm = 0;
+                                pinkAI(pacman.Point, blinkyPoint, ready, outOfB);
+                                break;
+                            case GhostColor.RED:
+                                algorithm =(stage == 1)? 2: 0;
+                                redAI(pacman.Point, ready, outOfB);
+                                break;
+                            case GhostColor.YELLOW:
+                                algorithm = (stage == 1) ? 2 : 0;
+                                yellowAI(pacman.Point, ready, outOfB);
+                                break;
+                            case GhostColor.BLUE:
+                                algorithm = 0;
+                                blueAI(pacman.Point, blinkyPoint, ready, outOfB);
+                                break;
+                        }
+                    else redAI(pacman.Point, ready, outOfB);
+                    break;
+                case GhostState.EATEN: enableEaten(); break;
+                case GhostState.BONUS:
+                case GhostState.BONUSEND: enableFear(pacman.Point); break;
 
-                    case GhostColor.PINK:
-                        algorithm = 0;
-                        pinkAI(pacman.Point, blinkyPoint, ready, outOfB);
-                        break;
-                    case GhostColor.RED:
-                        algorithm = 2;
-                        redAI(pacman.Point, ready, outOfB);
-                        break;
-                    case GhostColor.YELLOW:
-                        algorithm = 2;
-                        yellowAI(pacman.Point, ready, outOfB);
-                        break;
-                    case GhostColor.BLUE:
-                        algorithm = 0;
-                        blueAI(pacman.Point, blinkyPoint, ready, outOfB);
-                        break;
-                }
-
-
-            }
-            else 
-            {
-                redAI(pacman.Point, ready, outOfB);
             }
         }
 
         private void redAI(Point pacmanPoint, bool ready, bool outOfBox)
         {
-            switch (gState)
-            {
-                case GhostState.NORMAL:
-                    target = pacmanPoint;
-                    fear = false;
-                    AIFlag = (ready && outOfBox);
-                    break;
-                case GhostState.EATEN: enableEaten(); break;
-                case GhostState.BONUS:
-                case GhostState.BONUSEND: enableFear(pacmanPoint); break;
-            }
+            target = pacmanPoint;
+            fear = false;
+            AIFlag = (ready && outOfBox);
+                
         }
 
         private void pinkAI(Point pacmanPoint, Point blinkyPoint, bool ready, bool outOfBox)
         {
-            switch (gState)
+            if ( !isNear(ghost.Point, pacmanPoint, 12) || !isNear(blinkyPoint, pacmanPoint, 12))
             {
-                case GhostState.NORMAL:
-                    if ( !isNear(ghost.Point, pacmanPoint, 12) || !isNear(blinkyPoint, pacmanPoint, 12))
-                    {
-                        target = pacmanPoint;
-                        fear = false;
-                        AIFlag = (ready && outOfBox);
-                    }
-                    else
-                    {
-                        AIFlag = false;
-                        fear = false;
-                    }
-                    break;
-                case GhostState.EATEN: enableEaten(); break;
-                case GhostState.BONUS:
-                case GhostState.BONUSEND: enableFear(pacmanPoint); break;
+                target = pacmanPoint;
+                fear = false;
+                AIFlag = (ready && outOfBox);
+            }
+            else
+            {
+                AIFlag = false;
+                fear = false;
             }
         }
 
         private void yellowAI(Point pacmanPoint, bool ready, bool outOfBox)
         {
-            switch (gState)
+            if (!isNear(ghost.Point,pacmanPoint, 15))
             {
-                case GhostState.NORMAL:
-                    if (!isNear(ghost.Point,pacmanPoint, 15))
-                    {
-                        target = pacmanPoint;
-                        fear = false;
-                        AIFlag = (ready && outOfBox);
-                    }
-                    else
-                    {
-                        //fear = true;
-                        AIFlag = false;
-                        target = pacmanPoint;
-                    }
-                    break;
-                case GhostState.EATEN:enableEaten(); break;
-                case GhostState.BONUS:
-                case GhostState.BONUSEND: enableFear(pacmanPoint);  break;
+                target = pacmanPoint;
+                fear = false;
+                AIFlag = (ready && outOfBox);
             }
+            else
+            {
+                //fear = true;
+                AIFlag = false;
+                target = pacmanPoint;
+            }
+                    
         }
 
         private void blueAI(Point pacmanPoint, Point blinkyPoint, bool ready, bool outOfBox)
         {
-            switch (gState)
+            if (isNear(ghost.Point, blinkyPoint, 15) && isNear(blinkyPoint, pacmanPoint, 20))
             {
-                case GhostState.NORMAL:
-                    if (isNear(ghost.Point, blinkyPoint, 15) && isNear(blinkyPoint, pacmanPoint, 20))
-                    {
-                        target = pacmanPoint;
-                        fear = false;
-                        AIFlag = (ready && outOfBox);
-                    }
-                    else
-                    {
-                        AIFlag = false;
-                        fear = false;
-                    }
-                    break;
-                case GhostState.EATEN: enableEaten(); break;
-                case GhostState.BONUS:
-                case GhostState.BONUSEND: enableFear(pacmanPoint); break;
+                target = pacmanPoint;
+                fear = false;
+                AIFlag = (ready && outOfBox);
+            }
+            else
+            {
+                AIFlag = false;
+                fear = false;
             }
         }
 
@@ -464,7 +450,7 @@ namespace PacmanWinForms
 
         private void enableEaten()
         {
-            target = new Point(27, 29);
+            target = new Point(26, 27);
             AIFlag = true;
             fear = false;
         }
@@ -518,6 +504,14 @@ namespace PacmanWinForms
         private Point nextPoint(Point P, Direction D)
         {
             Point nextP = new Point();
+            if(stage == 2)
+            {
+                Point leftTunel = new Point(-1, 27);
+                Point rightTunel = new Point(56, 27);
+
+                if (P == leftTunel && D != Direction.RIGHT) return rightTunel;
+                if (P == rightTunel && D != Direction.LEFT) return leftTunel;
+            }
             nextP = P;
             switch (D)
             {
