@@ -153,11 +153,11 @@ namespace PacmanWinForms
 
         private void Init()
         {
-            wallList = PointLists.WallList(stage);
-            dotList = PointLists.dotList(stage);
+            wallList = PointLists.mapList(stage, '0');
+            dotList = PointLists.mapList(stage, '2');
             boxList = PointLists.boxPointList();
             boxDoorList = PointLists.boxDoorPointList();
-            bonusList = PointLists.bonusList();
+            bonusList = PointLists.mapList(stage, '8');
             fruit.fruitState = FruitState.EATEN;
             State = GameState.GAMEOVER;
             AIFlagInit();
@@ -632,8 +632,8 @@ namespace PacmanWinForms
                 WaitSomeTime(2500);
                 while (wait) { }
                 wait = true;
-                dotList = PointLists.dotList(stage);
-                bonusList = PointLists.bonusList();
+                dotList = PointLists.mapList(stage, '2');
+                bonusList = PointLists.mapList(stage, '8');
                 nextLevel();
                 AIClockCounter = 0;
                 setGameRun(2000);
@@ -774,9 +774,9 @@ namespace PacmanWinForms
             {
 
                 board.Clear();
-                wallList = PointLists.WallList(stage);
-                dotList = PointLists.dotList(stage);
-                bonusList = PointLists.bonusList();
+                wallList = PointLists.mapList(stage, '0');
+                dotList = PointLists.mapList(stage, '2');
+                bonusList = PointLists.mapList(stage, '8');
                 RePaint();
                 reset = false;
             }

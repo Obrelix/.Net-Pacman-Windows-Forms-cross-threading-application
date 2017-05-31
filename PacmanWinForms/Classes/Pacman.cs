@@ -70,6 +70,7 @@ namespace PacmanWinForms
 
         public GameState State = GameState.GAMEOVER;
         private int stage = 1;
+        private bool isMoving = false; 
         List<Point> wallList = new List<Point>();
         List<Point> boxDoorList = new List<Point>();
         //List<Point> roadList = new List<Point>();
@@ -114,7 +115,7 @@ namespace PacmanWinForms
         private void Init()
         {
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.WallList(stage); 
+            wallList = PointLists.mapList(stage, '0');
             switch (stage)
             {
                 case 1:
@@ -134,7 +135,7 @@ namespace PacmanWinForms
         {
             this.stage = stage;
             board.ClearPacMan(pacman.Point);
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             switch (stage)
             {
                 case 1:
@@ -202,8 +203,8 @@ namespace PacmanWinForms
                 }
             }
 
-            if (pass) return new Pacman(nextPoint(StartPoint, d), d);
-            else return new Pacman(StartPoint, d);
+            if (pass) { isMoving = true; return new Pacman(nextPoint(StartPoint, d), d); }
+            else { pacmanNextDirection = Direction.STOP; isMoving = false; return new Pacman(StartPoint, d); }
         }
 
         private bool collisionCheck(Point P)
@@ -219,26 +220,29 @@ namespace PacmanWinForms
         public void setDirection(Direction d)
         {
 
-            if (collisionCheck(nextPoint(pacman.Point, d)))
+            bool colCheck = collisionCheck(nextPoint(pacman.Point, d));
+            if (colCheck)
             {
                 pacman.Direction = d;
+                pacmanNextDirection = Direction.STOP;
                 Debug.WriteLine("Passed : " + d);
             }
-            else
+            else if (!colCheck && isMoving)
             {
                 pacmanNextDirection = d;
                 Debug.WriteLine("Wait : " + d);
             }
+            else pacmanNextDirection = Direction.STOP;
         }
 
         private Point nextPoint(Point P, Direction D)
         {
             Point nextP = new Point();
-            Point leftTunel = new Point(-2, 27);
-            Point rightTunel = new Point(57, 27);
+            Point leftTunel = new Point(-1, 27);
+            Point rightTunel = new Point(56, 27);
 
-            if (P == leftTunel && D == Direction.LEFT) return rightTunel;
-            if (P == rightTunel && D == Direction.RIGHT) return leftTunel;
+            if (P == leftTunel && D != Direction.RIGHT) { pacman.Direction = Direction.LEFT; pacmanNextDirection = Direction.STOP; return rightTunel; }
+            if (P == rightTunel && D != Direction.LEFT) { pacman.Direction = Direction.RIGHT; pacmanNextDirection = Direction.STOP; return leftTunel; }
 
             nextP = P;
             switch (D)

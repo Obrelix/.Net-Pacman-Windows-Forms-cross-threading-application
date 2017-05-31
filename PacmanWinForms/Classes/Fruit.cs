@@ -113,7 +113,7 @@ namespace PacmanWinForms
         {
             this.stage = stage;
             State = GameState.GAMERUN;
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             fruitState = FruitState.NORMAL;
             fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33), Direction.LEFT);
             fruitRunner = new Task(runfruit);
@@ -124,7 +124,7 @@ namespace PacmanWinForms
         private void Init()
         {
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             directionsInit();
             fruitState = FruitState.NORMAL;
             fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33 ), Direction.LEFT);
@@ -135,7 +135,7 @@ namespace PacmanWinForms
         {
 
             boxDoorList = PointLists.boxDoorPointList();
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             fruitState = FruitState.NORMAL;
             fruit = (stage == 1) ? new Fruit(new Point(26, 33), Direction.RIGHT) : new Fruit(new Point(26, 33), Direction.LEFT);
         }

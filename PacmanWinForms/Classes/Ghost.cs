@@ -138,7 +138,7 @@ namespace PacmanWinForms
         {
             boxDoorList = PointLists.boxDoorPointList();
             boxList = PointLists.boxPointList();
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             scaleList = MazeList.WallList(stage);
             directionsInit();
             gState = GhostState.NORMAL;
@@ -167,7 +167,7 @@ namespace PacmanWinForms
 
         public void reset(int stage)
         {
-            wallList = PointLists.WallList(stage);
+            wallList = PointLists.mapList(stage, '0');
             scaleList = MazeList.WallList(stage);
             gState = GhostState.NORMAL;
             map = new Map(scaleList);
@@ -269,12 +269,12 @@ namespace PacmanWinForms
             {
                 Point scaleP, scaleTargetPoint, tempPoint;
                     tempPoint = ghost.Point;
-                    if (tempPoint.X < 1 && tempPoint.Y == 27) tempPoint = new Point(52, 27);
-                    if (tempPoint.X > 52 && tempPoint.Y == 27) tempPoint = new Point(1, 27);
+                    if (tempPoint.X < 1 && tempPoint.Y == 27) tempPoint = new Point(1, 27);
+                    if (tempPoint.X > 52 && tempPoint.Y == 27) tempPoint = new Point(52, 27);
                     scaleP = scalePoint(tempPoint);
                     tempPoint = target;
-                    if (target.X < 1 && target.Y == 27) tempPoint = new Point(52, 27);
-                    if (target.X > 52 && target.Y == 27) tempPoint = new Point(1, 27);
+                    if (target.X < 1 && target.Y == 27) tempPoint = new Point(1, 27);
+                    if (target.X > 52 && target.Y == 27) tempPoint = new Point(52, 27);
                     scaleTargetPoint = scalePoint(tempPoint);
 
                 if (scaleP != scaleTargetPoint)
@@ -361,11 +361,11 @@ namespace PacmanWinForms
                         switch (color)
                         {
                             case GhostColor.PINK:
-                                algorithm = 0;
+                                algorithm = (stage == 1) ? 2 : 0;
                                 pinkAI(pacman.Point, blinkyPoint, ready, outOfB);
                                 break;
                             case GhostColor.RED:
-                                algorithm =(stage == 1)? 2: 0;
+                                algorithm =(stage == 1)? 0: 2;
                                 redAI(pacman.Point, ready, outOfB);
                                 break;
                             case GhostColor.YELLOW:
@@ -373,7 +373,7 @@ namespace PacmanWinForms
                                 yellowAI(pacman.Point, ready, outOfB);
                                 break;
                             case GhostColor.BLUE:
-                                algorithm = 0;
+                                algorithm = (stage == 1) ? 0: 2;
                                 blueAI(pacman.Point, blinkyPoint, ready, outOfB);
                                 break;
                         }
@@ -388,15 +388,19 @@ namespace PacmanWinForms
 
         private void redAI(Point pacmanPoint, bool ready, bool outOfBox)
         {
-            target = pacmanPoint;
-            fear = false;
-            AIFlag = (ready && outOfBox);
+            if (!isNear(ghost.Point, pacmanPoint, 6))
+            {
+                target = pacmanPoint;
+                fear = false;
+                AIFlag = (ready && outOfBox);
+            }
                 
         }
 
         private void pinkAI(Point pacmanPoint, Point blinkyPoint, bool ready, bool outOfBox)
         {
-            if ( !isNear(ghost.Point, pacmanPoint, 12) || !isNear(blinkyPoint, pacmanPoint, 12))
+
+            if ( !isNear(ghost.Point, pacmanPoint, 12) || (!isNear(blinkyPoint, pacmanPoint, 12) && !isNear(ghost.Point, pacmanPoint, 6)))
             {
                 target = pacmanPoint;
                 fear = false;
@@ -411,7 +415,7 @@ namespace PacmanWinForms
 
         private void yellowAI(Point pacmanPoint, bool ready, bool outOfBox)
         {
-            if (!isNear(ghost.Point,pacmanPoint, 15))
+            if (!isNear(ghost.Point,pacmanPoint, 20))
             {
                 target = pacmanPoint;
                 fear = false;
@@ -428,7 +432,7 @@ namespace PacmanWinForms
 
         private void blueAI(Point pacmanPoint, Point blinkyPoint, bool ready, bool outOfBox)
         {
-            if (isNear(ghost.Point, blinkyPoint, 15) && isNear(blinkyPoint, pacmanPoint, 20))
+            if ( isNear(ghost.Point, blinkyPoint, 15) && !isNear(ghost.Point, pacmanPoint, 6) )
             {
                 target = pacmanPoint;
                 fear = false;

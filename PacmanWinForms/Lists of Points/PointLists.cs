@@ -10,14 +10,7 @@ namespace PacmanWinForms
 {
     public static class PointLists
     {
-       
-        //private static List<Point> bonusList = new List<Point>();
-        //public static List<Point> bonusPointList()
-        //{
-        //    bonusListInit();
-        //    bonusList = bonusList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
-        //    return bonusList;
-        //}
+
 
         private static List<Point> boxList = new List<Point>();
         public static List<Point> boxPointList()
@@ -36,27 +29,6 @@ namespace PacmanWinForms
         }
 
 
-
-        //private static List<Point> bonusListInit()
-        //{
-        //    bonusList.Clear();
-        //    bonusList.Add(new Point(50, 48));
-        //    bonusList.Add(new Point(8, 48));
-        //    bonusList.Add(new Point(50, 12));
-        //    bonusList.Add(new Point(8, 12));
-        //    for (int i = 0; i < bonusList.Count; i++)
-        //    {
-        //        if (bonusList[i].X == 0 || bonusList[i].Y == 0)
-        //        {
-        //            bonusList.RemoveAt(i);
-        //        }
-        //        else
-        //        {
-        //            bonusList[i] = new Point(bonusList[i].X - 1, bonusList[i].Y - 1);
-        //        }
-        //    }
-        //    return bonusList;
-        //}
 
         private static void boxListInit()
         {
@@ -209,7 +181,7 @@ namespace PacmanWinForms
             }
         }
 
-        
+
 
         public static void saveMap(int stage)
         {
@@ -222,11 +194,13 @@ namespace PacmanWinForms
                     map[i, j] = 1;
                 }
             }
-            foreach (Point p in WallList(stage))
+            foreach (Point p in mapList(stage, '0'))
                 map[p.X, p.Y] = 0;
-            foreach(Point p in dotList(stage))
+            foreach (Point p in mapList(stage, '1'))
+                map[p.X, p.Y] = 1;
+            foreach (Point p in mapList(stage, '2'))
                 map[p.X, p.Y] = 2;
-            foreach (Point p in bonusList())
+            foreach (Point p in mapList(stage, '8'))
                 map[p.X, p.Y] = 8;
             string s = string.Empty;
             for (int j = 0; j < 62; j++)
@@ -237,7 +211,7 @@ namespace PacmanWinForms
                 }
                 s += Environment.NewLine;
             }
-            System.IO.File.WriteAllText(@"C:\Users\tataki\Desktop\Pacman\maps\map.txt", s);
+            System.IO.File.WriteAllText(@"C:\map.txt", s);
         }
         private static string wallInit()
         {
@@ -373,86 +347,86 @@ namespace PacmanWinForms
             return s;
         }
 
-        public static List<Point> WallList(int stage)
+    public static List<Point> mapList(int stage, char mark)
+    {
+        // hardwired data instead of reading from file (not feasible on web player)
+        List<Point> wList = new List<Point>();
+        string walls = (stage == 1) ? wallInit() : wall2Init();
+        using (StringReader reader = new StringReader(walls))
         {
-            // hardwired data instead of reading from file (not feasible on web player)
-            List<Point> wList = new List<Point>();
-            string walls = (stage == 1) ? wallInit() : wall2Init();
-            using (StringReader reader = new StringReader(walls))
+            string line;
+            int Y = 0;
+            while ((line = reader.ReadLine()) != null)
             {
-                string line;
-                int Y = 0;
-                while ((line = reader.ReadLine()) != null)
+
+                for (int i = 0; i < line.Length; ++i)
                 {
-
-                    for (int i = 0; i < line.Length; ++i)
+                    if (line[i] == mark)
                     {
-                        if (line[i] == '0')
-                        {
-                            wList.Add(new Point(i, Y));
-                        }
+                        wList.Add(new Point(i, Y));
                     }
-                    Y++;
                 }
+                Y++;
             }
-            wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
-            return wList;
         }
-
-        public static List<Point> dotList(int stage)
-        {
-            // hardwired data instead of reading from file (not feasible on web player)
-            List<Point> wList = new List<Point>();
-            string walls = (stage == 1) ? wallInit() : wall2Init();
-            using (StringReader reader = new StringReader(walls))
-            {
-                string line;
-                int Y = 0;
-                while ((line = reader.ReadLine()) != null)
-                {
-
-                    for (int X = 0; X < line.Length; ++X)
-                    {
-                        if (line[X] == '2')
-                        {
-                            wList.Add(new Point(X, Y));
-                        }
-                    }
-                    Y++;
-                }
-            }
-            wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
-            return wList;
-        }
-
-        public static List<Point> bonusList()
-        {
-            // hardwired data instead of reading from file (not feasible on web player)
-            List<Point> wList = new List<Point>();
-            string walls = wall2Init();
-            using (StringReader reader = new StringReader(walls))
-            {
-                string line;
-                int Y = 0;
-                while ((line = reader.ReadLine()) != null)
-                {
-
-                    for (int X = 0; X < line.Length; ++X)
-                    {
-                        if (line[X] == '8')
-                        {
-                            wList.Add(new Point(X, Y));
-                        }
-                    }
-                    Y++;
-                }
-            }
-            wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
-            return wList;
-        }
-
+        wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+        return wList;
     }
 
+    //    public static List<Point> dotList(int stage)
+    //    {
+    //        // hardwired data instead of reading from file (not feasible on web player)
+    //        List<Point> wList = new List<Point>();
+    //        string walls = (stage == 1) ? wallInit() : wall2Init();
+    //        using (StringReader reader = new StringReader(walls))
+    //        {
+    //            string line;
+    //            int Y = 0;
+    //            while ((line = reader.ReadLine()) != null)
+    //            {
+
+    //                for (int X = 0; X < line.Length; ++X)
+    //                {
+    //                    if (line[X] == '2')
+    //                    {
+    //                        wList.Add(new Point(X, Y));
+    //                    }
+    //                }
+    //                Y++;
+    //            }
+    //        }
+    //        wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+    //        return wList;
+    //    }
+
+    //    public static List<Point> bonusList()
+    //    {
+    //        // hardwired data instead of reading from file (not feasible on web player)
+    //        List<Point> wList = new List<Point>();
+    //        string walls = wall2Init();
+    //        using (StringReader reader = new StringReader(walls))
+    //        {
+    //            string line;
+    //            int Y = 0;
+    //            while ((line = reader.ReadLine()) != null)
+    //            {
+
+    //                for (int X = 0; X < line.Length; ++X)
+    //                {
+    //                    if (line[X] == '8')
+    //                    {
+    //                        wList.Add(new Point(X, Y));
+    //                    }
+    //                }
+    //                Y++;
+    //            }
+    //        }
+    //        wList = wList.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
+    //        return wList;
+    //    }
+
+     
+    }
 
     public static class MazeList
     {
@@ -464,7 +438,7 @@ namespace PacmanWinForms
             string data = @"0000000000000000000000000000
 0111111111111001111111111110
 0100001000001001000001000010
-0100001000001111000001000010
+0101101011101111011101011010
 0100001000001001000001000010
 0111111111111001111111111110
 0100001001000000001001000010
@@ -500,7 +474,7 @@ namespace PacmanWinForms
             string data = @"0000000000000000000000000000
 0111111111111001111111111110
 0100001000001001000001000010
-0100001000001001000001000010
+0101101011101001011101011010
 0100001000001001000001000010
 0111111111111111111111111110
 0100001001000000001001000010

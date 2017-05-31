@@ -94,7 +94,7 @@ namespace PacmanWinForms
                 (this.ClientRectangle.Height - btnStart.Height) / 2);
             lstvDifficulty.Items[3].Selected = true;
             lstvAlgorithm.Items[0].Selected = true;
-            PointLists.saveMap(1);
+            //PointLists.saveMap(1);
         }
     }
 }
