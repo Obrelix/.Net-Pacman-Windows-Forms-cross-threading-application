@@ -61,3 +61,6 @@ C:\Users\tataki\Desktop\Παρουσιασεις\Pacman\PacmanWinForms\obj\Debug
 C:\Users\tataki\Desktop\Παρουσιασεις\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.frmScores.resources
 C:\Users\tataki\Desktop\Παρουσιασεις\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.Properties.Resources.resources
 C:\Users\tataki\Desktop\Παρουσιασεις\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.csproj.GenerateResource.Cache
+C:\Users\tataki\Desktop\parousiaseis\Pacman\PacmanWinForms\bin\Debug\PacmanWinForms.exe.config
+C:\Users\tataki\Desktop\parousiaseis\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.exe
+C:\Users\tataki\Desktop\parousiaseis\Pacman\PacmanWinForms\obj\Debug\PacmanWinForms.pdb

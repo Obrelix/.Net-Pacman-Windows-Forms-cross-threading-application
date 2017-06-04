@@ -87,20 +87,6 @@ namespace PacmanWinForms
 
         }
         string msg;
-
-  //      protected void Print(){
-		//	double time = _stopwatch.Elapsed.TotalSeconds;
-		//	int s  = (int)(time);			//Seconds
-		//	int cs = (int)(time*100);		//Centiseconds
-		//	int r  = (int)(time*10000)%100; //Remainder (1/100ths of centiseconds)
-		//	string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", s, cs, r);
-  //          msg +=  _title + "\r\nElapsed time (s:cs): " + elapsedTime + " (" + _stopwatch.Elapsed.Ticks + " ticks)\r\n";
-  //          if (_found) msg +="Path length: "+_pathLength;
-		//	else{msg +="No path found. ";}
-  //          frmMazeSmall.txt.Text = msg;
-		//	//if(_found){_map.Draw(_root, _target);}
-		//	//else{	   _map.Draw(_root, _target);}
-		//}
 	}
 }
 

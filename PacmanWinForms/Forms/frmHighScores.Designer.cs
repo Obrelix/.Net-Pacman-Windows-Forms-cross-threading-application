@@ -37,6 +37,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmScores));
             this.dgvHighScores = new System.Windows.Forms.DataGridView();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColDifficulty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColCoins = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -45,15 +49,11 @@
             this.pnlScore = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnlDiff = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.lblDifficulty = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.pnlCoin = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.lblCoins = new System.Windows.Forms.Label();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColDifficulty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColCoins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHighScores)).BeginInit();
             this.pnlScore.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -65,7 +65,7 @@
             // 
             this.dgvHighScores.AllowUserToAddRows = false;
             this.dgvHighScores.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.OrangeRed;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DarkOrange;
             this.dgvHighScores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvHighScores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -98,6 +98,54 @@
             this.dgvHighScores.Size = new System.Drawing.Size(554, 250);
             this.dgvHighScores.TabIndex = 10;
             this.dgvHighScores.TabStop = false;
+            // 
+            // colName
+            // 
+            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colName.DataPropertyName = "Name";
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Yellow;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            this.colName.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colName.HeaderText = "Nane";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            // 
+            // Score
+            // 
+            this.Score.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Score.DataPropertyName = "score";
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Yellow;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            this.Score.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Score.HeaderText = "Score";
+            this.Score.Name = "Score";
+            this.Score.ReadOnly = true;
+            // 
+            // ColDifficulty
+            // 
+            this.ColDifficulty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColDifficulty.DataPropertyName = "difficulty";
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Yellow;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            this.ColDifficulty.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ColDifficulty.HeaderText = "Difficulty";
+            this.ColDifficulty.Name = "ColDifficulty";
+            this.ColDifficulty.ReadOnly = true;
+            // 
+            // ColCoins
+            // 
+            this.ColCoins.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColCoins.DataPropertyName = "coinsAdded";
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Yellow;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            this.ColCoins.DefaultCellStyle = dataGridViewCellStyle6;
+            this.ColCoins.HeaderText = "Coins Added";
+            this.ColCoins.Name = "ColCoins";
+            this.ColCoins.ReadOnly = true;
             // 
             // txtName
             // 
@@ -147,9 +195,8 @@
             this.lblScore.Location = new System.Drawing.Point(38, 26);
             this.lblScore.Margin = new System.Windows.Forms.Padding(0);
             this.lblScore.Name = "lblScore";
-            this.lblScore.Size = new System.Drawing.Size(53, 17);
+            this.lblScore.Size = new System.Drawing.Size(0, 17);
             this.lblScore.TabIndex = 4;
-            this.lblScore.Text = "10000";
             // 
             // label3
             // 
@@ -190,6 +237,18 @@
             this.pnlDiff.Size = new System.Drawing.Size(101, 47);
             this.pnlDiff.TabIndex = 13;
             // 
+            // lblDifficulty
+            // 
+            this.lblDifficulty.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblDifficulty.AutoSize = true;
+            this.lblDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDifficulty.ForeColor = System.Drawing.Color.Gold;
+            this.lblDifficulty.Location = new System.Drawing.Point(9, 26);
+            this.lblDifficulty.Margin = new System.Windows.Forms.Padding(0);
+            this.lblDifficulty.Name = "lblDifficulty";
+            this.lblDifficulty.Size = new System.Drawing.Size(0, 17);
+            this.lblDifficulty.TabIndex = 5;
+            // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -202,19 +261,6 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Difficulty";
             // 
-            // lblDifficulty
-            // 
-            this.lblDifficulty.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lblDifficulty.AutoSize = true;
-            this.lblDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblDifficulty.ForeColor = System.Drawing.Color.Gold;
-            this.lblDifficulty.Location = new System.Drawing.Point(9, 26);
-            this.lblDifficulty.Margin = new System.Windows.Forms.Padding(0);
-            this.lblDifficulty.Name = "lblDifficulty";
-            this.lblDifficulty.Size = new System.Drawing.Size(84, 17);
-            this.lblDifficulty.TabIndex = 5;
-            this.lblDifficulty.Text = "Original AI";
-            // 
             // pnlCoin
             // 
             this.pnlCoin.Controls.Add(this.lblCoins);
@@ -223,6 +269,18 @@
             this.pnlCoin.Name = "pnlCoin";
             this.pnlCoin.Size = new System.Drawing.Size(109, 47);
             this.pnlCoin.TabIndex = 14;
+            // 
+            // lblCoins
+            // 
+            this.lblCoins.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblCoins.AutoSize = true;
+            this.lblCoins.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblCoins.ForeColor = System.Drawing.Color.Red;
+            this.lblCoins.Location = new System.Drawing.Point(45, 26);
+            this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCoins.Name = "lblCoins";
+            this.lblCoins.Size = new System.Drawing.Size(0, 17);
+            this.lblCoins.TabIndex = 7;
             // 
             // label4
             // 
@@ -235,67 +293,6 @@
             this.label4.Size = new System.Drawing.Size(99, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "Coins Added";
-            // 
-            // lblCoins
-            // 
-            this.lblCoins.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lblCoins.AutoSize = true;
-            this.lblCoins.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblCoins.ForeColor = System.Drawing.Color.Red;
-            this.lblCoins.Location = new System.Drawing.Point(45, 26);
-            this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
-            this.lblCoins.Name = "lblCoins";
-            this.lblCoins.Size = new System.Drawing.Size(17, 17);
-            this.lblCoins.TabIndex = 7;
-            this.lblCoins.Text = "2";
-            // 
-            // colName
-            // 
-            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colName.DataPropertyName = "Name";
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Yellow;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.colName.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colName.HeaderText = "Nane";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            // 
-            // Score
-            // 
-            this.Score.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Score.DataPropertyName = "score";
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Yellow;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            this.Score.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Score.HeaderText = "Score";
-            this.Score.Name = "Score";
-            this.Score.ReadOnly = true;
-            // 
-            // ColDifficulty
-            // 
-            this.ColDifficulty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColDifficulty.DataPropertyName = "difficulty";
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Yellow;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            this.ColDifficulty.DefaultCellStyle = dataGridViewCellStyle5;
-            this.ColDifficulty.HeaderText = "Difficulty";
-            this.ColDifficulty.Name = "ColDifficulty";
-            this.ColDifficulty.ReadOnly = true;
-            // 
-            // ColCoins
-            // 
-            this.ColCoins.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColCoins.DataPropertyName = "coinsAdded";
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Yellow;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            this.ColCoins.DefaultCellStyle = dataGridViewCellStyle6;
-            this.ColCoins.HeaderText = "Coins Added";
-            this.ColCoins.Name = "ColCoins";
-            this.ColCoins.ReadOnly = true;
             // 
             // frmScores
             // 

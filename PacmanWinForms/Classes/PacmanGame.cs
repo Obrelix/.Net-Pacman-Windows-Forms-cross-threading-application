@@ -253,7 +253,7 @@ namespace PacmanWinForms
             Pacman.Run();
             State = GameState.GAMEWAIT;
             parentForm.playSound(Properties.Resources.Pacman_Opening_Song);
-            setGameRun(6000);
+            setGameRun(4000);
         }
 
         public void RePaint()
@@ -784,6 +784,7 @@ namespace PacmanWinForms
 
         public void Reset()
         {
+            coins = 0;
             stage = 2;
             reset = true;
             State = GameState.GAMEWAIT;
@@ -806,7 +807,7 @@ namespace PacmanWinForms
             YellowGhost.reset(stage);
             Pacman.reset(stage);
             fruitPicIndex = 1;
-            setGameRun(6000);
+            setGameRun(4000);
         }
 
         private void nextLevel()
